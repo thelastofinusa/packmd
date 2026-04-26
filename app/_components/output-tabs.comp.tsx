@@ -7,7 +7,7 @@ import { TreeTab } from "@/components/shared/tree-tab"
 import { Card, CardHeader } from "@/components/ui/card"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { useDigest } from "@/hooks/digest"
-import { Code, FileText, FolderTree } from "lucide-react"
+import { Icons } from "hugeicons-proxy"
 
 export const OutputTabsComp = () => {
   const { data, error, loading } = useDigest()
@@ -23,14 +23,14 @@ export const OutputTabsComp = () => {
                   value="summary"
                   className="gap-1.5 text-xs sm:text-sm"
                 >
-                  <FileText className="size-4" />
-                  Summary
+                  <Icons.TextIndent01Icon className="size-4" />
+                  <span>Summary</span>
                 </TabsTrigger>
                 <TabsTrigger
                   value="tree"
                   className="gap-1.5 text-xs sm:text-sm"
                 >
-                  <FolderTree className="size-4" />
+                  <Icons.Structure05Icon className="size-4" />
                   <span className="hidden sm:inline">Directory Structure</span>
                   <span className="sm:hidden">Tree</span>
                 </TabsTrigger>
@@ -38,7 +38,7 @@ export const OutputTabsComp = () => {
                   value="files"
                   className="gap-1.5 text-xs sm:text-sm"
                 >
-                  <Code className="size-4" />
+                  <Icons.CodeSimpleIcon className="size-4" />
                   <span className="hidden sm:inline">Files Content</span>
                   <span className="sm:hidden">Files</span>
                 </TabsTrigger>

@@ -36,7 +36,7 @@ export async function POST(req: Request) {
         controller.enqueue(encoder.encode(formatSse(event, data)))
       }
 
-      send("progress", "Starting...")
+      send("progress", "Please wait...")
 
       try {
         const result = await fetchDigest(
@@ -57,7 +57,12 @@ export async function POST(req: Request) {
               "Repository not found. If you're using a fine‑grained token (github_pat_), you must grant it access to this repo (Repository access → select repo) and set Contents: Read."
             )
           } else {
-            send("error", e.message)
+            send(
+              "error",
+              e.message.includes("fetch failed")
+                ? "Looks like there's a problem with your network."
+                : e.message
+            )
           }
         } else if (e instanceof Error) {
           send("error", e.message)

@@ -1,12 +1,15 @@
 "use client"
 
+import { Container } from "@/components/shared/container"
 import { Button } from "@/components/ui/button"
 import { siteConfig } from "@/config/site.config"
 import { useDigest } from "@/hooks/digest"
-import { Copy, Download } from "lucide-react"
+import { Icons } from "hugeicons-proxy"
+import React from "react"
 import { toast } from "sonner"
 
 export const BottomBarComp = () => {
+  const [hasCopied, setHasCopied] = React.useState(false)
   const { data, loading, error } = useDigest()
 
   const filename = `${data?.owner}-${data?.repo}-digest.txt`
@@ -21,8 +24,11 @@ export const BottomBarComp = () => {
       const text = header + "\n\n" + data.digest
       await navigator.clipboard.writeText(text)
       toast.success("Digest copied to clipboard")
+      setHasCopied(true)
     } catch {
       toast.error("Couldn't copy to clipboard")
+    } finally {
+      setTimeout(() => setHasCopied(false), 1200)
     }
   }
 
@@ -46,32 +52,35 @@ export const BottomBarComp = () => {
 
   if (!loading && !error && data)
     return (
-      <div className="sticky bottom-0 z-10 mt-6 border-t border-border bg-background/80 px-4 py-3 backdrop-blur-md">
-        <div className="mx-auto flex max-w-3xl flex-col items-stretch gap-2 sm:flex-row sm:items-center sm:justify-between">
-          <div className="font-mono text-xs text-muted-foreground">
-            {data.files.length} files · ~{data.estimatedTokens.toLocaleString()}{" "}
-            tokens
+      <div className="sticky bottom-0 z-10 mt-6 border-t border-border bg-background/80 py-4 backdrop-blur-md">
+        <Container size="default">
+          <div className="flex flex-col items-stretch gap-2 sm:flex-row sm:items-center sm:justify-between">
+            <div className="font-mono text-xs text-muted-foreground">
+              {data.files.length} files · ~
+              {data.estimatedTokens.toLocaleString()} tokens
+            </div>
+            <div className="flex items-center gap-2">
+              <Button
+                onClick={onDownload}
+                className="flex-1 sm:flex-none"
+                disabled={!data?.digest}
+              >
+                <Icons.Download01Icon />
+                <span>Download [ .txt ]</span>
+              </Button>
+              <Button
+                variant="outline"
+                onClick={onCopy}
+                size="icon-sm"
+                className="flex-1 sm:flex-none"
+                disabled={!data?.digest}
+              >
+                {hasCopied ? <Icons.Tick01Icon /> : <Icons.CopyIcon />}
+                <span className="sr-only">Copy to clipboard</span>
+              </Button>
+            </div>
           </div>
-          <div className="flex gap-2">
-            <Button
-              variant="outline"
-              onClick={onCopy}
-              className="flex-1 sm:flex-none"
-              disabled={!data?.digest}
-            >
-              <Copy />
-              Copy to clipboard
-            </Button>
-            <Button
-              onClick={onDownload}
-              className="flex-1 sm:flex-none"
-              disabled={!data?.digest}
-            >
-              <Download />
-              Download .txt
-            </Button>
-          </div>
-        </div>
+        </Container>
       </div>
     )
 

@@ -1,6 +1,6 @@
 import React from "react"
-import { FileText, GitBranch, Hash, Type } from "lucide-react"
 import type { DigestResult } from "@/types"
+import { Icons } from "hugeicons-proxy"
 
 export const SummaryTab: React.FC<{ data: DigestResult }> = ({ data }) => {
   return (
@@ -20,28 +20,28 @@ export const SummaryTab: React.FC<{ data: DigestResult }> = ({ data }) => {
           rel="noreferrer"
           className="mt-2 inline-flex items-center gap-1 text-xs text-muted-foreground hover:text-foreground"
         >
-          <GitBranch className="h-3 w-3" />
+          <Icons.GitBranchIcon className="h-3 w-3" />
           {data.defaultBranch}
         </a>
       </div>
       <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
         <Stat
-          icon={<FileText className="h-3.5 w-3.5" />}
+          icon={<Icons.FileAddIcon className="h-3.5 w-3.5" />}
           label="Files included"
           value={data.files.length.toLocaleString()}
         />
         <Stat
-          icon={<FileText className="h-3.5 w-3.5" />}
+          icon={<Icons.FileRemoveIcon className="h-3.5 w-3.5" />}
           label="Files skipped"
           value={data.skipped.length.toLocaleString()}
         />
         <Stat
-          icon={<Type className="h-3.5 w-3.5" />}
+          icon={<Icons.TextSmallcapsIcon className="h-3.5 w-3.5" />}
           label="Characters"
           value={data.totalCharacters.toLocaleString()}
         />
         <Stat
-          icon={<Hash className="h-3.5 w-3.5" />}
+          icon={<Icons.HashtagIcon className="h-3.5 w-3.5" />}
           label="Est. tokens"
           value={`~${data.estimatedTokens.toLocaleString()}`}
         />

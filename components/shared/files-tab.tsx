@@ -1,6 +1,6 @@
 import { highlightCode } from "@/lib/highlighter"
 import { RepoFile } from "@/types"
-import { ChevronDown, ChevronRight, FileCode } from "lucide-react"
+import { Icons } from "hugeicons-proxy"
 import React from "react"
 
 const PREVIEW_LINES = 20
@@ -43,7 +43,7 @@ function FileBlock({ file }: { file: RepoFile }) {
     <div className="overflow-hidden rounded-xl border border-border bg-background squircle sm:rounded-2xl md:rounded-3xl lg:rounded-4xl">
       <div className="flex items-center justify-between gap-2 border-b border-border bg-card px-4 py-3">
         <div className="flex min-w-0 items-center gap-2">
-          <FileCode className="h-3.5 w-3.5 shrink-0 text-muted-foreground" />
+          <Icons.DocumentCodeIcon className="h-3.5 w-3.5 shrink-0 text-muted-foreground" />
           <code className="truncate font-mono text-xs text-foreground">
             ### {file.path}
           </code>
@@ -66,24 +66,24 @@ function FileBlock({ file }: { file: RepoFile }) {
           </pre>
         )}
         {isLong && !expanded && (
-          <div className="pointer-events-none absolute inset-x-0 bottom-0 h-36 bg-linear-to-t from-background to-transparent wrap-break-word whitespace-pre-wrap" />
+          <div className="pointer-events-none absolute inset-x-0 bottom-0 h-36 bg-linear-to-t from-background via-background/70 to-transparent wrap-break-word whitespace-pre-wrap" />
         )}
       </div>
       {isLong && (
         <button
           type="button"
           onClick={() => setExpanded((v) => !v)}
-          className="flex w-full items-center justify-center gap-1 border-t border-border bg-card px-4 py-3 text-xs text-muted-foreground transition-colors hover:bg-secondary hover:text-foreground"
+          className="flex w-full cursor-pointer items-center justify-center gap-1 border-t border-border bg-card px-4 py-3 text-xs text-muted-foreground transition-colors hover:bg-secondary hover:text-foreground"
         >
           {expanded ? (
             <>
-              <ChevronDown className="h-3.5 w-3.5" />
-              Collapse
+              <Icons.ArrowDown01Icon className="h-3.5 w-3.5" />
+              <span>Collapse</span>
             </>
           ) : (
             <>
-              <ChevronRight className="h-3.5 w-3.5" />
-              Expand all {lines.length} lines
+              <Icons.ArrowRight01Icon className="h-3.5 w-3.5" />
+              <span>Expand all {lines.length} lines</span>
             </>
           )}
         </button>

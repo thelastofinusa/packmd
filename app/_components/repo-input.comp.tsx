@@ -12,18 +12,12 @@ import {
   CollapsibleContent,
   CollapsibleTrigger,
 } from "@/components/ui/collapsible"
-import {
-  ChevronDownIcon,
-  ExternalLink,
-  GitBranch,
-  Settings2,
-  X,
-} from "lucide-react"
 import { Label } from "@/components/ui/label"
 import { cn } from "@/lib/utils"
 import { useDigest } from "@/hooks/digest"
 import { Badge } from "@/components/ui/badge"
 import { CONST_EXAMPLES } from "@/lib/constants"
+import { Icons } from "hugeicons-proxy"
 
 export const RepoInputComp = () => {
   const [input, setInput] = React.useState("")
@@ -111,8 +105,12 @@ export const RepoInputComp = () => {
         <CardHeader>
           <Tabs defaultValue="public" className="gap-4">
             <TabsList>
-              <TabsTrigger value="public">Public</TabsTrigger>
-              <TabsTrigger value="private">Private</TabsTrigger>
+              <TabsTrigger disabled={loading} value="public">
+                <span>Public</span>
+              </TabsTrigger>
+              <TabsTrigger disabled={loading} value="private">
+                <span>Private</span>
+              </TabsTrigger>
             </TabsList>
 
             <form
@@ -133,14 +131,9 @@ export const RepoInputComp = () => {
                       className="h-10 flex-1"
                       disabled={loading}
                     />
-                    <Button
-                      type="submit"
-                      size="lg"
-                      isLoading={loading}
-                      loadingText="Digesting..."
-                    >
-                      <GitBranch />
-                      Digest
+                    <Button type="submit" size="lg" isLoading={loading}>
+                      <Icons.AdjustPositionIcon />
+                      <span>Digest</span>
                     </Button>
                   </Field>
                 </FieldGroup>
@@ -159,6 +152,7 @@ export const RepoInputComp = () => {
                       token: e.target.value || undefined,
                     })
                   }
+                  disabled={loading}
                   placeholder="github_pat_... or ghp_... (only sent to api.github.com)"
                   className="h-10 font-mono"
                 />
@@ -185,7 +179,7 @@ export const RepoInputComp = () => {
                   className="inline-flex items-center gap-1.5 pl-3 text-[13px]"
                 >
                   <span>Get your GitHub access token</span>
-                  <ExternalLink className="size-3" />
+                  <Icons.LinkSquare01Icon className="size-3" />
                 </a>
               </Field>
             </TabsContent>
@@ -220,10 +214,10 @@ export const RepoInputComp = () => {
                     className="w-full border-0! bg-transparent! ring-0! outline-0!"
                   >
                     <span className="flex items-center gap-2">
-                      <Settings2 />
-                      Advanced settings
+                      <Icons.Wrench01Icon />
+                      <span>Advanced settings</span>
                     </span>
-                    <ChevronDownIcon className="ml-auto group-data-panel-open/button:rotate-180" />
+                    <Icons.ArrowDown01Icon className="ml-auto group-data-panel-open/button:rotate-180" />
                   </Button>
                 }
               />
@@ -235,6 +229,7 @@ export const RepoInputComp = () => {
                       type="number"
                       min={1}
                       value={options.maxFileSizeKB}
+                      disabled={loading}
                       onChange={(e) =>
                         setOptions({
                           ...options,
@@ -250,6 +245,7 @@ export const RepoInputComp = () => {
                       type="number"
                       min={1}
                       value={options.maxFiles}
+                      disabled={loading}
                       onChange={(e) =>
                         setOptions({
                           ...options,
@@ -266,7 +262,8 @@ export const RepoInputComp = () => {
                     <div
                       className={cn(
                         "flex min-h-9 w-full flex-wrap items-center gap-1.5 rounded-lg border border-border bg-card px-3 py-1.5 text-sm squircle sm:rounded-xl md:rounded-2xl lg:rounded-3xl",
-                        "focus-within:border-ring focus-within:ring-3 focus-within:ring-ring/50"
+                        "focus-within:border-ring focus-within:ring-3 focus-within:ring-ring/50",
+                        loading && "pointer-events-none opacity-50"
                       )}
                     >
                       {options.includeGlobs.map((pattern) => (
@@ -279,10 +276,11 @@ export const RepoInputComp = () => {
                           <button
                             type="button"
                             onClick={() => removeInclude(pattern)}
-                            className="ml-1 rounded-full p-0.5 hover:bg-muted-foreground/20"
+                            className="ml-1 rounded-full p-0.5 hover:bg-muted-foreground/20 disabled:pointer-events-none disabled:opacity-50"
                             aria-label={`Remove ${pattern}`}
+                            disabled={loading}
                           >
-                            <X className="size-3" />
+                            <Icons.Cancel01Icon className="size-3" />
                           </button>
                         </Badge>
                       ))}
@@ -311,7 +309,8 @@ export const RepoInputComp = () => {
                     <div
                       className={cn(
                         "flex min-h-9 w-full flex-wrap items-center gap-1.5 rounded-lg border border-border bg-card px-3 py-1.5 text-sm squircle sm:rounded-xl md:rounded-2xl lg:rounded-3xl",
-                        "focus-within:border-ring focus-within:ring-3 focus-within:ring-ring/50"
+                        "focus-within:border-ring focus-within:ring-3 focus-within:ring-ring/50",
+                        loading && "pointer-events-none opacity-50"
                       )}
                     >
                       {options.excludeGlobs.map((pattern) => (
@@ -324,10 +323,11 @@ export const RepoInputComp = () => {
                           <button
                             type="button"
                             onClick={() => removeExclude(pattern)}
-                            className="ml-1 rounded-full p-0.5 hover:bg-muted-foreground/20"
+                            className="ml-1 rounded-full p-0.5 hover:bg-muted-foreground/20 disabled:pointer-events-none disabled:opacity-50"
                             aria-label={`Remove ${pattern}`}
+                            disabled={loading}
                           >
-                            <X className="size-3" />
+                            <Icons.Cancel01Icon className="size-3" />
                           </button>
                         </Badge>
                       ))}
