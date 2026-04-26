@@ -27,7 +27,7 @@ export const metadata: Metadata = {
     type: "website",
     locale: "en_US",
     url: CONST_SITE_URL,
-    title: siteConfig.name,
+    title: `${siteConfig.name} - ${siteConfig.slogan}`,
     description: siteConfig.description,
     siteName: siteConfig.name,
     images: [
@@ -41,7 +41,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: siteConfig.name,
+    title: `${siteConfig.name} - ${siteConfig.slogan}`,
     description: siteConfig.description,
     images: [`${CONST_SITE_URL}/opengraph.png`],
     creator: `@${siteConfig.username}`,
