@@ -1,12 +1,13 @@
 import { Metadata } from "next"
+import { Analytics } from "@vercel/analytics/next"
 
 import "./globals.css"
 import { fontVariable } from "@/fonts"
 import { Toaster } from "@/components/ui/sonner"
+import { CONST_SITE_URL } from "@/lib/constants"
 import { siteConfig } from "@/config/site.config"
 import { TooltipProvider } from "@/components/ui/tooltip"
 import { TailwindIndicator } from "@/components/shared/tailwind-indicator"
-import { CONST_SITE_URL } from "@/lib/constants"
 
 export const metadata: Metadata = {
   title: {
@@ -56,6 +57,7 @@ export default function RootLayout(props: Readonly<LayoutProps<"/">>) {
           <Toaster position="top-center" richColors />
         </TooltipProvider>
         <TailwindIndicator />
+        <Analytics />
       </body>
     </html>
   )
