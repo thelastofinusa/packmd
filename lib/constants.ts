@@ -1,5 +1,5 @@
 export const CONST_EXAMPLES = [
-  "thelastofinusa/git2txt",
+  "trezo-labs/website",
   "facebook/react",
   "vercel/next.js",
   "openai/codex",
