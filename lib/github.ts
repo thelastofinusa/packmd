@@ -24,12 +24,17 @@ export class GitHubError extends Error {
   }
 }
 
+function authHeaderValue(token: string) {
+  if (token.startsWith("github_pat_")) return `Bearer ${token}`
+  return `token ${token}`
+}
+
 function authHeaders(token?: string): HeadersInit {
   const h: Record<string, string> = {
     Accept: "application/vnd.github+json",
     "X-GitHub-Api-Version": "2022-11-28",
   }
-  if (token) h.Authorization = `Bearer ${token}`
+  if (token) h.Authorization = authHeaderValue(token)
   return h
 }
 
@@ -43,8 +48,14 @@ async function ghFetch(url: string, token?: string): Promise<Response> {
       "network"
     )
   }
-  if (res.status === 404)
-    throw new GitHubError("Repository not found", "not_found")
+  if (res.status === 404) {
+    throw new GitHubError(
+      token
+        ? "Repository not found (or your token doesn't have access to it)."
+        : "Repository not found",
+      "not_found"
+    )
+  }
   if (res.status === 401) throw new GitHubError("Invalid GitHub token", "auth")
   if (res.status === 403 || res.status === 429) {
     const remaining = res.headers.get("x-ratelimit-remaining")
@@ -148,7 +159,7 @@ export async function fetchDigest(
           const res = await fetch(
             rawUrl,
             options.token
-              ? { headers: { Authorization: `Bearer ${options.token}` } }
+              ? { headers: { Authorization: authHeaderValue(options.token) } }
               : undefined
           )
           if (!res.ok) throw new Error(String(res.status))

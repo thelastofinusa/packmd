@@ -48,7 +48,17 @@ export async function POST(req: Request) {
         send("done", JSON.stringify(result))
       } catch (e) {
         if (e instanceof GitHubError) {
-          send("error", e.message)
+          if (
+            e.kind === "not_found" &&
+            options.token?.startsWith("github_pat_")
+          ) {
+            send(
+              "error",
+              "Repository not found. If you're using a fine‑grained token (github_pat_), you must grant it access to this repo (Repository access → select repo) and set Contents: Read."
+            )
+          } else {
+            send("error", e.message)
+          }
         } else if (e instanceof Error) {
           send("error", e.message)
         } else {
