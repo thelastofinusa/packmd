@@ -21,28 +21,26 @@ import {
 import { Label } from "@/components/ui/label"
 import { splitList } from "@/lib/utils"
 import { useDigest } from "@/hooks/digest"
-// import { Badge } from "@/components/ui/badge"
+import { Badge } from "@/components/ui/badge"
 
-// const EXAMPLES = [
-//   "facebook/react",
-//   "vercel/next.js",
-//   "huggingface/transformers",
-//   "tailwindlabs/tailwindcss",
-// ]
+const EXAMPLES = [
+  "thelastofinusa/git2txt",
+  "facebook/react",
+  "tailwindlabs/tailwindcss",
+  "vercel/next.js",
+]
 
 export const RepoInputComp = () => {
-  const [input, setInput] = React.useState(
-    "https://github.com/thelastofinusa/repo-prompt"
-  )
+  const [input, setInput] = React.useState("")
   const { options, loading, generate, setOptions } = useDigest()
 
   const onSubmit = () => generate(input)
 
-  //   const onExampleClick = (slug: string) => {
-  //     const url = `https://github.com/${slug}`
-  //     setInput(url)
-  //     void generate(url)
-  //   }
+  const onExampleClick = (slug: string) => {
+    const url = `https://github.com/${slug}`
+    setInput(url)
+    void generate(url)
+  }
 
   return (
     <Container size="md">
@@ -98,7 +96,7 @@ export const RepoInputComp = () => {
                       token: e.target.value || undefined,
                     })
                   }
-                  placeholder="ghp_…  (only sent to api.github.com)"
+                  placeholder="ghp_...  (only sent to api.github.com)"
                   className="h-10 font-mono"
                 />
                 <a
@@ -195,10 +193,11 @@ export const RepoInputComp = () => {
         </CardHeader>
       </Card>
 
-      {/* <div className="mt-5 flex flex-wrap items-center gap-2">
+      <div className="mt-3 flex flex-wrap items-center gap-2">
         <span className="mr-2 text-sm text-muted-foreground">
           Try these examples:
         </span>
+
         {EXAMPLES.map((slug) => (
           <Badge
             key={slug}
@@ -209,7 +208,7 @@ export const RepoInputComp = () => {
             {slug}
           </Badge>
         ))}
-      </div> */}
+      </div>
     </Container>
   )
 }

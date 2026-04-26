@@ -23,7 +23,7 @@ export default function RootLayout(props: Readonly<LayoutProps<"/">>) {
         <ThemeProvider>
           <TooltipProvider delay={0}>
             {props.children}
-            <Toaster position="top-center" />
+            <Toaster position="top-center" richColors />
           </TooltipProvider>
           <TailwindIndicator />
         </ThemeProvider>

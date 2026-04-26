@@ -75,7 +75,7 @@ export async function fetchDigest(
   options: DigestOptions,
   onProgress?: (msg: string) => void
 ): Promise<DigestResult> {
-  onProgress?.("Fetching repository metadata…")
+  onProgress?.("Fetching repository metadata...")
   const repoRes = await ghFetch(
     `${GH_API}/repos/${owner}/${repo}`,
     options.token
@@ -84,7 +84,7 @@ export async function fetchDigest(
   const defaultBranch: string = repoData.default_branch || "main"
   const description: string | null = repoData.description ?? null
 
-  onProgress?.(`Fetching git tree (${defaultBranch})…`)
+  onProgress?.(`Fetching git tree (${defaultBranch})...`)
   const treeRes = await ghFetch(
     `${GH_API}/repos/${owner}/${repo}/git/trees/${defaultBranch}?recursive=1`,
     options.token
@@ -135,7 +135,7 @@ export async function fetchDigest(
   for (let i = 0; i < limited.length; i += BATCH) {
     const batch = limited.slice(i, i + BATCH)
     onProgress?.(
-      `Downloading files ${Math.min(i + BATCH, limited.length)}/${limited.length}…`
+      `Downloading files ${Math.min(i + BATCH, limited.length)}/${limited.length}...`
     )
     const results = await Promise.all(
       batch.map(async (b) => {

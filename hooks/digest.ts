@@ -1,6 +1,4 @@
-import { useCallback, useState } from "react"
-import { fetchDigest, GitHubError } from "@/lib/github"
-import { parseRepoUrl } from "@/lib/parseRepoUrl"
+import { create } from "zustand"
 import { DEFAULT_OPTIONS, type DigestOptions, type DigestResult } from "@/types"
 
 export interface UseDigestState {
@@ -14,59 +12,82 @@ export interface UseDigestState {
   reset: () => void
 }
 
-export function useDigest(): UseDigestState {
-  const [loading, setLoading] = useState(false)
-  const [error, setError] = useState<string | null>(null)
-  const [progress, setProgress] = useState<string | null>(null)
-  const [data, setData] = useState<DigestResult | null>(null)
-  const [options, setOptions] = useState<DigestOptions>(DEFAULT_OPTIONS)
+export const useDigest = create<UseDigestState>((set, get) => ({
+  loading: false,
+  error: null,
+  progress: null,
+  data: null,
+  options: DEFAULT_OPTIONS,
+  setOptions: (next) => set({ options: next }),
+  generate: async (input, opts) => {
+    const merged: DigestOptions = { ...get().options, ...opts }
+    set({
+      loading: true,
+      error: null,
+      progress: "Starting...",
+      data: null,
+    })
+    try {
+      const res = await fetch("/api/digest", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ input, options: merged }),
+      })
 
-  const generate = useCallback(
-    async (input: string, opts?: Partial<DigestOptions>) => {
-      const merged: DigestOptions = { ...options, ...opts }
-      const parsed = parseRepoUrl(input)
-      if (!parsed) {
-        setError("Could not parse a GitHub repository from that input.")
-        return
+      if (!res.ok) {
+        const payload = (await res.json().catch(() => null)) as {
+          error?: string
+        } | null
+        throw new Error(payload?.error || `Request failed (${res.status})`)
       }
-      setLoading(true)
-      setError(null)
-      setProgress("Starting…")
-      setData(null)
-      try {
-        const result = await fetchDigest(
-          parsed.owner,
-          parsed.repo,
-          merged,
-          setProgress
-        )
-        setData(result)
-      } catch (e) {
-        if (e instanceof GitHubError) setError(e.message)
-        else if (e instanceof Error) setError(e.message)
-        else setError("Unknown error")
-      } finally {
-        setLoading(false)
-        setProgress(null)
+
+      const contentType = res.headers.get("content-type") || ""
+      if (contentType.includes("text/event-stream") && res.body) {
+        const reader = res.body.getReader()
+        const decoder = new TextDecoder()
+        let buffer = ""
+
+        const handleChunk = (raw: string) => {
+          const lines = raw.split("\n")
+          let event = "message"
+          const dataLines: string[] = []
+          for (const line of lines) {
+            if (line.startsWith("event:")) event = line.slice(6).trim()
+            else if (line.startsWith("data:"))
+              dataLines.push(line.slice(5).trimStart())
+          }
+          const data = dataLines.join("\n")
+
+          if (event === "progress") set({ progress: data })
+          if (event === "error") set({ error: data })
+          if (event === "done") {
+            const parsed = JSON.parse(data) as DigestResult
+            set({ data: parsed })
+          }
+        }
+
+        while (true) {
+          const { value, done } = await reader.read()
+          if (done) break
+          buffer += decoder.decode(value, { stream: true })
+          while (true) {
+            const idx = buffer.indexOf("\n\n")
+            if (idx === -1) break
+            const raw = buffer.slice(0, idx)
+            buffer = buffer.slice(idx + 2)
+            if (raw.trim()) handleChunk(raw)
+          }
+        }
+      } else {
+        const result = (await res.json()) as DigestResult
+        set({ data: result })
       }
-    },
-    [options]
-  )
-
-  const reset = useCallback(() => {
-    setData(null)
-    setError(null)
-    setProgress(null)
-  }, [])
-
-  return {
-    loading,
-    error,
-    progress,
-    data,
-    options,
-    setOptions,
-    generate,
-    reset,
-  }
-}
+    } catch (e) {
+      if (e instanceof Error) set({ error: e.message })
+      else set({ error: "Unknown error" })
+    } finally {
+      set({ loading: false, progress: null })
+    }
+  },
+  reset: () => set({ data: null, error: null, progress: null }),
+}))
