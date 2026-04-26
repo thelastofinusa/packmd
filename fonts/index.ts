@@ -3,7 +3,7 @@ import localFont from "next/font/local"
 import { cn } from "@/lib/utils"
 
 const fontSans = localFont({
-  src: "./Geist/Geist-VariableFont_wght.ttf",
+  src: "./BricolageGrotesque/BricolageGrotesque-VariableFont_opsz,wdth,wght.ttf",
   variable: "--font-sans",
   preload: true,
 })

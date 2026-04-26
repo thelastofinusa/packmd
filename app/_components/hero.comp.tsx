@@ -20,7 +20,7 @@ export const HeroComp = () => {
       <h1 className="text-4xl font-bold tracking-tight md:text-5xl">
         {siteConfig.title}
       </h1>
-      <p className="mt-6 text-base text-muted-foreground">
+      <p className="mx-auto mt-6 max-w-lg text-base text-muted-foreground">
         {siteConfig.description}
       </p>
     </Container>
