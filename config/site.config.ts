@@ -1,6 +1,6 @@
 export const siteConfig = {
-  name: "RepoPrompt",
-  title: "GitHub Repo to LLM Prompt",
+  name: "git2txt",
+  title: "Turn any repo into LLM‑ready text",
   description:
-    "Convert any GitHub repository into a clean, prompt-ready text digest for your favorite LLM.",
+    "git2txt converts any GitHub repository into a structured text digest — ready to paste into ChatGPT, Claude, or any AI.",
 }
