@@ -22,13 +22,7 @@ import { Label } from "@/components/ui/label"
 import { splitList } from "@/lib/utils"
 import { useDigest } from "@/hooks/digest"
 import { Badge } from "@/components/ui/badge"
-
-const EXAMPLES = [
-  "thelastofinusa/git2txt",
-  "facebook/react",
-  "tailwindlabs/tailwindcss",
-  "vercel/next.js",
-]
+import { CONST_EXAMPLES } from "@/lib/constants"
 
 export const RepoInputComp = () => {
   const [input, setInput] = React.useState("")
@@ -194,11 +188,11 @@ export const RepoInputComp = () => {
       </Card>
 
       <div className="mt-3 flex flex-wrap items-center gap-2">
-        <span className="mr-2 text-sm text-muted-foreground">
+        <span className="text-sm text-muted-foreground">
           Try these examples:
         </span>
 
-        {EXAMPLES.map((slug) => (
+        {CONST_EXAMPLES.map((slug) => (
           <Badge
             key={slug}
             variant="secondary"

@@ -1,6 +1,7 @@
 "use client"
 
 import { Button } from "@/components/ui/button"
+import { siteConfig } from "@/config/site.config"
 import { useDigest } from "@/hooks/digest"
 import { Copy, Download } from "lucide-react"
 import { toast } from "sonner"
@@ -16,7 +17,9 @@ export const BottomBarComp = () => {
       return
     }
     try {
-      await navigator.clipboard.writeText(data.digest)
+      const header = siteConfig.buildExportHeader(data)
+      const text = header + "\n\n" + data.digest
+      await navigator.clipboard.writeText(text)
       toast.success("Digest copied to clipboard")
     } catch {
       toast.error("Couldn't copy to clipboard")
@@ -28,9 +31,9 @@ export const BottomBarComp = () => {
       toast.error("Nothing to download yet")
       return
     }
-    const blob = new Blob([data?.digest as string], {
-      type: "text/plain;charset=utf-8",
-    })
+    const header = siteConfig.buildExportHeader(data)
+    const text = header + "\n\n" + data.digest
+    const blob = new Blob([text], { type: "text/plain;charset=utf-8" })
     const url = URL.createObjectURL(blob)
     const a = document.createElement("a")
     a.href = url
