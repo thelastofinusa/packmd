@@ -9,24 +9,10 @@
 
 | Method | Best For | One‑liner |
 |---|---|---|
-| **URL trick** | Quick one‑off | Replace `github.com` → `git2txt.vercel.app` in any repo URL |
 | **HTTP API** | Automation, scripts, notebooks | `POST https://git2txt.vercel.app/api/digest` with JSON body |
 | **Web UI** | Human use only | ~~Not recommended for AI agents~~ |
 
-### 1.1 URL Trick
-
-Replace `github.com` with `git2txt.vercel.app` in any GitHub repository URL. Open the
-resulting page to see the full digest in the browser.
-
-```
-Original:  https://github.com/owner/repo
-Digest:    https://git2txt.vercel.app/owner/repo
-```
-
-The page renders a Summary, Directory Structure, and Files Content view.
-Use the **Copy** or **Download .txt** buttons to extract the digest.
-
-### 1.2 HTTP API (Programmatic Access)
+### 1.1 HTTP API (Programmatic Access)
 
 **Endpoint:** `POST https://git2txt.vercel.app/api/digest`
 
@@ -82,7 +68,7 @@ event: error
 data: Repository not found
 ```
 
-### 1.3 Integration Examples
+### 1.2 Integration Examples
 
 **JavaScript/TypeScript (`fetch`):**
 
