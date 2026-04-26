@@ -1,13 +1,13 @@
 import { DigestResult } from "@/types"
 
 export const siteConfig = {
-  name: "git2txt",
+  name: "Git2txt",
   slogan: "LLM‑ready code in one click",
   title: "Turn any Git repo into LLM‑ready text.",
   username: "thelastofinusa",
   nickname: "Holiday",
   description:
-    "git2txt converts any GitHub repository into a structured text digest ready to paste into ChatGPT, Claude, or any AI.",
+    "Git2txt converts any GitHub repository into a structured text digest ready to paste into ChatGPT, Claude, or any AI.",
   buildExportHeader: (data: DigestResult) => {
     const repoUrl = `https://github.com/${data.owner}/${data.repo}`
     const date = new Date().toISOString().split("T")[0] // YYYY-MM-DD

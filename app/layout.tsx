@@ -10,10 +10,11 @@ import { TooltipProvider } from "@/components/ui/tooltip"
 import { TailwindIndicator } from "@/components/shared/tailwind-indicator"
 
 export const metadata: Metadata = {
-  title: {
-    default: `${siteConfig.name} - ${siteConfig.slogan}`,
-    template: `%s - ${siteConfig.name}`,
-  },
+  // title: {
+  //   default: `${siteConfig.name} - ${siteConfig.slogan}`,
+  //   template: `%s - ${siteConfig.name}`,
+  // },
+  title: `${siteConfig.name} - ${siteConfig.slogan}`,
   description: siteConfig.description,
   metadataBase: new URL(CONST_SITE_URL as string),
   authors: [
