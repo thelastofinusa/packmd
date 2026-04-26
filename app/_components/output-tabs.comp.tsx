@@ -44,15 +44,15 @@ export const OutputTabsComp = () => {
                 </TabsTrigger>
               </TabsList>
 
-              <TabsContent value="summary" className="mt-5 min-w-0 flex-1">
+              <TabsContent value="summary" className="mt-5">
                 <SummaryTab data={data} />
               </TabsContent>
-              <TabsContent value="tree" className="mt-5 min-w-0 flex-1">
+              <TabsContent value="tree" className="mt-5">
                 <TreeTab data={data} />
               </TabsContent>
-              <TabsContent value="files" className="mt-5 min-w-0 flex-1">
-                <FilesTab files={data.files} />
-              </TabsContent>
+              {/* <TabsContent value="files" className="mt-5">
+              </TabsContent> */}
+              <FilesTab files={data.files} />
             </Tabs>
           </CardHeader>
         </Card>

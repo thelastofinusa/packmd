@@ -133,7 +133,7 @@ export const RepoInputComp = () => {
                     />
                     <Button type="submit" size="lg" isLoading={loading}>
                       <Icons.AdjustPositionIcon />
-                      <span>Digest</span>
+                      <span>Generate</span>
                     </Button>
                   </Field>
                 </FieldGroup>
@@ -153,7 +153,7 @@ export const RepoInputComp = () => {
                     })
                   }
                   disabled={loading}
-                  placeholder="github_pat_... or ghp_... (only sent to api.github.com)"
+                  placeholder="github_pat_... or ghp_..."
                   className="h-10 font-mono"
                 />
                 {tokenKind === "fine_grained" ? (
@@ -262,7 +262,7 @@ export const RepoInputComp = () => {
                     <div
                       className={cn(
                         "flex min-h-9 w-full flex-wrap items-center gap-1.5 rounded-lg border border-border bg-card px-3 py-1.5 text-sm squircle sm:rounded-xl md:rounded-2xl lg:rounded-3xl",
-                        "focus-within:border-ring focus-within:ring-3 focus-within:ring-ring/50",
+                        "focus-within:border-ring focus-within:ring-0 focus-within:ring-ring/50",
                         loading && "pointer-events-none opacity-50"
                       )}
                     >
@@ -294,7 +294,7 @@ export const RepoInputComp = () => {
                             ? "*.ts, *.tsx, *.md  (empty = all)"
                             : "Add pattern..."
                         }
-                        className="flex-1 border-none bg-transparent p-0 font-mono text-xs outline-none placeholder:text-muted-foreground"
+                        className="flex-1 border-none bg-transparent p-0 font-mono text-xs outline-0 placeholder:text-muted-foreground"
                         disabled={loading}
                       />
                     </div>
@@ -308,8 +308,8 @@ export const RepoInputComp = () => {
                     <Label>Exclude patterns</Label>
                     <div
                       className={cn(
-                        "flex min-h-9 w-full flex-wrap items-center gap-1.5 rounded-lg border border-border bg-card px-3 py-1.5 text-sm squircle sm:rounded-xl md:rounded-2xl lg:rounded-3xl",
-                        "focus-within:border-ring focus-within:ring-3 focus-within:ring-ring/50",
+                        "flex min-h-9 w-full flex-wrap items-center gap-1.5 rounded-lg border border-border bg-card px-3 py-2.5 text-sm squircle sm:rounded-xl md:rounded-2xl lg:rounded-3xl",
+                        "focus-within:border-ring focus-within:ring-0 focus-within:ring-ring/50",
                         loading && "pointer-events-none opacity-50"
                       )}
                     >
@@ -341,7 +341,7 @@ export const RepoInputComp = () => {
                             ? "node_modules/**, .git/**"
                             : "Add pattern..."
                         }
-                        className="flex-1 border-none bg-transparent p-0 font-mono text-xs outline-none placeholder:text-muted-foreground"
+                        className="flex-1 border-none bg-transparent p-0 font-mono text-xs outline-0 placeholder:text-muted-foreground"
                         disabled={loading}
                       />
                     </div>

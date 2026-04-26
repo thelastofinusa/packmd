@@ -17,11 +17,11 @@ export const StateComp = () => {
         <Container className="mt-16">
           <Card>
             <CardHeader>
-              <div className="flex items-center gap-2 text-[13px] text-muted-foreground">
+              <div className="flex items-center gap-1.5 text-[13px] text-muted-foreground">
                 <Loader className="size-3.5 animate-spin" />
-                <span>{progress ?? "Working..."}</span>
+                <span>{progress}</span>
               </div>
-              <div className="mt-6 space-y-3">
+              <div className="mt-4 space-y-3">
                 <Skeleton className="h-5 w-1/3" />
                 <Skeleton className="h-4 w-2/3" />
                 <Skeleton className="h-4 w-1/2" />

@@ -13,9 +13,9 @@ export default function Page() {
       <StateComp />
       <OutputTabsComp />
       <Container size="md" className="py-16">
-        <footer className="text-center text-[13px] text-muted-foreground">
+        <footer className="text-center text-sm text-muted-foreground">
           Runs entirely in your browser. Your GitHub token, if provided, is sent
-          only to api.github.com.
+          only to <strong className="text-foreground">api.github.com</strong>.
         </footer>
       </Container>
       <BottomBarComp />

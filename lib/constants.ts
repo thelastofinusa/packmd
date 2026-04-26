@@ -3,6 +3,7 @@ export const CONST_EXAMPLES = [
   "facebook/react",
   "vercel/next.js",
   "openai/codex",
+  "shadcn-ui/ui",
 ]
 
 export const CONST_SITE_URL =
