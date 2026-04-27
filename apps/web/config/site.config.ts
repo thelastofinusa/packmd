@@ -2,8 +2,8 @@ import { DigestResult } from "@git2txt/core"
 
 export const siteConfig = {
   name: "Git2txt",
-  slogan: "LLM‑ready code in one click",
-  title: "Turn any Git repo into LLM‑ready text.",
+  slogan: "LLM-ready code in one click",
+  title: "Turn any Git repo into LLM-ready text.",
   username: "thelastofinusa",
   nickname: "Holiday",
   description:
