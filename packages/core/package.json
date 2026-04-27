@@ -1,0 +1,44 @@
+{
+  "name": "@git2txt/core",
+  "version": "0.1.6",
+  "description": "Shared core logic for git2txt - fetch, format, and digest GitHub repos",
+  "license": "MIT",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    },
+    "./local": {
+      "import": "./dist/local.js",
+      "types": "./dist/local.d.ts"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "homepage": "https://git2txt.vercel.app",
+  "bugs": {
+    "url": "https://github.com/thelastofinusa/git2txt/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/thelastofinusa/git2txt.git"
+  },
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "prepublishOnly": "pnpm run build",
+    "pushout": "npm publish --access public",
+    "pushout-inc": "npm version patch --no-git-tag-version && npm publish --access public"
+  },
+  "devDependencies": {
+    "@types/node": "^25.6.0",
+    "tsup": "^8.5.1",
+    "typescript": "^5.9.3"
+  }
+}

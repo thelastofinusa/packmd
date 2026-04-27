@@ -1,0 +1,59 @@
+{
+  "name": "@git2txt/cli",
+  "version": "0.1.6",
+  "description": "CLI for git2txt – turn any GitHub repo or local directory into LLM-ready text",
+  "license": "MIT",
+  "type": "module",
+  "bin": {
+    "git2txt": "./dist/index.js"
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsx src/index.ts",
+    "start": "node dist/index.js",
+    "prepublishOnly": "pnpm run build",
+    "pushout": "npm publish --access public",
+    "pushout-inc": "npm version patch --no-git-tag-version && npm publish --access public"
+  },
+  "homepage": "https://git2txt.vercel.app",
+  "bugs": {
+    "url": "https://github.com/thelastofinusa/git2txt/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/thelastofinusa/git2txt.git"
+  },
+  "devDependencies": {
+    "@git2txt/core": "^0.1.6",
+    "@types/node": "^25.6.0",
+    "tsup": "^8.5.1",
+    "tsx": "^4.0.0",
+    "typescript": "^5.9.3"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "keywords": [
+    "cli",
+    "github",
+    "llm",
+    "digest",
+    "prompt",
+    "chatgpt",
+    "codebase",
+    "local"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "chalk": "^5.6.2",
+    "commander": "^14.0.3",
+    "ora": "^9.4.0"
+  }
+}
