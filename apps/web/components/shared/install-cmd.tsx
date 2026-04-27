@@ -30,11 +30,11 @@ export const InstallCmd = () => {
   return (
     <div
       onClick={onCopy}
-      className="group relative mx-auto mb-6 inline-flex -rotate-3 cursor-pointer items-center gap-2 rounded-lg border border-primary bg-linear-to-r from-primary/40 via-primary/20 to-primary/10 py-1 pr-3 pl-1 text-[#00c2d0] shadow-2xl shadow-primary/20 transition-all duration-500 squircle hover:shadow-primary/80 sm:rounded-xl md:mb-8 md:rounded-2xl lg:rounded-3xl"
+      className="group relative mx-auto mb-8 inline-flex -rotate-3 cursor-pointer items-center gap-2 rounded-xl border border-primary bg-linear-to-r from-primary/40 via-primary/20 to-primary/10 py-1 pr-3 pl-1 text-[#00c2d0] shadow-2xl shadow-primary/20 transition-all duration-500 squircle hover:shadow-primary/80 md:rounded-2xl lg:rounded-3xl"
     >
       <div className="absolute inset-0 rounded-full bg-linear-to-r from-primary/0 via-primary/50 to-primary/0 opacity-0 blur-md transition-opacity duration-500 group-hover:opacity-100" />
 
-      <div className="flex h-full items-center gap-1 rounded-md bg-primary px-2 py-0.5 text-white squircle sm:rounded-lg md:rounded-xl lg:rounded-2xl">
+      <div className="flex h-full items-center gap-1 rounded-lg bg-primary px-2 py-0.5 text-white squircle md:rounded-xl lg:rounded-2xl">
         <Icons.PackageDeliveredIcon className="size-3.5" />
         <span className="text-[13px]">v{version ?? "0.0.0"}</span>
       </div>

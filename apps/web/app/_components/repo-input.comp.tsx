@@ -1,5 +1,6 @@
 "use client"
 import * as React from "react"
+import { RiAiGenerate } from "react-icons/ri"
 
 import { Field, FieldGroup, FieldSet } from "@/components/ui/field"
 import { Input } from "@/components/ui/input"
@@ -18,6 +19,12 @@ import { useDigest } from "@/hooks/digest"
 import { Badge } from "@/components/ui/badge"
 import { CONST_EXAMPLES } from "@/lib/constants"
 import { Icons } from "hugeicons-proxy"
+import {
+  InputGroup,
+  InputGroupAddon,
+  InputGroupButton,
+  InputGroupInput,
+} from "@/components/ui/input-group"
 
 export const RepoInputComp = () => {
   const [input, setInput] = React.useState("")
@@ -36,7 +43,7 @@ export const RepoInputComp = () => {
 
   const onExampleClick = (slug: string) => {
     const url = `https://github.com/${slug}`
-    setInput(url)
+    setInput(slug)
     void generate(url)
   }
 
@@ -122,17 +129,44 @@ export const RepoInputComp = () => {
               <FieldSet>
                 <FieldGroup>
                   <Field orientation="horizontal">
-                    <Input
+                    {/* <Input
                       value={input}
                       onChange={(e) => setInput(e.target.value)}
                       id="name"
                       placeholder="https://github.com/user/repo"
                       required
-                      className="h-10 flex-1"
+                      className="h-10 flex-1 font-mono"
                       disabled={loading}
-                    />
-                    <Button type="submit" size="lg" isLoading={loading}>
-                      <Icons.AdjustPositionIcon />
+                    /> */}
+                    <InputGroup className="h-10 flex-1 font-mono">
+                      <InputGroupInput
+                        placeholder="user/repo"
+                        value={input}
+                        onChange={(e) => setInput(e.target.value)}
+                        autoComplete="off"
+                        id="name"
+                        disabled={loading}
+                        required
+                      />
+                      <InputGroupAddon>github.com/</InputGroupAddon>
+                      <InputGroupAddon align="inline-end" className="md:hidden">
+                        <InputGroupButton
+                          type="submit"
+                          variant="default"
+                          isLoading={loading}
+                        >
+                          <RiAiGenerate />
+                          <span className="hidden sm:flex">Generate</span>
+                        </InputGroupButton>
+                      </InputGroupAddon>
+                    </InputGroup>
+                    <Button
+                      type="submit"
+                      size="lg"
+                      isLoading={loading}
+                      className="hidden md:inline-flex"
+                    >
+                      <RiAiGenerate />
                       <span>Generate</span>
                     </Button>
                   </Field>
@@ -206,21 +240,17 @@ export const RepoInputComp = () => {
             </div>
 
             <Collapsible>
-              <CollapsibleTrigger
-                render={
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    className="w-full border-0! bg-transparent! ring-0! outline-0!"
-                  >
-                    <span className="flex items-center gap-2">
-                      <Icons.Wrench01Icon />
-                      <span>Advanced settings</span>
-                    </span>
-                    <Icons.ArrowDown01Icon className="ml-auto group-data-panel-open/button:rotate-180" />
-                  </Button>
-                }
-              />
+              <div className="flex justify-end">
+                <CollapsibleTrigger
+                  render={
+                    <Button variant="ghost" size="sm" type="button">
+                      <Icons.Settings01Icon className="size-3" />
+                      <span className="ml-1 text-xs">Advanced</span>
+                      <Icons.ArrowDown01Icon className="size-3 transition-transform group-data-panel-open/button:rotate-180" />
+                    </Button>
+                  }
+                />
+              </div>
               <CollapsibleContent className="p-0 pt-2">
                 <div className="grid gap-4 rounded-xl border border-border bg-background p-6 squircle sm:grid-cols-2 sm:rounded-2xl md:rounded-3xl lg:rounded-4xl">
                   <Field>

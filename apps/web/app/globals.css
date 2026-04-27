@@ -109,7 +109,3 @@
 @utility squircle {
   corner-shape: squircle;
 }
-
-@utility no-squircle {
-  corner-shape: none;
-}
