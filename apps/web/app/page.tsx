@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 import { Container } from "@/components/shared/container"
 import { HeroComp } from "./_components/hero.comp"
 import { RepoInputComp } from "./_components/repo-input.comp"
@@ -23,11 +24,10 @@ export default function Page() {
           target="_blank"
           rel="noopener noreferrer"
         >
-          <Image
+          <img
             alt="Git2txt - Turn any Git repo into LLM-ready text. | Product Hunt"
             width={200}
             height={50}
-            unoptimized
             src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=1141160&amp;theme=dark&amp;t=1778143701407"
           />
         </a>

@@ -129,16 +129,8 @@ export const RepoInputComp = () => {
               <FieldSet>
                 <FieldGroup>
                   <Field orientation="horizontal">
-                    {/* <Input
-                      value={input}
-                      onChange={(e) => setInput(e.target.value)}
-                      id="name"
-                      placeholder="https://github.com/user/repo"
-                      required
-                      className="h-10 flex-1 font-mono"
-                      disabled={loading}
-                    /> */}
                     <InputGroup className="h-10 flex-1 font-mono">
+                      <InputGroupAddon>github.com/</InputGroupAddon>
                       <InputGroupInput
                         placeholder="user/repo"
                         value={input}
@@ -147,8 +139,8 @@ export const RepoInputComp = () => {
                         id="name"
                         disabled={loading}
                         required
+                        className="pl-0!"
                       />
-                      <InputGroupAddon>github.com/</InputGroupAddon>
                       <InputGroupAddon align="inline-end" className="md:hidden">
                         <InputGroupButton
                           type="submit"
