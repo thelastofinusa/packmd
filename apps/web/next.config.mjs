@@ -1,7 +1,12 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   images: {
-    domains: ["api.producthunt.com"],
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "api.producthunt.com",
+      },
+    ],
     qualities: [100],
   },
 }

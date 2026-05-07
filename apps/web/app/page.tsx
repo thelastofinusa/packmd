@@ -27,8 +27,7 @@ export default function Page() {
             alt="Git2txt - Turn any Git repo into LLM-ready text. | Product Hunt"
             width={200}
             height={50}
-            property="og:image"
-            quality={100}
+            unoptimized
             src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=1141160&amp;theme=dark&amp;t=1778143701407"
           />
         </a>
