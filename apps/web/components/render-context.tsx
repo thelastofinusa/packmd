@@ -2,15 +2,15 @@
 
 import React, { createContext, useContext, useState } from "react"
 
-interface EncodeContextType {
+interface RenderContextType {
   markdown: string
   setMarkdown: React.Dispatch<React.SetStateAction<string>>
   handleDownload: (filename?: string) => void
 }
 
-const EncodeContext = createContext<EncodeContextType | null>(null)
+const RenderContext = createContext<RenderContextType | null>(null)
 
-export const EncodeProvider: React.FC<{
+export const RenderProvider: React.FC<{
   initialMarkdown: string
   children: React.ReactNode
 }> = ({ initialMarkdown, children }) => {
@@ -29,16 +29,16 @@ export const EncodeProvider: React.FC<{
   }
 
   return (
-    <EncodeContext.Provider value={{ markdown, setMarkdown, handleDownload }}>
+    <RenderContext.Provider value={{ markdown, setMarkdown, handleDownload }}>
       {children}
-    </EncodeContext.Provider>
+    </RenderContext.Provider>
   )
 }
 
-export const useEncode = () => {
-  const context = useContext(EncodeContext)
+export const useRender = () => {
+  const context = useContext(RenderContext)
   if (!context) {
-    throw new Error("useEncode must be used within an EncodeProvider")
+    throw new Error("useRender must be used within an RenderProvider")
   }
   return context
 }

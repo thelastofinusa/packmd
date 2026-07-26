@@ -1,8 +1,14 @@
 import React from "react"
-import { Content } from "../components/content"
-import { redirect } from "next/navigation"
 
-export default async function Generated(props: PageProps<"/encode">) {
+import { redirect } from "next/navigation"
+import { Content } from "./components/content"
+import { Metadata } from "next"
+
+export const metadata: Metadata = {
+  alternates: { canonical: "/render" },
+}
+
+export default async function Render(props: PageProps<"/render">) {
   const { id } = await props.searchParams
   if (!id) redirect("/")
 

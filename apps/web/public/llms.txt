@@ -1,0 +1,131 @@
+# PackMD - Turn Code into LLM-Ready Markdown
+
+**PackMD** is a powerful, open-source tool that converts any GitHub repository, local directory, or web page into a clean, token-efficient Markdown digest. It's designed to be the fastest way to feed codebases and web content into AI models like ChatGPT, Claude, and Gemini for analysis, documentation, or context building.
+
+- **Website:** [https://packmd.vercel.app](https://packmd.vercel.app)
+- **GitHub:** [https://github.com/thelastofinusa/packmd](https://github.com/thelastofinusa/packmd)
+- **License:** MIT
+
+---
+
+## Key Features
+
+*   **One-Click Generation:** Paste a GitHub URL or webpage link and get a Markdown digest in seconds via the web app.
+*   **Token Efficiency:** Strips noise, respects `.gitignore`, and formats content to minimize token usage for LLMs.
+*   **Web App Interface:**
+    *   **Home:** Input URL, advanced options (max files, size, glob patterns), and real-time progress streaming.
+    *   **History:** All digests are saved locally in your browser's IndexedDB for 7 days. Reopen or delete entries as needed.
+    *   **Encode:** Edit and preview generated Markdown with a split view, section toggles (title, source, images, links), copy, and download.
+*   **Command-Line Interface (CLI):** For scripting and automation, run `packmd` from your terminal.
+*   **Shared Core:** A single, robust engine (`@packmd/core`) powers both the web app and the CLI for consistent and reliable parsing.
+
+---
+
+## Quick Start (Web App)
+
+1.  Go to [https://packmd.vercel.app](https://packmd.vercel.app).
+2.  Paste a GitHub repository URL (e.g., `https://github.com/vercel/next.js`) or any webpage URL.
+3.  (Optional) Configure advanced options like max files, file size limits, or glob patterns.
+4.  Click **Generate** to begin the process.
+5.  Preview, edit, and copy/download the generated Markdown from the Encode page.
+6.  Find all your past digests in the History page.
+
+---
+
+## Quick Start (CLI)
+
+**Install globally:**
+```bash
+npm install -g packmd
+```
+
+**Usage Examples:**
+```bash
+# Generate a digest from a GitHub repo
+packmd https://github.com/vercel/next.js -o next.md
+
+# Scrape a webpage (requires Jina API key for higher limits)
+packmd https://react.dev --jina-api-key YOUR_KEY --copy
+
+# Digest the current directory (respects .gitignore)
+packmd .
+
+# Use advanced options
+packmd facebook/react --max-files 300 --exclude "*.test.js"
+```
+
+For all options, see the [CLI Documentation](https://packmd.vercel.app/docs).
+
+---
+
+## Project Architecture
+
+PackMD is a monorepo built with **Next.js** for the web app and **Node.js** for the CLI, powered by a shared core package.
+
+- **`@packmd/core`**: The engine. It handles fetching GitHub repos and web pages, filtering files, building directory trees, and generating clean Markdown.
+- **Web App (`apps/web`)**: An interactive Next.js application with a modern UI built using **shadcn/ui** and **Tailwind CSS**.
+- **CLI (`packages/cli`)**: A Node.js command-line tool that uses the same core engine for scripting and automation.
+- **UI Package (`@packmd/ui`)**: A shared component library for the web app.
+
+---
+
+## Core Components & API
+
+### GitHub Fetcher
+The core logic intelligently parses any GitHub URL, including those with branches, subdirectories, or single files.
+```typescript
+import { fetchGithubRepo } from "@packmd/core";
+
+const result = await fetchGithubRepo("https://github.com/owner/repo/tree/branch/subdir", {
+  token: "ghp_...", // For private repos
+  maxFiles: 100,
+  maxFileSizeKB: 50,
+  excludeGlobs: ["**/*.test.ts"],
+});
+```
+
+### Web Scraper
+Uses the Jina Reader API to convert any public web page into clean Markdown.
+```typescript
+import { scrapeWebPage } from "@packmd/core";
+
+const { title, content } = await scrapeWebPage("https://react.dev", {
+  jinaApiKey: "jina_...", // Optional, for higher rate limits
+});
+```
+
+### Markdown Generator
+Builds a file tree and generates the final, token-efficient Markdown digest.
+```typescript
+import { buildFileTree, generateMarkdown } from "@packmd/core";
+
+const tree = buildFileTree(files);
+const markdown = generateMarkdown(tree, { showTree: true });
+```
+
+---
+
+## Tech Stack
+
+- **Web App:** Next.js (React), Tailwind CSS, shadcn/ui, Zustand, Next-Themes, Vercel Analytics.
+- **CLI:** Node.js, Commander, Inquirer, Ora, Picocolors.
+- **Core:** TypeScript, Zod for validation, built with Tsup.
+
+---
+
+## Why PackMD?
+
+- **Supercharge AI Workflows:** Quickly turn codebases into context for LLMs without writing scripts.
+- **Save Time and Tokens:** No more manual file opening and copying. Get a clean, structured digest instantly.
+- **Open Source & Free:** MIT licensed and completely free to use.
+- **Privacy-First:** The web app stores your history locally in your browser, not on a server.
+
+---
+
+## SEO & Contributing
+
+### SEO
+PackMD's web app is designed with SEO in mind, featuring static generation, a clear site structure, and optimized Open Graph metadata.
+
+### Contributing
+Contributions are welcome! Please visit the [GitHub repository](https://github.com/thelastofinusa/packmd) to get started.

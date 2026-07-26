@@ -10,13 +10,13 @@ import Link from "next/link"
 import { CopyButton } from "@packmd/ui/components/copy-button"
 import { useTiks } from "@rexa-developer/tiks/react"
 import { ToggleTheme } from "@/components/toggle-theme"
-import { useEncode } from "../context/encode-context"
+import { useRender } from "../../../../components/render-context"
 
 export const Header = () => {
   const router = useRouter()
   const isMobile = useIsMobile()
   const { pop } = useTiks()
-  const { markdown, handleDownload } = useEncode()
+  const { markdown, handleDownload } = useRender()
 
   return (
     <header className="sticky top-0 left-0 z-50 w-full border-b backdrop-blur-md">

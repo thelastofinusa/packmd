@@ -43,8 +43,9 @@ import { Badge } from "@packmd/ui/components/badge"
 import { packmdSchema, type PackmdSchemaType } from "@packmd/core"
 import { useIsMobile } from "@packmd/ui/hooks/use-is-mobile"
 import { sleep } from "@/lib/utils"
-import { useEncode } from "@/app/(routes)/encode/context/encode-context"
+
 import { useDigest } from "@/hooks/use-digest"
+import { useRender } from "@/components/render-context"
 
 interface AdvancedOptionsProps {
   form: UseFormReturn<PackmdSchemaType>
@@ -252,7 +253,7 @@ export const URLInput = () => {
   const { pop, success, error } = useTiks()
   const [isPending, startTransition] = React.useTransition()
   const isMobile = useIsMobile()
-  const { setMarkdown } = useEncode()
+  const { setMarkdown } = useRender()
   const { generate } = useDigest()
 
   const form = useForm<PackmdSchemaType>({
@@ -388,7 +389,7 @@ export const URLInput = () => {
           const id = await add(data.url, state.data.digest)
           setMarkdown(state.data.digest)
           await sleep()
-          router.push(`/encode?id=${id}`)
+          router.push(`/render?id=${id}`)
           pop()
           form.reset()
         } else if (state.error) {

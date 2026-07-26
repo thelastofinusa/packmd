@@ -13,6 +13,32 @@ import { InstallTabs } from "@packmd/ui/components/install-tabs"
 import { ApiReference, type ApiProp } from "@packmd/ui/components/api-reference"
 import { CodeBlock } from "@packmd/ui/components/code-block"
 
+import { Metadata } from "next"
+
+export const metadata: Metadata = {
+  title: "Documentation",
+  description:
+    "Learn how to use PackMD's CLI and web app. Explore the core engine, API reference, processing pipeline, and step-by-step guides.",
+  robots: {
+    index: true,
+    follow: true,
+  },
+  alternates: {
+    canonical: "/docs",
+  },
+  openGraph: {
+    title: "Documentation",
+    description:
+      "Learn how to use PackMD's CLI and web app. Explore the core engine, API reference, processing pipeline, and step-by-step guides.",
+    url: "/docs",
+  },
+  twitter: {
+    title: "Documentation",
+    description:
+      "Learn how to use PackMD's CLI and web app. Explore the core engine, API reference, processing pipeline, and step-by-step guides.",
+  },
+}
+
 const API_REFERENCE: ApiProp[] = [
   {
     name: "output",
@@ -276,7 +302,7 @@ packmd https://docs.nestjs.com --copy --jina-api-key your-api-key`
           </header>
 
           {/* ----- Loop through sections ----- */}
-          {sections.map((section, index) => (
+          {sections.map((section) => (
             <React.Fragment key={section.id}>
               <Separator orientation="horizontal" className="my-8" />
               <section id={section.id} className="flex flex-col gap-2">

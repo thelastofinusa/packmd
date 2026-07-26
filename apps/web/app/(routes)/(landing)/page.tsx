@@ -1,5 +1,10 @@
 import React from "react"
 import { URLInput } from "@/components/url-input"
+import { Metadata } from "next"
+
+export const metadata: Metadata = {
+  alternates: { canonical: "/" },
+}
 
 export default function Page() {
   return (

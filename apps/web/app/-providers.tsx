@@ -5,8 +5,9 @@ import { TooltipProvider } from "@packmd/ui/components/tooltip"
 import { Toaster } from "@packmd/ui/components/sonner"
 import ClickSpark from "@packmd/ui/components/click-spark"
 import { useIsMobile } from "@packmd/ui/hooks/use-is-mobile"
-import { EncodeProvider } from "./(routes)/encode/context/encode-context"
+
 import { defaultMarkdown } from "@/lib/constants"
+import { RenderProvider } from "../components/render-context"
 
 export const Providers: React.FC<React.PropsWithChildren> = (props) => {
   const isMobile = useIsMobile()
@@ -21,7 +22,7 @@ export const Providers: React.FC<React.PropsWithChildren> = (props) => {
         sparkCount={8}
         duration={400}
       >
-        <EncodeProvider initialMarkdown={markdown}>
+        <RenderProvider initialMarkdown={markdown}>
           <TooltipProvider delay={0}>
             <Toaster
               richColors
@@ -29,7 +30,7 @@ export const Providers: React.FC<React.PropsWithChildren> = (props) => {
             />
             {props.children}
           </TooltipProvider>
-        </EncodeProvider>
+        </RenderProvider>
       </ClickSpark>
     </ThemeProvider>
   )

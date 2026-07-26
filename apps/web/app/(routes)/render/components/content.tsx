@@ -21,7 +21,6 @@ import {
   Wallpaper,
 } from "reicon-react"
 import { Textarea } from "@packmd/ui/components/textarea"
-import { useEncode } from "../context/encode-context"
 import { CodeBlock } from "@packmd/ui/components/code-block"
 import { cn } from "@packmd/ui/lib/utils"
 import { Separator } from "@packmd/ui/components/separator"
@@ -38,6 +37,7 @@ import {
   DropdownMenuSubTrigger,
   DropdownMenuTrigger,
 } from "@packmd/ui/components/dropdown-menu"
+import { useRender } from "../../../../components/render-context"
 
 // Helpers for useSyncExternalStore
 const emptySubscribe = () => () => {}
@@ -70,7 +70,7 @@ export const Content: React.FC<{ id: string }> = (props) => {
   const router = useRouter()
   const searchParams = useSearchParams()
   const { items, isLoaded, getMarkdown } = useHistory()
-  const { markdown: encodedMarkdown, setMarkdown } = useEncode()
+  const { markdown: encodedMarkdown, setMarkdown } = useRender()
 
   const [activeTab, setActiveTab] = useState<PreviewTab>("markdown")
 

@@ -132,7 +132,7 @@ export default function History() {
                         {/* Content */}
                         <div className="flex min-w-0 flex-1 flex-col gap-0.5">
                           <Link
-                            href={`/encode?id=${item.id}`}
+                            href={`/render?id=${item.id}`}
                             className="truncate text-sm font-medium text-muted-foreground hover:text-primary hover:underline"
                           >
                             {item.url}

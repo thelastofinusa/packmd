@@ -24,7 +24,7 @@ Stores all generated digests locally in your browser’s IndexedDB with a 7‑da
 
 ![History Page](./assets/history.png)
 
-**Encode (`/encode?id=...`)**
+**Encode (`/render?id=...`)**
 
 View, edit, and customise the generated Markdown before copying or downloading. The page offers:
 
@@ -32,7 +32,7 @@ View, edit, and customise the generated Markdown before copying or downloading. 
 - **Section toggles** – show/hide title, source URL, images, and links.
 - **Copy as `.md`** and **Download** buttons.
 
-![Encode Page](./assets/encode.png)
+![Encode Page](./assets/render.png)
 
 ### CLI Tool
 
