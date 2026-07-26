@@ -1,3 +1,5 @@
+![PackMD Opengraph Image](https://packmd.vercel.app/og.png)
+
 ## packmd
 
 **PackMD** is a command‑line tool that converts any GitHub repository, local directory, or web page into a clean, token‑efficient Markdown digest – ready to paste into ChatGPT, Claude, or any LLM.
