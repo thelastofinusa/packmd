@@ -1,7 +1,7 @@
 {
     "name": "packmd",
     "description": "Convert GitHub repositories and webpages into AI-ready Markdown digests",
-    "version": "1.0.2",
+    "version": "1.0.3",
     "license": "MIT",
     "type": "module",
     "bin": {
