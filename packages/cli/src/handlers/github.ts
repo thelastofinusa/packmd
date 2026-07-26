@@ -3,7 +3,7 @@ import type { Ora } from "ora"
 
 export async function handleGitHub(target: string, options: any, spinner: Ora) {
   const result = await fetchGithubRepo(target, {
-    token: options.token || process.env.GITHUB_TOKEN,
+    token: options.token,
     maxFiles: Number(options.maxFiles),
     maxFileSizeKB: Number(options.maxFileSize),
     includeGlobs: options.include || [],
