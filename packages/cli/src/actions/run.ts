@@ -1,6 +1,7 @@
 import color from "picocolors"
 import clipboard from "clipboardy"
 import fs from "node:fs/promises"
+import path from "node:path"
 import inquirer from "inquirer"
 import ora from "ora"
 import { name, version } from "../../package.json"
@@ -9,7 +10,17 @@ import { handleGitHub, handleLocalDir, handleWebpage } from "../handlers"
 import { promptGithubOptions } from "../prompts/github"
 
 export async function runAction(target: string, options: any) {
-  console.log(color.cyan(`${name} — AI Markdown Packager`))
+  const asciiText = `
+██████╗  █████╗  ██████╗██╗  ██╗███╗   ███╗██████╗ 
+██╔══██╗██╔══██╗██╔════╝██║ ██╔╝████╗ ████║██╔══██╗
+██████╔╝███████║██║     █████╔╝ ██╔████╔██║██║  ██║
+██╔═══╝ ██╔══██║██║     ██╔═██╗ ██║╚██╔╝██║██║  ██║
+██║     ██║  ██║╚██████╗██║  ██╗██║ ╚═╝ ██║██████╔╝
+╚═╝     ╚═╝  ╚═╝ ╚═════╝╚═╝  ╚═╝╚═╝     ╚═╝╚═════╝ 
+`
+
+  console.log(color.cyanBright(asciiText))
+  console.log(color.dim(` ${name} v${version} — AI Markdown Packager\n`))
 
   const updateCheck = checkForUpdate(version).catch(() => null)
   let finalOptions = { ...options }
@@ -86,6 +97,48 @@ export async function runAction(target: string, options: any) {
       // Write the file
       await fs.writeFile(finalPath, digest, { encoding: "utf-8", flag: "w" })
       spinner.succeed("Markdown generated successfully!")
+
+      // --- 🔒 .gitignore handling ---
+      const gitignorePath = path.join(process.cwd(), ".gitignore")
+      let gitignoreContent = ""
+
+      try {
+        // Attempt to read .gitignore if it exists
+        gitignoreContent = await fs.readFile(gitignorePath, "utf-8")
+      } catch {
+        // File doesn't exist yet; fs.appendFile will auto-create it later if confirmed
+      }
+
+      const isIgnored = gitignoreContent
+        .split("\n")
+        .map((line) => line.trim())
+        .includes(finalPath)
+
+      if (!isIgnored) {
+        const { addToGitignore } = await inquirer.prompt([
+          {
+            type: "confirm",
+            name: "addToGitignore",
+            message: `Would you like to add ${color.cyan(finalPath)} to your .gitignore?`,
+            default: true,
+          },
+        ])
+
+        if (addToGitignore) {
+          const prefix =
+            gitignoreContent.endsWith("\n") || gitignoreContent === ""
+              ? ""
+              : "\n"
+
+          // Creates .gitignore if missing, or appends to existing
+          await fs.appendFile(gitignorePath, `${prefix}${finalPath}\n`, "utf-8")
+          console.log(
+            color.green("✔ ") +
+              color.cyan(finalPath) +
+              color.white(" is now safely hidden in .gitignore 🔒")
+          )
+        }
+      }
     }
 
     if (finalOptions.copy) {
