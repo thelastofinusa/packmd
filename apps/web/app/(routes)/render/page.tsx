@@ -1,6 +1,5 @@
 import React from "react"
 
-import { redirect } from "next/navigation"
 import { Content } from "./components/content"
 import { Metadata } from "next"
 
@@ -10,7 +9,6 @@ export const metadata: Metadata = {
 
 export default async function Render(props: PageProps<"/render">) {
   const { id } = await props.searchParams
-  if (!id) redirect("/")
 
   return (
     <React.Suspense fallback={null}>

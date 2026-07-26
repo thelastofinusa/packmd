@@ -27,8 +27,8 @@ export function buildInstallCommand(
   const manager = MANAGERS.find((m) => m.id === managerId) ?? MANAGERS[0]
 
   return installationId === "global"
-    ? `${manager.install} ${item} && packmd <github_or_webpage_url>`
-    : `${manager.run} ${item} <github_or_webpage_url>`
+    ? `${manager.install} ${item} && packmd https://github.com/thelastofinusa/packmd`
+    : `${manager.run} ${item} https://github.com/thelastofinusa/packmd`
 }
 
 export function InstallTabs({ item }: { item: string }) {

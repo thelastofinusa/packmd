@@ -1,19 +1,21 @@
 import React from "react"
-import {
-  BoltLightning,
-  Code2Newicons,
-  Earth,
-  GlobePointer,
-  Package,
-} from "reicon-react"
+import { BoltLightning, Earth } from "reicon-react"
 import { Frame } from "@packmd/ui/components/reui/frame"
 import { MaxContainer } from "@/components/max-container"
 import { Separator } from "@packmd/ui/components/separator"
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@packmd/ui/components/accordion"
 import { InstallTabs } from "@packmd/ui/components/install-tabs"
 import { ApiReference, type ApiProp } from "@packmd/ui/components/api-reference"
 import { CodeBlock } from "@packmd/ui/components/code-block"
 
 import { Metadata } from "next"
+import Link from "next/link"
+import { siteConfig } from "@/config/site.config"
 
 export const metadata: Metadata = {
   title: "Documentation",
@@ -85,11 +87,6 @@ const API_REFERENCE: ApiProp[] = [
     description: "Glob patterns to explicitly ignore files or directories",
   },
   {
-    name: "jina-api-key",
-    type: "--jina-api-key",
-    description: "Jina API key for enhanced webpage scraping and parsing",
-  },
-  {
     name: "no-gitignore",
     type: "--no-gitignore",
     description:
@@ -99,8 +96,17 @@ const API_REFERENCE: ApiProp[] = [
 
 export default async function Docs() {
   const basicUsageCode = `# Pack a GitHub repository or remote web page into clean Markdown
-packmd https://github.com/expressjs/express -o express-digest.md -m 300
-packmd https://docs.nestjs.com --copy --jina-api-key your-api-key`
+packmd ${siteConfig.links.github} -o digest-pack.md -m 300
+packmd ${siteConfig.url} --copy`
+
+  const localUsageCode = `# Digest the current directory
+packmd .
+
+# Combine advanced options: cap files, exclude tests, copy to clipboard
+packmd facebook/react --max-files 300 --exclude "*.test.js" --copy
+
+# Skip .gitignore rules when scanning a local directory
+packmd . --no-gitignore`
 
   const sections = [
     {
@@ -130,7 +136,7 @@ packmd https://docs.nestjs.com --copy --jina-api-key your-api-key`
               <div className="h-full space-y-2 rounded-lg border bg-card p-4">
                 <h3 className="flex items-center gap-2 text-base font-medium">
                   <Earth className="size-4" />
-                  <span>Web Pages via Jina</span>
+                  <span>Web Pages</span>
                 </h3>
                 <p className="text-sm leading-normal text-muted-foreground">
                   Converts web pages into clean Markdown by removing unnecessary
@@ -179,48 +185,48 @@ packmd https://docs.nestjs.com --copy --jina-api-key your-api-key`
       ),
     },
     {
-      id: "architecture",
-      title: "How It Works",
+      id: "webapp",
+      title: "Web App Pages",
       content: (
         <>
           <p className="text-sm leading-relaxed font-extralight text-muted-foreground sm:text-base">
-            PackMD is built around a shared core used by both the web app and
-            CLI.
+            A simple three-page interface for generating and managing Markdown
+            digests.
           </p>
+
           <div className="mt-2 grid grid-cols-1 gap-3 md:grid-cols-3">
-            <Frame variant="inverse" className="rounded-xl">
-              <div className="h-full rounded-lg border bg-card p-4">
-                <h3 className="flex items-center gap-2 text-base font-medium">
-                  <Package className="size-3.5" />
-                  <span>@packmd/core</span>
-                </h3>
-                <p className="mt-1 text-sm text-muted-foreground">
-                  Fetches content and converts it into clean Markdown.
-                </p>
-              </div>
-            </Frame>
-            <Frame variant="inverse" className="rounded-xl">
-              <div className="h-full rounded-lg border bg-card p-4">
-                <h3 className="flex items-center gap-2 text-base font-medium">
-                  <GlobePointer className="size-3.5" />
-                  <span>Web App</span>
-                </h3>
-                <p className="mt-1 text-sm text-muted-foreground">
-                  Browser interface for generating and managing Markdown.
-                </p>
-              </div>
-            </Frame>
-            <Frame variant="inverse" className="rounded-xl">
-              <div className="h-full rounded-lg border bg-card p-4">
-                <h3 className="flex items-center gap-2 text-base font-medium">
-                  <Code2Newicons className="size-3.5" />
-                  <span>CLI</span>
-                </h3>
-                <p className="mt-1 text-sm text-muted-foreground">
-                  Command-line tool powered by the same core engine.
-                </p>
-              </div>
-            </Frame>
+            <Link href="/">
+              <Frame variant="inverse" className="rounded-xl">
+                <div className="flex h-full flex-col gap-1 rounded-lg border bg-card p-4">
+                  <h4 className="font-semibold">Home</h4>
+                  <p className="text-sm text-muted-foreground">
+                    Generate Markdown from GitHub repos or webpages.
+                  </p>
+                </div>
+              </Frame>
+            </Link>
+
+            <Link href="/history">
+              <Frame variant="inverse" className="rounded-xl">
+                <div className="flex h-full flex-col gap-1 rounded-lg border bg-card p-4">
+                  <h4 className="font-semibold">History</h4>
+                  <p className="text-sm text-muted-foreground">
+                    Reopen, manage, or delete recent digests.
+                  </p>
+                </div>
+              </Frame>
+            </Link>
+
+            <Link href="/render">
+              <Frame variant="inverse" className="rounded-xl">
+                <div className="flex h-full flex-col gap-1 rounded-lg border bg-card p-4">
+                  <h4 className="font-semibold">Render</h4>
+                  <p className="text-sm text-muted-foreground">
+                    Preview, edit, copy, or download Markdown.
+                  </p>
+                </div>
+              </Frame>
+            </Link>
           </div>
         </>
       ),
@@ -229,56 +235,140 @@ packmd https://docs.nestjs.com --copy --jina-api-key your-api-key`
       id: "pipeline",
       title: "Processing Pipeline",
       content: (
-        <div className="mt-2 grid grid-cols-1 gap-3 md:grid-cols-2">
-          <Frame variant="inverse" className="rounded-xl">
-            <div className="flex h-full flex-col gap-1 rounded-lg border bg-card p-4">
-              <h4 className="font-semibold">URL Parsing</h4>
-              <p className="text-sm text-muted-foreground">
-                Detects GitHub repositories or web pages.
-              </p>
-            </div>
+        <Frame variant="inverse" className="mt-2 rounded-xl">
+          <Accordion
+            multiple={false}
+            defaultValue={["pipeline-1"]}
+            className="overflow-hidden rounded-lg border"
+          >
+            {[
+              {
+                label: "URL Parsing",
+                content: "Detects GitHub repositories or web pages.",
+              },
+              {
+                label: "Fetching",
+                content: "Retrieves repository files or webpage content.",
+              },
+              {
+                label: "Filtering",
+                content:
+                  "Applies ignore rules, glob patterns, and size limits.",
+              },
+              {
+                label: "Downloading",
+                content: "Downloads matching file contents in parallel.",
+              },
+              {
+                label: "Tree Building",
+                content: "Creates a structured directory tree for the output.",
+              },
+              {
+                label: "Markdown Generation",
+                content: "Produces clean, LLM-ready Markdown.",
+              },
+            ].map((pipeline, index) => (
+              <AccordionItem
+                key={pipeline.label}
+                value={`pipeline-${index + 1}`}
+                className="**:data-[slot=accordion-content]:p-0! data-open:bg-muted/50"
+              >
+                <AccordionTrigger className="px-4 py-4 hover:no-underline">
+                  {pipeline.label}
+                </AccordionTrigger>
+                <AccordionContent className="px-4! pt-0 pb-4">
+                  <p className="text-sm text-muted-foreground">
+                    {pipeline.content}
+                  </p>
+                </AccordionContent>
+              </AccordionItem>
+            ))}
+          </Accordion>
+        </Frame>
+      ),
+    },
+    {
+      id: "local",
+      title: "Local Directories & Advanced Usage",
+      content: (
+        <>
+          <p className="text-sm leading-relaxed font-extralight text-muted-foreground sm:text-base">
+            PackMD isn't limited to remote URLs — point it at any local
+            directory, and combine flags to fine-tune exactly what gets
+            included.
+          </p>
+          <Frame variant="inverse" className="mt-2 rounded-xl">
+            <CodeBlock fileName="~terminal" source={localUsageCode} />
           </Frame>
-          <Frame variant="inverse" className="rounded-xl">
-            <div className="flex h-full flex-col gap-1 rounded-lg border bg-card p-4">
-              <h4 className="font-semibold">Fetching</h4>
-              <p className="text-sm text-muted-foreground">
-                Retrieves repo files or webpage content.
-              </p>
-            </div>
-          </Frame>
-          <Frame variant="inverse" className="rounded-xl">
-            <div className="flex h-full flex-col gap-1 rounded-lg border bg-card p-4">
-              <h4 className="font-semibold">Filtering</h4>
-              <p className="text-sm text-muted-foreground">
-                Applies ignore rules, globs, and size limits.
-              </p>
-            </div>
-          </Frame>
-          <Frame variant="inverse" className="rounded-xl">
-            <div className="flex h-full flex-col gap-1 rounded-lg border bg-card p-4">
-              <h4 className="font-semibold">Downloading</h4>
-              <p className="text-sm text-muted-foreground">
-                Downloads file contents in parallel.
-              </p>
-            </div>
-          </Frame>
-          <Frame variant="inverse" className="rounded-xl">
-            <div className="flex h-full flex-col gap-1 rounded-lg border bg-card p-4">
-              <h4 className="font-semibold">Tree Building</h4>
-              <p className="text-sm text-muted-foreground">
-                Builds a structured directory tree.
-              </p>
-            </div>
-          </Frame>
-          <Frame variant="inverse" className="rounded-xl">
-            <div className="flex h-full flex-col gap-1 rounded-lg border bg-card p-4">
-              <h4 className="font-semibold">Markdown Generation</h4>
-              <p className="text-sm text-muted-foreground">
-                Produces clean, LLM‑ready Markdown.
-              </p>
-            </div>
-          </Frame>
-        </div>
+        </>
+      ),
+    },
+    {
+      id: "faq",
+      title: "FAQ & Troubleshooting",
+      content: (
+        <Frame variant="inverse" className="mt-2 rounded-xl">
+          <Accordion
+            multiple={false}
+            defaultValue={["faq-1"]}
+            className="overflow-hidden rounded-lg border"
+          >
+            {[
+              {
+                label: "Why am I getting rate limited?",
+                content: () => (
+                  <p className="text-sm text-muted-foreground">
+                    Unauthenticated GitHub requests are capped at 60/hour. Pass
+                    a Personal Access Token with <code>--token</code> to raise
+                    this to 5,000/hour.
+                  </p>
+                ),
+              },
+              {
+                label: "Can I digest private repos?",
+                content: () => (
+                  <p className="text-sm text-muted-foreground">
+                    Yes — provide a PAT with <code>repo</code> scope via{" "}
+                    <code>--token</code> and PackMD will authenticate on your
+                    behalf.
+                  </p>
+                ),
+              },
+              {
+                label: "Is my history saved anywhere else?",
+                content: () => (
+                  <p className="text-sm text-muted-foreground">
+                    No. Digest history lives only in your browser's IndexedDB
+                    and expires automatically after 7 days.
+                  </p>
+                ),
+              },
+              {
+                label: "A file I expected is missing from the output",
+                content: () => (
+                  <p className="text-sm text-muted-foreground">
+                    Check your <code>.gitignore</code>, <code>--exclude</code>{" "}
+                    globs, and <code>--max-file-size</code> — files over the
+                    size threshold are skipped by default.
+                  </p>
+                ),
+              },
+            ].map((faq, index) => (
+              <AccordionItem
+                key={faq.label}
+                value={`faq-${index + 1}`}
+                className="**:data-[slot=accordion-content]:p-0! data-open:bg-muted/50"
+              >
+                <AccordionTrigger className="px-4 py-4 hover:no-underline">
+                  {faq.label}
+                </AccordionTrigger>
+                <AccordionContent className="px-4! pt-0 pb-4">
+                  {faq.content()}
+                </AccordionContent>
+              </AccordionItem>
+            ))}
+          </Accordion>
+        </Frame>
       ),
     },
   ]

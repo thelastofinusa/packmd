@@ -37,7 +37,11 @@ import {
   DropdownMenuSubTrigger,
   DropdownMenuTrigger,
 } from "@packmd/ui/components/dropdown-menu"
-import { useRender } from "../../../../components/render-context"
+
+import { extractTitle } from "@/lib/utils"
+import { defaultMarkdown } from "@/lib/constants"
+import { siteConfig } from "@/config/site.config"
+import { useRender } from "@/components/render-context"
 
 // Helpers for useSyncExternalStore
 const emptySubscribe = () => () => {}
@@ -51,23 +55,7 @@ const previewTabs = [
 
 type PreviewTab = (typeof previewTabs)[number]["key"]
 
-// Extract the first markdown heading or fall back to the URL
-function extractTitle(md: string, fallback?: string): string {
-  const lines = md.split("\n")
-  for (const line of lines) {
-    const trimmed = line.trim()
-    if (trimmed.startsWith("# ")) {
-      return trimmed.replace(/^#\s+/, "")
-    }
-    if (trimmed.startsWith("## ")) {
-      return trimmed.replace(/^##\s+/, "")
-    }
-  }
-  return fallback || "Untitled"
-}
-
 export const Content: React.FC<{ id: string }> = (props) => {
-  const router = useRouter()
   const searchParams = useSearchParams()
   const { items, isLoaded, getMarkdown } = useHistory()
   const { markdown: renderMarkdown, setMarkdown } = useRender()
@@ -97,14 +85,18 @@ export const Content: React.FC<{ id: string }> = (props) => {
     }))
   }
 
+  // Set markdown from history or fallback to default
   useEffect(() => {
-    if (id) {
-      const savedMarkdown = getMarkdown(id)
-      if (savedMarkdown) {
-        setMarkdown(savedMarkdown)
-      }
+    if (!isMounted) return
+
+    const savedMarkdown = id ? getMarkdown(id) : null
+    if (savedMarkdown) {
+      setMarkdown(savedMarkdown)
+    } else {
+      // No saved markdown – show default
+      setMarkdown(defaultMarkdown())
     }
-  }, [id, getMarkdown, setMarkdown])
+  }, [id, getMarkdown, setMarkdown, isMounted])
 
   // Process the raw markdown to strip images/links if toggled off, and sanitize unsafe/unrecognized tags
   let processedMarkdown = renderMarkdown || ""
@@ -137,41 +129,18 @@ export const Content: React.FC<{ id: string }> = (props) => {
     )
   }
 
-  const pageTitle = extractTitle(renderMarkdown, item?.url)
+  const pageTitle = extractTitle(renderMarkdown, "PackMD")
+  const sourceUrl = item?.url || siteConfig.links.github
 
   const markdown = [
     sections.pageInfo && `**Title:** ${pageTitle}`,
-
-    sections.source && `**Source:** [${item?.url}](${item?.url})`,
-
+    sections.source && `**Source:** [${sourceUrl}](${sourceUrl})`,
     processedMarkdown,
   ]
     .filter(Boolean)
     .join("\n\n")
 
-  // Graceful redirection guard with a short debounce to handle IndexedDB write lag
-  useEffect(() => {
-    if (!isMounted || !isLoaded) return
-
-    if (!id) {
-      router.replace("/docs")
-      return
-    }
-
-    const timer = setTimeout(() => {
-      const currentItem = items.find((i) => i.id === id)
-      const currentMarkdown = getMarkdown(id)
-
-      if (!currentItem && !currentMarkdown && !renderMarkdown) {
-        router.replace("/docs")
-      }
-    }, 150)
-
-    return () => clearTimeout(timer)
-  }, [isMounted, isLoaded, id, items, getMarkdown, renderMarkdown, router])
-
   if (!isMounted || !isLoaded) return null
-  if (id && !item && !renderMarkdown && !getMarkdown(id)) return null
 
   return (
     <div className="flex h-full min-h-0 flex-1 flex-col overflow-x-clip">
