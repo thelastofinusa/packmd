@@ -11,7 +11,6 @@
     "clean": "turbo clean"
   },
   "devDependencies": {
-    "@packmd/core": "^1.0.0",
     "@packmd/eslint-config": "workspace:*",
     "@packmd/tsconfig": "workspace:*",
     "prettier": "^3.8.3",
