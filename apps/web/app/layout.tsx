@@ -3,6 +3,7 @@ import { Providers } from "./-providers"
 import { fontVariable } from "@/fonts"
 import { Metadata } from "next"
 import { siteConfig } from "@/config/site.config"
+import { Analytics } from "@vercel/analytics/next"
 
 export const metadata: Metadata = {
   title: `${siteConfig.name} - ${siteConfig.slogan}`,
@@ -40,6 +41,7 @@ export default function RootLayout(props: LayoutProps<"/">) {
     <html lang="en" suppressHydrationWarning>
       <body className={fontVariable("font-sans antialiased")}>
         <Providers>{props.children}</Providers>
+        <Analytics />
       </body>
     </html>
   )
