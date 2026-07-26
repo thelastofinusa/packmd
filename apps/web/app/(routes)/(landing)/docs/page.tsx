@@ -243,29 +243,34 @@ packmd . --no-gitignore`
           >
             {[
               {
-                label: "URL Parsing",
-                content: "Detects GitHub repositories or web pages.",
-              },
-              {
-                label: "Fetching",
-                content: "Retrieves repository files or webpage content.",
-              },
-              {
-                label: "Filtering",
+                label: "URL Detection & Parsing",
                 content:
-                  "Applies ignore rules, glob patterns, and size limits.",
+                  "Identifies whether the input is a GitHub repository or a standard webpage.",
               },
               {
-                label: "Downloading",
-                content: "Downloads matching file contents in parallel.",
+                label: "Content Discovery & Fetching",
+                content:
+                  "Collects repository files or extracts the main content from webpages.",
               },
               {
-                label: "Tree Building",
-                content: "Creates a structured directory tree for the output.",
+                label: "Filtering & File Selection",
+                content:
+                  "Applies ignore rules, glob patterns, and file size limits before processing.",
               },
               {
-                label: "Markdown Generation",
-                content: "Produces clean, LLM-ready Markdown.",
+                label: "Parallel File Downloads",
+                content:
+                  "Downloads eligible files concurrently for faster processing.",
+              },
+              {
+                label: "Directory Tree Construction",
+                content:
+                  "Builds a structured file tree to preserve the project's organization.",
+              },
+              {
+                label: "LLM-Ready Markdown Generation",
+                content:
+                  "Converts the collected content into clean, well-structured Markdown.",
               },
             ].map((pipeline, index) => (
               <AccordionItem

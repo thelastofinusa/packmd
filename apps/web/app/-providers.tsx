@@ -4,13 +4,13 @@ import { ThemeProvider } from "@/components/theme-provider"
 import { TooltipProvider } from "@packmd/ui/components/tooltip"
 import { Toaster } from "@packmd/ui/components/sonner"
 import ClickSpark from "@packmd/ui/components/click-spark"
-import { useIsMobile } from "@packmd/ui/hooks/use-is-mobile"
+// import { useIsMobile } from "@packmd/ui/hooks/use-is-mobile"
 
 import { defaultMarkdown } from "@/lib/constants"
 import { RenderProvider } from "../components/render-context"
 
 export const Providers: React.FC<React.PropsWithChildren> = (props) => {
-  const isMobile = useIsMobile()
+  // const isMobile = useIsMobile()
   const markdown = defaultMarkdown()
 
   return (
@@ -26,7 +26,8 @@ export const Providers: React.FC<React.PropsWithChildren> = (props) => {
           <TooltipProvider delay={0}>
             <Toaster
               richColors
-              position={isMobile ? "bottom-center" : "top-center"}
+              // position={isMobile ? "bottom-center" : "top-center"}
+              position="top-center"
             />
             {props.children}
           </TooltipProvider>

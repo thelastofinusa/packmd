@@ -101,7 +101,7 @@ export default function History() {
                 ))}
               </ul>
             ) : items.length === 0 ? (
-              <Empty className="pt-6">
+              <Empty>
                 <EmptyHeader>
                   <EmptyMedia>
                     <StackedCardsIllustration />

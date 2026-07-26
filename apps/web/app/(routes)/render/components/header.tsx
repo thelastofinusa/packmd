@@ -6,11 +6,10 @@ import { Button, buttonVariants } from "@packmd/ui/components/button"
 import { MaxContainer } from "@/components/max-container"
 import { Separator } from "@packmd/ui/components/separator"
 import { useIsMobile } from "@packmd/ui/hooks/use-is-mobile"
-import Link from "next/link"
 import { CopyButton } from "@packmd/ui/components/copy-button"
 import { useTiks } from "@rexa-developer/tiks/react"
-import { ToggleTheme } from "@/components/toggle-theme"
 import { useRender } from "../../../../components/render-context"
+import { HeaderRoutes } from "@/components/header-routes"
 
 export const Header = () => {
   const router = useRouter()
@@ -20,7 +19,7 @@ export const Header = () => {
 
   return (
     <header className="sticky top-0 left-0 z-50 w-full border-b backdrop-blur-md">
-      <MaxContainer size="screen" className="py-4">
+      <MaxContainer size="screen" className="py-3 sm:py-4">
         <nav className="flex items-center">
           <div className="flex items-center">
             <Button
@@ -60,23 +59,7 @@ export const Header = () => {
             </div>
           </div>
 
-          <div className="ml-auto flex items-center">
-            <Link href="/docs">
-              <Button size="sm" variant="ghost">
-                <span>Docs</span>
-              </Button>
-            </Link>
-
-            <Link href="/history">
-              <Button size="sm" variant="ghost">
-                <span>History</span>
-              </Button>
-            </Link>
-
-            <Separator orientation="vertical" className="mx-2 my-auto h-3" />
-
-            <ToggleTheme />
-          </div>
+          <HeaderRoutes />
         </nav>
       </MaxContainer>
     </header>
