@@ -1,34 +1,24 @@
-import { Metadata } from "next"
-import { Analytics } from "@vercel/analytics/next"
-
-import "./globals.css"
+import "@packmd/ui/globals.css"
+import { Providers } from "./-providers"
 import { fontVariable } from "@/fonts"
-import { Toaster } from "@/components/ui/sonner"
-import { CONST_SITE_URL } from "@/lib/constants"
+import { Metadata } from "next"
 import { siteConfig } from "@/config/site.config"
-import { TooltipProvider } from "@/components/ui/tooltip"
-import { TailwindIndicator } from "@/components/shared/tailwind-indicator"
 
 export const metadata: Metadata = {
   title: `${siteConfig.name} - ${siteConfig.slogan}`,
   description: siteConfig.description,
-  metadataBase: new URL(CONST_SITE_URL as string),
-  authors: [
-    {
-      name: siteConfig.nickname,
-      url: `https://x.com/${siteConfig.username}`,
-    },
-  ],
+  metadataBase: new URL(siteConfig.url as string),
+  authors: [siteConfig.author],
   openGraph: {
     type: "website",
     locale: "en_US",
-    url: CONST_SITE_URL,
+    url: siteConfig.url,
     title: `${siteConfig.name} - ${siteConfig.slogan}`,
     description: siteConfig.description,
     siteName: siteConfig.name,
     images: [
       {
-        url: `${CONST_SITE_URL}/opengraph.png`,
+        url: `${siteConfig.url}/opengraph.png`,
         width: 1200,
         height: 630,
         alt: siteConfig.name,
@@ -39,22 +29,17 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: `${siteConfig.name} - ${siteConfig.slogan}`,
     description: siteConfig.description,
-    images: [`${CONST_SITE_URL}/opengraph.png`],
-    creator: `@${siteConfig.username}`,
+    images: [`${siteConfig.url}/opengraph.png`],
+    creator: `@${siteConfig.author.username}`,
   },
-  manifest: `${CONST_SITE_URL}/site.webmanifest`,
+  manifest: `${siteConfig.url}/site.webmanifest`,
 }
 
-export default function RootLayout(props: Readonly<LayoutProps<"/">>) {
+export default function RootLayout(props: LayoutProps<"/">) {
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={fontVariable("font-sans antialiased")}>
-        <TooltipProvider delay={0}>
-          {props.children}
-          <Toaster position="top-center" theme="dark" richColors />
-        </TooltipProvider>
-        <TailwindIndicator />
-        <Analytics />
+        <Providers>{props.children}</Providers>
       </body>
     </html>
   )

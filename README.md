@@ -1,138 +1,106 @@
-## git2txt
+## PackMD Monorepo
 
-Convert any GitHub repository into a clean, structured, and LLM-ready text digest.
-
-### Overview
-
-**git2txt** is a web-based tool that fetches a GitHub repository, processes its contents, and transforms it into a single, well-structured text output optimized for use with large language models (LLMs).
-
-It provides:
-
-- A summarized overview of the repository
-- A directory tree structure
-- Full file contents (with syntax highlighting)
-- A downloadable `.txt` digest
-
----
+**PackMD** converts any GitHub repository, local directory, or web page into a clean, token‑efficient Markdown digest – ready to paste into ChatGPT, Claude, or any LLM.
 
 ### Features
 
-**1. Repository Digesting**
+- **One‑click generation** – Paste a URL and get Markdown in seconds.
+- **LLM‑optimised** – Strips noise, honours `.gitignore`, and formats content for token efficiency.
+- **Web App** – Interactive UI with live preview, history, and editing.
+- **CLI** – Run `packmd` from your terminal for scripting and automation.
+- **Shared Core** – Single source of truth for parsing, filtering, and Markdown generation.
 
-- Accepts public or private GitHub repositories
-- Parses repository structure and files
-- Filters files based on size, count, and patterns
+### Web App – Key Pages
 
-**2. LLM-Ready Output**
+**Home (`/`)**
 
-- Produces a clean, prompt-friendly text format
-- Includes:
-  - Summary (metadata, stats)
-  - Directory structure
-  - File contents
+The main entry point. Paste a GitHub repo URL or a webpage link, adjust advanced options (max files, file size, glob patterns, GitHub token), and click **Generate**. The progress is streamed in real‑time.
 
-**3. Interactive UI**
+![Home Page](./assets/home.png)
 
-- Built with Next.js (App Router)
-- Tab-based interface:
-  - **Summary**
-  - **Directory Tree**
-  - **Files Content**
-- Expand/collapse file previews
-- Syntax-highlighted code blocks
+**History (`/history`)**
 
-**4. Streaming API**
+Stores all generated digests locally in your browser’s IndexedDB with a 7‑day TTL. You can reopen any digest, remove individual entries, or clear the entire history.
 
-- Uses Server-Sent Events (SSE) for real-time progress updates
-- Provides feedback during processing
+![History Page](./assets/history.png)
 
-**5. Download & Copy**
+**Encode (`/encode?id=...`)**
 
-- Copy digest directly to clipboard
-- Download as `.txt` file
+View, edit, and customise the generated Markdown before copying or downloading. The page offers:
 
----
+- **Split view** – raw Markdown editor on the left, live preview on the right (collapsible on mobile).
+- **Section toggles** – show/hide title, source URL, images, and links.
+- **Copy as `.md`** and **Download** buttons.
 
-### Architecture
+![Encode Page](./assets/encode.png)
 
-**Frontend**
+### CLI Tool
 
-- Next.js (App Router)
-- Tailwind CSS + shadcn/ui components
-- Custom hooks for state management (`useDigest`)
+Install the CLI globally via npm:
 
-**Backend (API Route)**
+```bash
+npm install -g packmd
+```
 
-- `/api/digest`
-- Streams progress using SSE
-- Fetches repository data via GitHub API
+Or run it directly with npx:
 
-**Core Logic**
+```bash
+npx packmd <target> [options]
+```
 
-Located in `/lib`:
+**Examples:**
 
-- `github.ts` → Fetches repo data
-- `buildTree.ts` → Generates directory structure
-- `formatter.ts` → Formats final digest
-- `highlighter.ts` → Syntax highlighting
-- `parseRepoUrl.ts` → Parses user input
+```bash
+# Generate digest from a GitHub repo
+packmd https://github.com/vercel/next.js -o next.md
 
----
+# Scrape a webpage (uses Jina Reader API)
+packmd https://react.dev --jina-api-key YOUR_KEY
 
-### How It Works
+# Digest the current directory
+packmd .
 
-- User inputs a GitHub repository URL
-- The app parses the repo (owner/repo)
-- API route fetches repository data
-- Files are filtered and processed
-- A structured digest is generated
-- UI displays:
-  - Summary
-  - Tree
-  - Files
-- User can copy or download the result
+# Use advanced options
+packmd facebook/react --max-files 300 --exclude "*.test.js" --copy
+```
 
----
+For all options, see the [CLI documentation](<./apps/web/app/(routes)/(landing)/docs/page.tsx>) or run `packmd --help`.
 
-### Advanced Options
+### Development Setup
 
-Users can configure:
+**Prerequisites**
 
-- Max file size (KB)
-- Max number of files
-- Include patterns (glob)
-- Exclude patterns (glob)
-- GitHub Personal Access Token (for private repos)
+- **Node.js** ≥ 20
+- **Bun** (or npm/pnpm) – the workspace uses Bun by default, but you can use any package manager.
 
----
+**Install dependencies**
 
-### Security
+```bash
+bun install
+# or npm install / pnpm install
+```
 
-- GitHub tokens are sent **only** to GitHub API
-- No persistent storage of sensitive data
-- Runs entirely in the browser (frontend-driven)
+**Run the web app locally**
 
----
+```bash
+bun run dev --filter=web
+# or npm run dev --workspace=web
+```
 
-### Use Cases
+Open `http://localhost:3000`.
 
-- Preparing repositories for LLM analysis
-- Codebase summarization
-- Documentation generation
-- AI-assisted code reviews
+**Run the CLI in development**
 
----
+```bash
+bun run dev --filter=cli
+# or npm run dev --workspace=cli
+```
 
-### Tech Stack
+**Build everything**
 
-- Next.js
-- React
-- Tailwind CSS
-- shadcn/ui
-- TypeScript
-- GitHub REST API
-
----
+```bash
+bun run build
+```
 
 ### License
 

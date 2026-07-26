@@ -1,0 +1,3 @@
+{
+  "extends": "@packmd/tsconfig/base.json"
+}

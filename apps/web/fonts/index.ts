@@ -1,19 +1,17 @@
-import localFont from "next/font/local"
+import { cn } from "@packmd/ui/lib/utils"
+import { Bricolage_Grotesque, Geist_Mono } from "next/font/google"
 
-import { cn } from "@/lib/utils"
-
-const fontSans = localFont({
-  src: "./BricolageGrotesque/BricolageGrotesque-VariableFont_opsz,wdth,wght.ttf",
+const fontSans = Bricolage_Grotesque({
+  subsets: ["latin"],
+  preload: true,
   variable: "--font-sans",
-  preload: true,
 })
-const fontMono = localFont({
-  src: "./GeistMono/GeistMono-VariableFont_wght.ttf",
+
+const fontMono = Geist_Mono({
+  subsets: ["latin"],
+  preload: true,
   variable: "--font-mono",
-  preload: true,
 })
 
-const fontVariable = (className?: string) =>
+export const fontVariable = (className?: string) =>
   cn(fontSans.variable, fontMono.variable, className)
-
-export { fontVariable }

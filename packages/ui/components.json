@@ -1,0 +1,27 @@
+{
+  "$schema": "https://ui.shadcn.com/schema.json",
+  "style": "base-nova",
+  "rsc": true,
+  "tsx": true,
+  "tailwind": {
+    "config": "",
+    "css": "src/styles/globals.css",
+    "baseColor": "neutral",
+    "cssVariables": true
+  },
+  "iconLibrary": "lucide",
+  "rtl": false,
+  "menuColor": "default",
+  "menuAccent": "subtle",
+  "aliases": {
+    "components": "@packmd/ui/components",
+    "utils": "@packmd/ui/lib/utils",
+    "ui": "@packmd/ui/components",
+    "lib": "@packmd/ui/lib",
+    "hooks": "@packmd/ui/hooks"
+  },
+  "registries": {
+    "@reui": "https://reui.io/r/{style}/{name}.json",
+    "@canvas-ui": "https://canvasui.dev/r/{name}.json"
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "extends": "@packmd/tsconfig/react-library.json",
+  "compilerOptions": {
+    "paths": {
+      "@packmd/ui/*": ["./src/*"]
+    },
+    "moduleResolution": "bundler",
+    "module": "preserve"
+  },
+  "include": ["."],
+  "exclude": ["node_modules", "dist"]
+}

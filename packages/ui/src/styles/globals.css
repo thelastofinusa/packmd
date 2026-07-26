@@ -1,0 +1,203 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+
+@custom-variant dark (&:is(.dark *));
+@source "../../../apps/**/*.{ts,tsx}";
+@source "../../../components/**/*.{ts,tsx}";
+@source "../**/*.{ts,tsx}";
+
+:root {
+  --background: oklch(0.9851 0 0);
+  --foreground: oklch(0.1408 0.0044 285.8229);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.1408 0.0044 285.8229);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.1408 0.0044 285.8229);
+  --primary: oklch(0.5651 0.172 273.874);
+  --primary-foreground: oklch(1 0 0);
+  --secondary: oklch(94.912% 0.00011 271.152);
+  --secondary-foreground: oklch(0.2103 0.0059 285.8852);
+  --muted: oklch(0.9674 0.0013 286.3752);
+  --muted-foreground: oklch(0.5517 0.0138 285.9385);
+  --accent: oklch(0.9574 0.0175 279.0597);
+  --accent-foreground: oklch(0.5651 0.172 273.874);
+  --destructive: oklch(0.6368 0.2078 25.3313);
+  --destructive-foreground: oklch(0.9851 0 0);
+  --border: oklch(0.9197 0.004 286.3202);
+  --input: oklch(0.9197 0.004 286.3202);
+  --ring: oklch(0.5651 0.172 273.874);
+
+  --shadow-x: 0px;
+  --shadow-y: 4px;
+  --shadow-blur: 10px;
+  --shadow-spread: 0px;
+  --shadow-opacity: 0.1;
+
+  --shadow-color: #000000;
+  --shadow-2xs: 0px 4px 10px -3px hsl(0 0% 0% / 0.03);
+  --shadow-xs: 0px 4px 10px -3px hsl(0 0% 0% / 0.03);
+  --shadow-sm:
+    0px 4px 10px -3px hsl(0 0% 0% / 0.05), 0px 1px 2px -4px hsl(0 0% 0% / 0.05);
+  --shadow:
+    0px 4px 10px -3px hsl(0 0% 0% / 0.05), 0px 1px 2px -4px hsl(0 0% 0% / 0.05);
+  --shadow-md:
+    0px 4px 10px -3px hsl(0 0% 0% / 0.05), 0px 2px 4px -4px hsl(0 0% 0% / 0.05);
+  --shadow-lg:
+    0px 4px 10px -3px hsl(0 0% 0% / 0.05), 0px 4px 6px -4px hsl(0 0% 0% / 0.05);
+  --shadow-xl:
+    0px 4px 10px -3px hsl(0 0% 0% / 0.05), 0px 8px 10px -4px hsl(0 0% 0% / 0.05);
+  --shadow-2xl: 0px 4px 10px -3px hsl(0 0% 0% / 0.13);
+  --code: oklch(0.985 0 0);
+  --code-foreground: oklch(0.141 0.005 285.823);
+}
+
+.dark {
+  --background: oklch(0.1645 0.0086 274.3354);
+  --foreground: oklch(0.9851 0 0);
+  --card: oklch(0.1919 0.0126 270.684);
+  --card-foreground: oklch(0.9851 0 0);
+  --popover: oklch(0.1645 0.0086 274.3354);
+  --popover-foreground: oklch(0.9851 0 0);
+  --primary: oklch(0.5651 0.172 273.874);
+  --primary-foreground: oklch(1 0 0);
+  --secondary: oklch(0.2393 0.0142 266.9746);
+  --secondary-foreground: oklch(0.9851 0 0);
+  --muted: oklch(0.2393 0.0142 266.9746);
+  --muted-foreground: oklch(0.7118 0.0129 286.0665);
+  --accent: oklch(0.2744 0.0717 275.1525);
+  --accent-foreground: oklch(0.9851 0 0);
+  --destructive: oklch(0.5945 0.1911 25.1414);
+  --destructive-foreground: oklch(1 0 0);
+  --border: oklch(0.2393 0.0142 266.9746);
+  --input: oklch(0.2393 0.0142 266.9746);
+  --ring: oklch(0.5651 0.172 273.874);
+
+  --shadow-x: 0px;
+  --shadow-y: 6px;
+  --shadow-blur: 15px;
+  --shadow-spread: 0px;
+  --shadow-opacity: 0.3;
+
+  --shadow-color: #000000;
+  --shadow-2xs: 0px 6px 12px -4px hsl(0 0% 0% / 0.2);
+  --shadow-xs: 0px 6px 12px -4px hsl(0 0% 0% / 0.2);
+  --shadow-sm:
+    0px 6px 12px -4px hsl(0 0% 0% / 0.4), 0px 1px 2px -5px hsl(0 0% 0% / 0.4);
+  --shadow:
+    0px 6px 12px -4px hsl(0 0% 0% / 0.4), 0px 1px 2px -5px hsl(0 0% 0% / 0.4);
+  --shadow-md:
+    0px 6px 12px -4px hsl(0 0% 0% / 0.4), 0px 2px 4px -5px hsl(0 0% 0% / 0.4);
+  --shadow-lg:
+    0px 6px 12px -4px hsl(0 0% 0% / 0.4), 0px 4px 6px -5px hsl(0 0% 0% / 0.4);
+  --shadow-xl:
+    0px 6px 12px -4px hsl(0 0% 0% / 0.4), 0px 8px 10px -5px hsl(0 0% 0% / 0.4);
+  --shadow-2xl: 0px 6px 12px -4px hsl(0 0% 0% / 1);
+  --code: oklch(0.21 0.006 285.885);
+  --code-foreground: oklch(0.985 0 0);
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  --radius: 1rem;
+
+  --tracking-normal: 0.01em;
+  --spacing: 0.3rem;
+
+  --font-sans: var(--font-sans);
+  --font-mono: var(--font-mono);
+  --font-serif: var(--font-serif);
+
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+
+  --shadow-2xs: var(--shadow-2xs);
+  --shadow-xs: var(--shadow-xs);
+  --shadow-sm: var(--shadow-sm);
+  --shadow: var(--shadow);
+  --shadow-md: var(--shadow-md);
+  --shadow-lg: var(--shadow-lg);
+  --shadow-xl: var(--shadow-xl);
+  --shadow-2xl: var(--shadow-2xl);
+
+  --tracking-tighter: calc(var(--tracking-normal) - 0.05em);
+  --tracking-tight: calc(var(--tracking-normal) - 0.025em);
+  --tracking-normal: var(--tracking-normal);
+  --tracking-wide: calc(var(--tracking-normal) + 0.025em);
+  --tracking-wider: calc(var(--tracking-normal) + 0.05em);
+  --tracking-widest: calc(var(--tracking-normal) + 0.1em);
+
+  --animate-glow: glow 2.5s ease-in-out infinite;
+  --animate-glow-spin: glow-spin 8s linear infinite;
+  --color-code: var(--code);
+  --color-code-foreground: var(--code-foreground);
+}
+
+@keyframes glow-pulse {
+  0%,
+  100% {
+    box-shadow: 0 0 10px oklch(from var(--primary) l c h / var(--glow-opacity));
+  }
+
+  50% {
+    box-shadow: 0 0 25px oklch(from var(--primary) l c h / var(--glow-opacity));
+  }
+}
+
+@keyframes glow-error {
+  0%,
+  100% {
+    box-shadow: 0 0 10px
+      oklch(from var(--destructive) l c h / var(--glow-opacity));
+  }
+
+  50% {
+    box-shadow: 0 0 25px
+      oklch(from var(--destructive) l c h / var(--glow-opacity));
+  }
+}
+
+@utility glow-pulse {
+  --glow-opacity: 0.35;
+  animation: glow-pulse 2.5s ease-in-out infinite;
+}
+
+@utility glow-error {
+  --glow-opacity: 0.35;
+  animation: glow-error 2.5s ease-in-out infinite;
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+    letter-spacing: var(--tracking-normal);
+  }
+  button:not(:disabled),
+  [role="button"]:not(:disabled) {
+    cursor: pointer;
+  }
+}

@@ -1,44 +1,69 @@
 {
-  "name": "@git2txt/core",
-  "version": "0.1.6",
-  "description": "Shared core logic for git2txt - fetch, format, and digest GitHub repos",
-  "license": "MIT",
-  "type": "module",
-  "main": "./dist/index.js",
-  "types": "./dist/index.d.ts",
-  "exports": {
-    ".": {
-      "import": "./dist/index.js",
-      "types": "./dist/index.d.ts"
+    "name": "@packmd/core",
+    "version": "1.0.0",
+    "description": "Core parsing and markdown generation logic for PackMD",
+    "type": "module",
+    "main": "./dist/index.cjs",
+    "module": "./dist/index.js",
+    "types": "./dist/index.d.ts",
+    "exports": {
+        ".": {
+            "types": "./dist/index.d.ts",
+            "import": "./dist/index.js",
+            "require": "./dist/index.cjs"
+        }
     },
-    "./local": {
-      "import": "./dist/local.js",
-      "types": "./dist/local.d.ts"
+    "files": [
+        "dist"
+    ],
+    "scripts": {
+        "build": "tsup",
+        "dev": "tsup --watch",
+        "lint": "eslint src/",
+        "test": "vitest run",
+        "test:watch": "vitest",
+        "clean": "rm -rf dist node_modules .turbo",
+        "prepublishOnly": "bun run build",
+        "pushout": "npm publish --access public",
+        "pushout-inc": "npm version patch --no-git-tag-version && bun run pushout"
+    },
+    "devDependencies": {
+        "@types/jsdom": "^28.0.3",
+        "@types/node": "^26.1.1",
+        "tsup": "^8.5.1",
+        "typescript": "^5",
+        "vitest": "^4.1.10"
+    },
+    "keywords": [
+        "packmd",
+        "markdown",
+        "github",
+        "llm",
+        "codebase",
+        "digest",
+        "parser",
+        "generator",
+        "scraper",
+        "jina",
+        "git"
+    ],
+    "author": "Holiday (https://github.com/thelastofinusa)",
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/thelastofinusa/packmd.git",
+        "directory": "packages/core"
+    },
+    "bugs": {
+        "url": "https://github.com/thelastofinusa/packmd/issues"
+    },
+    "homepage": "https://packmd.vercel.app/docs",
+    "engines": {
+        "node": ">=18.0.0"
+    },
+    "publishConfig": {
+        "access": "public"
+    },
+    "dependencies": {
+        "zod": "^4.4.3"
     }
-  },
-  "files": [
-    "dist",
-    "README.md",
-    "LICENSE"
-  ],
-  "homepage": "https://git2txt.vercel.app",
-  "bugs": {
-    "url": "https://github.com/thelastofinusa/git2txt/issues"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/thelastofinusa/git2txt.git"
-  },
-  "scripts": {
-    "build": "tsup",
-    "dev": "tsup --watch",
-    "prepublishOnly": "pnpm run build",
-    "pushout": "npm publish --access public",
-    "pushout-inc": "npm version patch --no-git-tag-version && npm publish --access public"
-  },
-  "devDependencies": {
-    "@types/node": "^25.6.0",
-    "tsup": "^8.5.1",
-    "typescript": "^5.9.3"
-  }
 }

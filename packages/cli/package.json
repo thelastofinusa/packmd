@@ -1,59 +1,66 @@
 {
-  "name": "@git2txt/cli",
-  "version": "0.1.6",
-  "description": "CLI for git2txt – turn any GitHub repo or local directory into LLM-ready text",
-  "license": "MIT",
-  "type": "module",
-  "bin": {
-    "git2txt": "./dist/index.js"
-  },
-  "files": [
-    "dist",
-    "README.md",
-    "LICENSE"
-  ],
-  "scripts": {
-    "build": "tsup",
-    "dev": "tsx src/index.ts",
-    "start": "node dist/index.js",
-    "prepublishOnly": "pnpm run build",
-    "pushout": "npm publish --access public",
-    "pushout-inc": "npm version patch --no-git-tag-version && npm publish --access public"
-  },
-  "homepage": "https://git2txt.vercel.app",
-  "bugs": {
-    "url": "https://github.com/thelastofinusa/git2txt/issues"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/thelastofinusa/git2txt.git"
-  },
-  "devDependencies": {
-    "@git2txt/core": "^0.1.6",
-    "@types/node": "^25.6.0",
-    "tsup": "^8.5.1",
-    "tsx": "^4.0.0",
-    "typescript": "^5.9.3"
-  },
-  "engines": {
-    "node": ">=18"
-  },
-  "keywords": [
-    "cli",
-    "github",
-    "llm",
-    "digest",
-    "prompt",
-    "chatgpt",
-    "codebase",
-    "local"
-  ],
-  "publishConfig": {
-    "access": "public"
-  },
-  "dependencies": {
-    "chalk": "^5.6.2",
-    "commander": "^14.0.3",
-    "ora": "^9.4.0"
-  }
+    "name": "packmd",
+    "description": "Convert GitHub repositories and webpages into AI-ready Markdown digests",
+    "version": "1.0.0",
+    "license": "MIT",
+    "type": "module",
+    "bin": {
+        "packmd": "./dist/index.js"
+    },
+    "files": [
+        "dist",
+        "README.md",
+        "LICENSE"
+    ],
+    "scripts": {
+        "build": "tsup",
+        "start": "tsx src/index.js",
+        "start:node": "node dist/index.js",
+        "clean": "rm -rf dist node_modules .turbo",
+        "prepublishOnly": "bun run build",
+        "pushout": "npm publish",
+        "pushout-inc": "npm version patch --no-git-tag-version && bun run pushout"
+    },
+    "devDependencies": {
+        "@types/inquirer": "^9.0.10",
+        "@types/node": "^26.1.1",
+        "tsup": "^8.5.1",
+        "tsx": "^4.23.1",
+        "typescript": "^5"
+    },
+    "dependencies": {
+        "chalk": "^5.6.2",
+        "clipboardy": "^5.3.2",
+        "commander": "^15.0.0",
+        "ignore": "^7.0.6",
+        "inquirer": "^14.0.2",
+        "minimatch": "^10.2.5",
+        "ora": "^9.4.1",
+        "@packmd/core": "^1.0.0",
+        "picocolors": "^1.1.1"
+    },
+    "keywords": [
+        "packmd",
+        "markdown",
+        "github",
+        "llm",
+        "codebase",
+        "digest",
+        "cli",
+        "generator",
+        "scraper",
+        "developer-tools",
+        "chatgpt",
+        "claude"
+    ],
+    "author": "Holiday (https://github.com/thelastofinusa)",
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/thelastofinusa/packmd.git",
+        "directory": "packages/cli"
+    },
+    "bugs": {
+        "url": "https://github.com/thelastofinusa/packmd/issues"
+    },
+    "homepage": "https://packmd.vercel.app/docs"
 }

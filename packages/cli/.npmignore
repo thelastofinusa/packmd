@@ -4,3 +4,5 @@ tsup.config.ts
 .gitignore
 !dist/
 !dist/**
+node_modules
+.turbo
