@@ -255,7 +255,7 @@ export async function fetchGithubRepo(
   const headers = buildHeaders(token)
   const onProgress = options.onProgress || (() => {})
 
-  onProgress(`Fetching metadata for ${owner}/${repo}...`)
+  onProgress(`Fetching metadata for ${owner}/${repo}..`)
   const repoRes = await fetch(`${GITHUB_API}/${owner}/${repo}`, { headers })
   if (!repoRes.ok) {
     if (repoRes.status === 404) {
@@ -277,7 +277,7 @@ export async function fetchGithubRepo(
   let subpath = ""
 
   if (segments.length > 0) {
-    onProgress("Resolving branch, tag, or path...")
+    onProgress("Resolving branch, tag, or path..")
     const resolved = await resolveRef(owner, repo, segments, headers)
     ref = resolved.ref || defaultBranch
     subpath = resolved.subpath
@@ -289,7 +289,7 @@ export async function fetchGithubRepo(
     subpath = segments.slice(1).join("/")
   }
 
-  onProgress(`Fetching git tree for ref (${ref})...`)
+  onProgress(`Fetching git tree for ref (${ref})..`)
   const treeRes = await fetch(
     `${GITHUB_API}/${owner}/${repo}/git/trees/${encodeURIComponent(ref)}?recursive=1`,
     { headers }
@@ -392,7 +392,7 @@ export async function fetchGithubRepo(
   for (let i = 0; i < limited.length; i += batchSize) {
     const batch = limited.slice(i, i + batchSize)
     onProgress(
-      `Downloading files (${Math.min(i + batchSize, limited.length)}/${limited.length})...`
+      `Downloading files (${Math.min(i + batchSize, limited.length)}/${limited.length})..`
     )
 
     const results = await Promise.all(

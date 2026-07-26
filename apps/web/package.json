@@ -14,7 +14,7 @@
   },
   "dependencies": {
     "@hookform/resolvers": "^5.4.0",
-    "@packmd/core": "^1.0.0",
+    "@packmd/core": "^1.0.1",
     "@packmd/ui": "workspace:*",
     "@rexa-developer/tiks": "^0.3.0",
     "@vercel/analytics": "^2.0.1",

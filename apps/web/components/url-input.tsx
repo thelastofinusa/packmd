@@ -569,19 +569,15 @@ export const URLInput = () => {
         <div className="mt-3 flex items-center gap-1 md:mt-4">
           {[
             {
-              label: "Wikipedia",
-              url: "https://en.wikipedia.org/wiki/Next.js",
+              label: "Medium Article",
+              url: "https://thelastofinusa.medium.com/your-ai-is-only-as-good-as-the-context-you-give-it-0a60d8dc898d",
             },
             {
-              label: "PackMD",
+              label: "PackMD Repo",
               url: "https://github.com/thelastofinusa/packmd",
             },
-            {
-              label: "React Docs",
-              url: "https://react.dev/reference/react",
-            },
           ].map(({ label, url }) => {
-            const Icon = resolveIcon(label)
+            const Icon = resolveIcon(url)
 
             return (
               <Button

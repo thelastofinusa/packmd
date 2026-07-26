@@ -4,6 +4,7 @@ import {
   FaGithub,
   FaInstagram,
   FaLinkedin,
+  FaMedium,
   FaXTwitter,
 } from "react-icons/fa6"
 import { BsWikipedia } from "react-icons/bs"
@@ -17,6 +18,10 @@ type IconMatcher = {
 }
 
 const DEFAULT_ICONS: IconMatcher[] = [
+  {
+    keywords: ["medium", "medium.com"],
+    icon: FaMedium,
+  },
   {
     keywords: ["github", "github.com", "gist.github.com"],
     icon: FaGithub,
