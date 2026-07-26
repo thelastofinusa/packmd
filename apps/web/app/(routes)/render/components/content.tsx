@@ -70,7 +70,7 @@ export const Content: React.FC<{ id: string }> = (props) => {
   const router = useRouter()
   const searchParams = useSearchParams()
   const { items, isLoaded, getMarkdown } = useHistory()
-  const { markdown: encodedMarkdown, setMarkdown } = useRender()
+  const { markdown: renderMarkdown, setMarkdown } = useRender()
 
   const [activeTab, setActiveTab] = useState<PreviewTab>("markdown")
 
@@ -107,7 +107,7 @@ export const Content: React.FC<{ id: string }> = (props) => {
   }, [id, getMarkdown, setMarkdown])
 
   // Process the raw markdown to strip images/links if toggled off, and sanitize unsafe/unrecognized tags
-  let processedMarkdown = encodedMarkdown || ""
+  let processedMarkdown = renderMarkdown || ""
 
   // Strip script tags and unrecognized lowercase React element names causing browser warnings
   processedMarkdown = processedMarkdown
@@ -137,7 +137,7 @@ export const Content: React.FC<{ id: string }> = (props) => {
     )
   }
 
-  const pageTitle = extractTitle(encodedMarkdown, item?.url)
+  const pageTitle = extractTitle(renderMarkdown, item?.url)
 
   const markdown = [
     sections.pageInfo && `**Title:** ${pageTitle}`,
@@ -162,16 +162,16 @@ export const Content: React.FC<{ id: string }> = (props) => {
       const currentItem = items.find((i) => i.id === id)
       const currentMarkdown = getMarkdown(id)
 
-      if (!currentItem && !currentMarkdown && !encodedMarkdown) {
+      if (!currentItem && !currentMarkdown && !renderMarkdown) {
         router.replace("/docs")
       }
     }, 150)
 
     return () => clearTimeout(timer)
-  }, [isMounted, isLoaded, id, items, getMarkdown, encodedMarkdown, router])
+  }, [isMounted, isLoaded, id, items, getMarkdown, renderMarkdown, router])
 
   if (!isMounted || !isLoaded) return null
-  if (id && !item && !encodedMarkdown && !getMarkdown(id)) return null
+  if (id && !item && !renderMarkdown && !getMarkdown(id)) return null
 
   return (
     <div className="flex h-full min-h-0 flex-1 flex-col overflow-x-clip">
@@ -215,7 +215,7 @@ export const Content: React.FC<{ id: string }> = (props) => {
                       navigator.clipboard
                         .readText()
                         .then((text) =>
-                          setMarkdown(text + "\n\n" + (encodedMarkdown || ""))
+                          setMarkdown(text + "\n\n" + (renderMarkdown || ""))
                         )
                         .catch(() => {})
                     }}
@@ -299,7 +299,7 @@ export const Content: React.FC<{ id: string }> = (props) => {
                 </div>
               </div>
               <Textarea
-                value={encodedMarkdown || ""}
+                value={renderMarkdown || ""}
                 spellCheck={false}
                 onChange={(e) => setMarkdown(e.target.value)}
                 className="text-mono h-full resize-none overflow-y-auto rounded-none border-none bg-background! p-4 font-mono text-xs leading-tight shadow-none ring-0! outline-0 placeholder:opacity-50 focus-visible:ring-0 md:p-6"

@@ -7,21 +7,9 @@ export const SOCIALS = [
   },
   {
     platform: "GitHub",
-    name: "Holiday",
+    name: "PackMD",
     username: "@thelastofinusa",
-    url: "https://github.com/thelastofinusa",
-  },
-  {
-    platform: "Instagram",
-    name: "Abdullahi",
-    username: "@thelastofinusa",
-    url: "https://instagram.com/thelastofinusa",
-  },
-  {
-    platform: "Linkedin",
-    name: "Abdullahi Salihu",
-    username: "@thelastofinusa",
-    url: "https://linkedin.com/in/thelastofinusa",
+    url: "https://github.com/thelastofinusa/packmd",
   },
 ]
 

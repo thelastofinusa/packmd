@@ -16,15 +16,15 @@
 
 The main entry point. Paste a GitHub repo URL or a webpage link, adjust advanced options (max files, file size, glob patterns, GitHub token), and click **Generate**. The progress is streamed in real‑time.
 
-![Home Page](./assets/home.png)
+![Home Page](https://packmd.vercel.app/assets/home.png)
 
 **History (`/history`)**
 
 Stores all generated digests locally in your browser’s IndexedDB with a 7‑day TTL. You can reopen any digest, remove individual entries, or clear the entire history.
 
-![History Page](./assets/history.png)
+![History Page](https://packmd.vercel.app/assets/history.png)
 
-**Encode (`/render?id=...`)**
+**Render (`/render?id=...`)**
 
 View, edit, and customise the generated Markdown before copying or downloading. The page offers:
 
@@ -32,7 +32,7 @@ View, edit, and customise the generated Markdown before copying or downloading. 
 - **Section toggles** – show/hide title, source URL, images, and links.
 - **Copy as `.md`** and **Download** buttons.
 
-![Encode Page](./assets/render.png)
+![Render Page](https://packmd.vercel.app/assets/render.png)
 
 ### CLI Tool
 

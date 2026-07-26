@@ -26,7 +26,7 @@ export const metadata: Metadata = {
   },
 }
 
-export default function EncodeLayout(props: LayoutProps<"/render">) {
+export default function RenderLayout(props: LayoutProps<"/render">) {
   return (
     <div className="flex h-dvh flex-1 flex-col">
       <Header />

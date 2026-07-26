@@ -15,7 +15,7 @@
 *   **Web App Interface:**
     *   **Home:** Input URL, advanced options (max files, size, glob patterns), and real-time progress streaming.
     *   **History:** All digests are saved locally in your browser's IndexedDB for 7 days. Reopen or delete entries as needed.
-    *   **Encode:** Edit and preview generated Markdown with a split view, section toggles (title, source, images, links), copy, and download.
+    *   **Render:** Edit and preview generated Markdown with a split view, section toggles (title, source, images, links), copy, and download.
 *   **Command-Line Interface (CLI):** For scripting and automation, run `packmd` from your terminal.
 *   **Shared Core:** A single, robust engine (`@packmd/core`) powers both the web app and the CLI for consistent and reliable parsing.
 
@@ -27,7 +27,7 @@
 2.  Paste a GitHub repository URL (e.g., `https://github.com/vercel/next.js`) or any webpage URL.
 3.  (Optional) Configure advanced options like max files, file size limits, or glob patterns.
 4.  Click **Generate** to begin the process.
-5.  Preview, edit, and copy/download the generated Markdown from the Encode page.
+5.  Preview, edit, and copy/download the generated Markdown from the Render page.
 6.  Find all your past digests in the History page.
 
 ---
