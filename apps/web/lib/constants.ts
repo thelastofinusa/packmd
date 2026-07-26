@@ -14,7 +14,9 @@ export const SOCIALS = [
 ]
 
 export const defaultMarkdown = () => {
-  return `## PackMD Monorepo
+  return `![PackMD Opengraph Image](https://packmd.vercel.app/og.png)
+
+## PackMD Monorepo
 
 **PackMD** converts any GitHub repository, local directory, or web page into a clean, token‑efficient Markdown digest – ready to paste into ChatGPT, Claude, or any LLM.
 
