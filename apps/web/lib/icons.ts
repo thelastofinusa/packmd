@@ -8,7 +8,6 @@ import {
 import { BsWikipedia } from "react-icons/bs"
 import { TbBrandNextjs } from "react-icons/tb"
 import {
-  RiGithubLine,
   RiLink,
   RiMediumLine,
   RiNpmjsLine,
@@ -16,6 +15,7 @@ import {
   RiVercelFill,
 } from "react-icons/ri"
 import { Drop } from "reicon-react"
+import { VscGithubAlt } from "react-icons/vsc"
 
 type IconMatcher = {
   keywords: string[]
@@ -33,7 +33,7 @@ const DEFAULT_ICONS: IconMatcher[] = [
   },
   {
     keywords: ["github", "github.com", "gist.github.com"],
-    icon: RiGithubLine,
+    icon: VscGithubAlt,
   },
   {
     keywords: ["react"],

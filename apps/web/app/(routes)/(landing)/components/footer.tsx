@@ -30,7 +30,7 @@ export const Footer = () => {
             Built with curiosity and too much coffee.
           </p>
 
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-3">
             {SOCIALS.map((social) => {
               const Icon = resolveIcon(social.url)
               const isGithub = social.platform.toLowerCase().includes("github")
@@ -49,7 +49,7 @@ export const Footer = () => {
                   >
                     <Tooltip>
                       <TooltipTrigger>
-                        <Icon className="size-4 text-muted-foreground hover:text-foreground sm:size-3.5" />
+                        <Icon className="size-4 text-foreground hover:text-primary" />
                       </TooltipTrigger>
                       <TooltipContent side="top" sideOffset={10}>
                         <p className="text-center font-normal">
