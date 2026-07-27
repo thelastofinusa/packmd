@@ -14,7 +14,6 @@ import { ApiReference, type ApiProp } from "@packmd/ui/components/api-reference"
 import { CodeBlock } from "@packmd/ui/components/code-block"
 
 import { Metadata } from "next"
-import Link from "next/link"
 import { siteConfig } from "@/config/site.config"
 
 export const metadata: Metadata = {
@@ -150,7 +149,7 @@ packmd . --no-gitignore`
     },
     {
       id: "cli",
-      title: "CLI & Web Usage",
+      title: "CLI Usage",
       content: (
         <>
           <p className="text-sm leading-relaxed font-extralight text-muted-foreground sm:text-base">
@@ -180,53 +179,6 @@ packmd . --no-gitignore`
                 <ApiReference props={API_REFERENCE} />
               </Frame>
             </div>
-          </div>
-        </>
-      ),
-    },
-    {
-      id: "webapp",
-      title: "Web App Pages",
-      content: (
-        <>
-          <p className="text-sm leading-relaxed font-extralight text-muted-foreground sm:text-base">
-            A simple three-page interface for generating and managing Markdown
-            digests.
-          </p>
-
-          <div className="mt-2 grid grid-cols-1 gap-3 md:grid-cols-3">
-            <Link href="/">
-              <Frame variant="inverse" className="rounded-xl">
-                <div className="flex h-full flex-col gap-1 rounded-lg border bg-card p-4">
-                  <h4 className="font-semibold">Home</h4>
-                  <p className="text-sm text-muted-foreground">
-                    Generate Markdown from GitHub repos or webpages.
-                  </p>
-                </div>
-              </Frame>
-            </Link>
-
-            <Link href="/history">
-              <Frame variant="inverse" className="rounded-xl">
-                <div className="flex h-full flex-col gap-1 rounded-lg border bg-card p-4">
-                  <h4 className="font-semibold">History</h4>
-                  <p className="text-sm text-muted-foreground">
-                    Reopen, manage, or delete recent digests.
-                  </p>
-                </div>
-              </Frame>
-            </Link>
-
-            <Link href="/render">
-              <Frame variant="inverse" className="rounded-xl">
-                <div className="flex h-full flex-col gap-1 rounded-lg border bg-card p-4">
-                  <h4 className="font-semibold">Render</h4>
-                  <p className="text-sm text-muted-foreground">
-                    Preview, edit, copy, or download Markdown.
-                  </p>
-                </div>
-              </Frame>
-            </Link>
           </div>
         </>
       ),

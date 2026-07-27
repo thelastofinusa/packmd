@@ -5,7 +5,7 @@ import { ChoiceSelect } from "./choice-select"
 import { CopyButton } from "./copy-button"
 
 const MANAGERS = [
-  { id: "bun", label: "bun", install: "bun add -g", run: "bunx" },
+  { id: "bun", label: "bun", install: "bun add -g", run: "bunx --bun" },
   { id: "npm", label: "npm", install: "npm install -g", run: "npx" },
   { id: "pnpm", label: "pnpm", install: "pnpm install -g", run: "pnpm dlx" },
   { id: "yarn", label: "yarn", install: "yarn add -g", run: "yarn dlx" },
@@ -27,8 +27,8 @@ export function buildInstallCommand(
   const manager = MANAGERS.find((m) => m.id === managerId) ?? MANAGERS[0]
 
   return installationId === "global"
-    ? `${manager.install} ${item} && packmd https://github.com/thelastofinusa/packmd`
-    : `${manager.run} ${item} https://github.com/thelastofinusa/packmd`
+    ? `${manager.install} ${item}`
+    : `${manager.run} ${item} <github_or_webpage_url>`
 }
 
 export function InstallTabs({ item }: { item: string }) {
