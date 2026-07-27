@@ -158,7 +158,7 @@ packmd . --no-gitignore`
           </p>
           <div className="mt-2 flex flex-col gap-6">
             <div className="flex flex-col gap-2">
-              <span className="text-sm font-medium text-foreground">
+              <span className="text-sm font-medium text-foreground sm:text-base">
                 Installation
               </span>
               <Frame variant="inverse" className="rounded-xl">
@@ -166,13 +166,28 @@ packmd . --no-gitignore`
               </Frame>
             </div>
             <div className="flex flex-col gap-2">
-              <span className="text-sm font-medium text-foreground">Usage</span>
+              <span className="text-sm font-medium text-foreground sm:text-base">
+                Usage
+              </span>
               <Frame variant="inverse" className="rounded-xl">
                 <CodeBlock fileName="~terminal" source={basicUsageCode} />
               </Frame>
             </div>
             <div className="flex flex-col gap-2">
-              <span className="text-sm font-medium text-foreground">
+              <span className="text-sm font-medium text-foreground sm:text-base">
+                Local Directories & Advanced Usage
+              </span>
+              <p className="text-xs leading-relaxed font-extralight text-muted-foreground sm:text-sm">
+                PackMD isn't limited to remote URLs — point it at any local
+                directory, and combine flags to fine-tune exactly what gets
+                included.
+              </p>
+              <Frame variant="inverse" className="rounded-xl">
+                <CodeBlock fileName="~terminal" source={localUsageCode} />
+              </Frame>
+            </div>
+            <div className="flex flex-col gap-2">
+              <span className="text-sm font-medium text-foreground sm:text-base">
                 CLI Options &amp; Flags
               </span>
               <Frame variant="inverse" className="rounded-xl">
@@ -242,22 +257,6 @@ packmd . --no-gitignore`
             ))}
           </Accordion>
         </Frame>
-      ),
-    },
-    {
-      id: "local",
-      title: "Local Directories & Advanced Usage",
-      content: (
-        <>
-          <p className="text-sm leading-relaxed font-extralight text-muted-foreground sm:text-base">
-            PackMD isn't limited to remote URLs — point it at any local
-            directory, and combine flags to fine-tune exactly what gets
-            included.
-          </p>
-          <Frame variant="inverse" className="mt-2 rounded-xl">
-            <CodeBlock fileName="~terminal" source={localUsageCode} />
-          </Frame>
-        </>
       ),
     },
     {
