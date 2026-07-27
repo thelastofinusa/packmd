@@ -9,6 +9,8 @@ import { SOCIALS } from "@/lib/constants"
 import { resolveIcon } from "@/lib/icons"
 import { MaxContainer } from "@/components/max-container"
 import { Separator } from "@packmd/ui/components/separator"
+import { LeaveAStar } from "@/components/leave-a-star"
+import { cn } from "@packmd/ui/lib/utils"
 
 export const Footer = () => {
   const [version, setVersion] = React.useState("0.0.0")
@@ -31,27 +33,35 @@ export const Footer = () => {
           <div className="flex items-center gap-2">
             {SOCIALS.map((social) => {
               const Icon = resolveIcon(social.url)
+              const isGithub = social.platform.toLowerCase().includes("github")
 
               return (
-                <a
+                <div
                   key={social.url}
-                  href={social.url}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="flex items-center justify-center"
+                  className={cn("relative inline-flex", isGithub && "group")}
                 >
-                  <Tooltip>
-                    <TooltipTrigger>
-                      <Icon className="size-4 text-muted-foreground hover:text-foreground sm:size-3.5" />
-                    </TooltipTrigger>
-                    <TooltipContent side="top" sideOffset={10}>
-                      <p className="text-center font-normal">
-                        {social.platform} - {social.name} <br />{" "}
-                        {social.username}
-                      </p>
-                    </TooltipContent>
-                  </Tooltip>
-                </a>
+                  <a
+                    key={social.url}
+                    href={social.url}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="relative flex items-center justify-center"
+                  >
+                    <Tooltip>
+                      <TooltipTrigger>
+                        <Icon className="size-4 text-muted-foreground hover:text-foreground sm:size-3.5" />
+                      </TooltipTrigger>
+                      <TooltipContent side="top" sideOffset={10}>
+                        <p className="text-center font-normal">
+                          {social.platform} - {social.name} <br />{" "}
+                          {social.username}
+                        </p>
+                      </TooltipContent>
+                    </Tooltip>
+                  </a>
+
+                  {isGithub && <LeaveAStar />}
+                </div>
               )
             })}
 
