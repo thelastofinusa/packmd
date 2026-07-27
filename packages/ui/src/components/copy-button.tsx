@@ -24,7 +24,7 @@ export function CopyButton({
       onClick={() => copy(text)}
       data-ignore-click
       className={cn(
-        "inline-flex h-8 items-center gap-1.5 rounded-full px-2.5 text-xs text-muted-foreground transition-[color,transform] duration-150 ease-out hover:text-foreground active:translate-y-px motion-reduce:transition-none",
+        "inline-flex h-8 items-center gap-1.5 rounded-full px-2.5 text-xs transition-[color,transform] duration-150 ease-out active:translate-y-px motion-reduce:transition-none",
         className
       )}
     >

@@ -132,7 +132,7 @@ export default function History() {
                         {/* Content */}
                         <div className="flex min-w-0 flex-1 flex-col gap-0.5">
                           <Link
-                            href={`/render?id=${item.id}`}
+                            href={`/render/${item.id}`}
                             className="truncate text-sm font-medium text-muted-foreground hover:text-primary hover:underline"
                           >
                             {item.url}
@@ -145,7 +145,8 @@ export default function History() {
                               <span className="relative inline-flex size-1.5 rounded-full bg-green-500"></span>
                             </span>
                             <span className="truncate font-medium tracking-tight">
-                              {left.days}d {left.hours}h {left.minutes}m
+                              {left.days}d {left.hours}h {left.minutes}m{" "}
+                              {left.seconds}s
                             </span>
                             <span className="ml-0.5 opacity-75">left</span>
                           </div>

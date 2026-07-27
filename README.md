@@ -26,7 +26,7 @@ Stores all generated digests locally in your browser’s IndexedDB with a 7‑da
 
 ![History Page](https://packmd.vercel.app/assets/history.png)
 
-**Render (`/render?id=...`)**
+**Render (`/render/=...`)**
 
 View, edit, and customise the generated Markdown before copying or downloading. The page offers:
 

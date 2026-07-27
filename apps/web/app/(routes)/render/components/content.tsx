@@ -3,7 +3,13 @@
 import ReactMarkdown from "react-markdown"
 import remarkGfm from "remark-gfm"
 import rehypeRaw from "rehype-raw"
-import React, { useEffect, useState, useSyncExternalStore } from "react"
+import React, {
+  useEffect,
+  useMemo,
+  useState,
+  useSyncExternalStore,
+  useDeferredValue,
+} from "react"
 import { useSearchParams } from "next/navigation"
 import { useHistory } from "@/hooks/use-history"
 import { MaxContainer } from "@/components/max-container"
@@ -37,6 +43,7 @@ import { defaultMarkdown } from "@/lib/constants"
 import { siteConfig } from "@/config/site.config"
 import { useRender } from "@/components/render-context"
 import { Skeleton } from "@packmd/ui/components/skeleton"
+import { Button } from "@packmd/ui/components/button"
 
 // Helpers for useSyncExternalStore
 const emptySubscribe = () => () => {}
@@ -55,14 +62,16 @@ const sectionItems = [
     key: "pageInfo",
     label: "Page Title",
     icon: FileText,
-    markdown: (ctx: { pageTitle: string }) => `**Title:** ${ctx.pageTitle}`,
   },
   {
     key: "source",
     label: "Source URL",
     icon: Paperclip,
-    markdown: (ctx: { sourceUrl: string }) =>
-      `**Source:** [${ctx.sourceUrl}](${ctx.sourceUrl})`,
+  },
+  {
+    key: "structure",
+    label: "Repo Structure",
+    icon: Code4,
   },
   {
     key: "images",
@@ -78,16 +87,21 @@ const sectionItems = [
 
 type SectionKey = (typeof sectionItems)[number]["key"]
 
-export const Content: React.FC<{ id: string }> = (props) => {
+const MAX_PREVIEW_LENGTH = 50_000
+
+export const Content: React.FC<{ id?: string }> = (props) => {
   const searchParams = useSearchParams()
-  const { items, isLoaded, getMarkdown } = useHistory()
+  const { items, isLoaded, getMarkdown, update: updateHistory } = useHistory()
   const { markdown: renderMarkdown, setMarkdown } = useRender()
 
-  const [activeTab, setActiveTab] = useState<PreviewTab>("markdown")
+  const deferredMarkdown = useDeferredValue(renderMarkdown || "")
 
+  const [visibleLength, setVisibleLength] = useState(MAX_PREVIEW_LENGTH)
+  const [activeTab, setActiveTab] = useState<PreviewTab>("markdown")
   const [sections, setSections] = useState<Record<SectionKey, boolean>>({
     pageInfo: true,
     source: true,
+    structure: false, // Hidden by default
     images: true,
     links: true,
   })
@@ -108,7 +122,10 @@ export const Content: React.FC<{ id: string }> = (props) => {
   const id = props.id || searchParams.get("id")
   const item = items.find((item) => item.id === id)
 
-  // Set markdown from history or fallback to default
+  useEffect(() => {
+    setVisibleLength(MAX_PREVIEW_LENGTH)
+  }, [id])
+
   useEffect(() => {
     if (!isMounted) return
 
@@ -116,52 +133,72 @@ export const Content: React.FC<{ id: string }> = (props) => {
     if (savedMarkdown) {
       setMarkdown(savedMarkdown)
     } else {
-      // No saved markdown – show default
       setMarkdown(defaultMarkdown())
     }
   }, [id, getMarkdown, setMarkdown, isMounted])
 
-  // Process the raw markdown to strip images/links if toggled off, and sanitize unsafe/unrecognized tags
-  let processedMarkdown = renderMarkdown || ""
+  useEffect(() => {
+    if (!id) return
+    const timer = setTimeout(() => {
+      updateHistory(id, renderMarkdown)
+    }, 1000)
+    return () => clearTimeout(timer)
+  }, [renderMarkdown, id, updateHistory])
 
-  // Strip script tags and unrecognized lowercase React element names causing browser warnings
-  processedMarkdown = processedMarkdown
-    .replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, "")
-    .replace(
-      /<\/?(fragment|profiler|strictmode|suspense|activity|viewtransition)\b[^>]*>/gi,
-      ""
+  // Process the deferred markdown and strip toggled sections
+  const fullProcessedMarkdown = useMemo(() => {
+    let processed = deferredMarkdown
+
+    // 1. Strip unwanted HTML/React tags
+    processed = processed
+      .replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, "")
+      .replace(
+        /<\/?(fragment|profiler|strictmode|suspense|activity|viewtransition)\b[^>]*>/gi,
+        ""
+      )
+
+    // 2. Strip images if toggled off
+    if (!sections.images) {
+      processed = processed.replace(/!\[.*?\]\([^)]+\)/g, "")
+      processed = processed.replace(/<img[^>]*>/gi, "")
+    }
+
+    // 3. Strip links if toggled off
+    if (!sections.links) {
+      processed = processed.replace(/\[([^\]]+)\]\([^)]+\)/g, "$1")
+      processed = processed.replace(/<a\b[^>]*>(.*?)<\/a>/gi, "$1")
+    }
+
+    // 4. Strip Repository Structure if toggled off
+    if (!sections.structure) {
+      processed = processed.replace(
+        /### Repository Structure\s*```text[\s\S]*?```\s*/gi,
+        ""
+      )
+    }
+
+    const pageTitle = extractTitle(deferredMarkdown, "PackMD")
+    const sourceUrl = item?.url || siteConfig.links.github
+
+    return [
+      sections.pageInfo && `**Title:** ${pageTitle}`,
+      sections.source && `**Source:** [${sourceUrl}](${sourceUrl})`,
+      processed,
+    ]
+      .filter(Boolean)
+      .join("\n\n")
+  }, [deferredMarkdown, sections, item?.url])
+
+  const hasMore = fullProcessedMarkdown.length > visibleLength
+  const isPending = renderMarkdown !== deferredMarkdown
+
+  const displayedMarkdown = useMemo(() => {
+    if (!hasMore) return fullProcessedMarkdown
+    return (
+      fullProcessedMarkdown.slice(0, visibleLength) +
+      "\n\n...\n\n*(Preview truncated for performance)*"
     )
-
-  if (!sections.images) {
-    // Strip markdown images: ![alt](url) -> ""
-    processedMarkdown = processedMarkdown.replace(/!\[.*?\]\([^)]+\)/g, "")
-    // Strip HTML images: <img ... /> -> ""
-    processedMarkdown = processedMarkdown.replace(/<img[^>]*>/gi, "")
-  }
-
-  if (!sections.links) {
-    // Strip markdown links while preserving anchor text: [text](url) -> "text"
-    processedMarkdown = processedMarkdown.replace(
-      /\[([^\]]+)\]\([^)]+\)/g,
-      "$1"
-    )
-    // Strip HTML links while preserving text: <a href="...">text</a> -> "text"
-    processedMarkdown = processedMarkdown.replace(
-      /<a\b[^>]*>(.*?)<\/a>/gi,
-      "$1"
-    )
-  }
-
-  const pageTitle = extractTitle(renderMarkdown, "PackMD")
-  const sourceUrl = item?.url || siteConfig.links.github
-
-  const markdown = [
-    sections.pageInfo && `**Title:** ${pageTitle}`,
-    sections.source && `**Source:** [${sourceUrl}](${sourceUrl})`,
-    processedMarkdown,
-  ]
-    .filter(Boolean)
-    .join("\n\n")
+  }, [fullProcessedMarkdown, visibleLength, hasMore])
 
   const hideComponent = !isMounted || !isLoaded
 
@@ -350,11 +387,21 @@ export const Content: React.FC<{ id: string }> = (props) => {
               >
                 <div className="flex h-full flex-col overflow-hidden border shadow-sm transition-colors sm:rounded-lg">
                   <div className="flex items-center justify-between border-b bg-card px-3 py-2 text-xs font-medium">
-                    <div className="flex items-center gap-2">Preview</div>
+                    <div className="flex items-center gap-2">
+                      Preview
+                      {isPending && (
+                        <span className="ml-2 animate-pulse text-muted-foreground">
+                          (Loading...)
+                        </span>
+                      )}
+                    </div>
                     <div className="flex items-center">
                       <p className="font-mono text-[11px] text-muted-foreground">
                         <span>
-                          ~{Math.ceil(markdown.length / 4).toLocaleString()}{" "}
+                          ~
+                          {Math.ceil(
+                            fullProcessedMarkdown.length / 4
+                          ).toLocaleString()}{" "}
                           tokens
                         </span>
                       </p>
@@ -363,11 +410,19 @@ export const Content: React.FC<{ id: string }> = (props) => {
                         className="mx-2 my-auto h-2!"
                       />
                       <p className="font-mono text-[11px] text-muted-foreground">
-                        <span>{markdown.length.toLocaleString()} chars</span>
+                        <span>
+                          {fullProcessedMarkdown.length.toLocaleString()} chars
+                        </span>
                       </p>
                     </div>
                   </div>
-                  <div className="flex-1 overflow-x-hidden overflow-y-auto p-4 md:p-6">
+
+                  <div
+                    className={cn(
+                      "flex-1 overflow-x-hidden overflow-y-auto p-4 transition-opacity duration-300 md:p-6",
+                      isPending ? "opacity-50" : "opacity-100"
+                    )}
+                  >
                     <ReactMarkdown
                       remarkPlugins={[remarkGfm]}
                       rehypePlugins={[rehypeRaw]}
@@ -504,8 +559,30 @@ export const Content: React.FC<{ id: string }> = (props) => {
                         ),
                       }}
                     >
-                      {markdown}
+                      {displayedMarkdown}
                     </ReactMarkdown>
+
+                    {/* Load More Trigger at the bottom */}
+                    {hasMore && (
+                      <div className="mt-8 flex flex-col items-center justify-center gap-2 border-t border-border/60 pt-6 text-center">
+                        <p className="font-mono text-xs text-muted-foreground">
+                          Showing {visibleLength.toLocaleString()} of{" "}
+                          {fullProcessedMarkdown.length.toLocaleString()} chars
+                        </p>
+                        <Button
+                          type="button"
+                          variant="outline"
+                          size="sm"
+                          onClick={() =>
+                            setVisibleLength(
+                              (prev) => prev + MAX_PREVIEW_LENGTH
+                            )
+                          }
+                        >
+                          Load More - {MAX_PREVIEW_LENGTH.toLocaleString()}
+                        </Button>
+                      </div>
+                    )}
                   </div>
                 </div>
               </Frame>

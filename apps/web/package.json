@@ -29,6 +29,7 @@
     "react-hook-form": "^7.82.0",
     "react-icons": "^5.7.0",
     "react-markdown": "^10.1.0",
+    "rehype-pretty-code": "^0.14.5",
     "rehype-raw": "^7.0.0",
     "reicon-react": "^1.1.302",
     "remark-gfm": "^4.0.1",

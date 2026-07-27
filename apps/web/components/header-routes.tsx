@@ -14,10 +14,6 @@ const routes = [
     href: "/docs",
   },
   {
-    label: "Render",
-    href: "/render",
-  },
-  {
     label: "History",
     href: "/history",
   },
@@ -25,14 +21,11 @@ const routes = [
 
 export const HeaderRoutes = () => {
   const pathname = usePathname()
-
-  const visibleRoutes = routes.filter(
-    (route) => !(pathname === "/render" && route.href === "/render")
-  )
+  const isRenderPage = pathname.startsWith("/render")
 
   return (
     <div className="ml-auto flex items-center">
-      {visibleRoutes.map((route) => (
+      {routes.map((route) => (
         <Link key={route.href} href={route.href}>
           <Button
             size="sm"
@@ -42,6 +35,16 @@ export const HeaderRoutes = () => {
           </Button>
         </Link>
       ))}
+      {!isRenderPage && (
+        <Link href="/render">
+          <Button
+            size="sm"
+            variant={isActivePath("/render", pathname) ? "secondary" : "ghost"}
+          >
+            Render
+          </Button>
+        </Link>
+      )}
 
       <Separator orientation="vertical" className="mx-1 my-auto h-3" />
 

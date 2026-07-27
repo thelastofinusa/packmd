@@ -405,7 +405,7 @@ export async function fetchGithubRepo(
     }
   }
 
-  onProgress(`Done. Included ${files.length} files, skipped ${skipped.length}.`)
+  onProgress(`Downloaded ${files.length} files, skipped ${skipped.length}.`)
 
   const tree = buildFileTree(files, {
     ignore: [],

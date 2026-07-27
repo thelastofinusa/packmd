@@ -255,6 +255,7 @@ export const URLInput = () => {
   const isMobile = useIsMobile()
   const { setMarkdown } = useRender()
   const { generate } = useDigest()
+  const { items } = useHistory()
 
   const form = useForm<PackmdSchemaType>({
     resolver: zodResolver(packmdSchema),
@@ -357,6 +358,15 @@ export const URLInput = () => {
 
   async function onSubmit(data: PackmdSchemaType) {
     startTransition(async () => {
+      // Inside onSubmit, after form validation
+      const existingItem = items.find((item) => item.url === data.url)
+      if (existingItem) {
+        toast.info("Already generated, redirecting...")
+        setMarkdown(existingItem.markdown)
+        router.push(`/render/${existingItem.id}`)
+        return
+      }
+
       try {
         toast.loading("Generating Markdown. Please wait..", {
           id: "generating",
@@ -389,7 +399,7 @@ export const URLInput = () => {
           const id = await add(data.url, state.data.digest)
           setMarkdown(state.data.digest)
           await sleep()
-          router.push(`/render?id=${id}`)
+          router.push(`/render/${id}`)
           pop()
           form.reset()
         } else if (state.error) {

@@ -1,6 +1,6 @@
 "use client"
 import React from "react"
-import { Download2, UndoCircle } from "reicon-react"
+import { Download2, DocAdd } from "reicon-react"
 import { useRouter } from "next/navigation"
 import { Button, buttonVariants } from "@packmd/ui/components/button"
 import { MaxContainer } from "@/components/max-container"
@@ -23,13 +23,12 @@ export const Header = () => {
         <nav className="flex items-center">
           <div className="flex items-center">
             <Button
-              onClick={() => router.back()}
+              onClick={() => router.push("/")}
               variant="ghost"
               size={isMobile ? "icon-sm" : "sm"}
-              className="-ml-2"
             >
-              <UndoCircle className="size-3.5" />
-              <span className="sr-only md:not-sr-only">Back</span>
+              <DocAdd className="size-3" />
+              <span className="sr-only md:not-sr-only">New Markdown</span>
             </Button>
 
             <Separator orientation="vertical" className="mx-2 my-auto h-3" />
@@ -41,12 +40,11 @@ export const Header = () => {
                 successLabel={!isMobile ? "Copied .MD" : undefined}
                 className={buttonVariants({
                   size: isMobile ? "icon-sm" : "sm",
-                  variant: "secondary",
                 })}
               />
               <Button
                 size={isMobile ? "icon-sm" : "sm"}
-                variant="ghost"
+                variant="secondary"
                 onClick={() => {
                   pop()
                   handleDownload("pack.md")
