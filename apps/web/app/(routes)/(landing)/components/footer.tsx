@@ -8,8 +8,18 @@ import {
 import { SOCIALS } from "@/lib/constants"
 import { resolveIcon } from "@/lib/icons"
 import { MaxContainer } from "@/components/max-container"
+import { Separator } from "@packmd/ui/components/separator"
 
 export const Footer = () => {
+  const [version, setVersion] = React.useState("0.0.0")
+
+  React.useEffect(() => {
+    fetch("/api/version")
+      .then((res) => res.json())
+      .then((data) => setVersion(data))
+      .catch(() => setVersion("0.0.0"))
+  }, [])
+
   return (
     <footer className="mt-auto flex w-full items-center gap-4">
       <MaxContainer size="lg" className="py-6">
@@ -18,7 +28,7 @@ export const Footer = () => {
             Built with curiosity and too much coffee.
           </p>
 
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2">
             {SOCIALS.map((social) => {
               const Icon = resolveIcon(social.url)
 
@@ -44,6 +54,12 @@ export const Footer = () => {
                 </a>
               )
             })}
+
+            <Separator orientation="vertical" className="my-auto h-2" />
+
+            <span className="font-mono text-xs text-muted-foreground">
+              v{version}
+            </span>
           </div>
         </nav>
       </MaxContainer>

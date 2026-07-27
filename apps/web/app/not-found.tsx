@@ -5,7 +5,7 @@ import React from "react"
 
 export default function NotFound() {
   const sentence =
-    "I swear to God you're lost\n\nWith all due respect, unless the missing documentation is hiding in the metadata, I am operating at peak efficiency—which currently encompasses exactly four pages of absolute certainty.\n\nThis was written by AI\n\n"
+    "I swear to God you're lost\n\nWith all due respect, unless the missing documentation is hiding in the metadata, I am operating at peak efficiency—which currently encompasses exactly four pages of absolute certainty.\n\n"
   const [j, setJ] = React.useState(0)
   const [text, setText] = React.useState("")
   const [isFinished, setIsFinished] = React.useState(false)

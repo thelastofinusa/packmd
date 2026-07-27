@@ -1,15 +1,20 @@
 import type { IconType } from "react-icons"
 import {
   FaFacebook,
-  FaGithub,
   FaInstagram,
   FaLinkedin,
-  FaMedium,
   FaXTwitter,
 } from "react-icons/fa6"
 import { BsWikipedia } from "react-icons/bs"
 import { TbBrandNextjs } from "react-icons/tb"
-import { RiLink, RiReactjsFill, RiVercelFill } from "react-icons/ri"
+import {
+  RiGithubLine,
+  RiLink,
+  RiMediumLine,
+  RiNpmjsLine,
+  RiReactjsFill,
+  RiVercelFill,
+} from "react-icons/ri"
 import { Drop } from "reicon-react"
 
 type IconMatcher = {
@@ -20,11 +25,15 @@ type IconMatcher = {
 const DEFAULT_ICONS: IconMatcher[] = [
   {
     keywords: ["medium", "medium.com"],
-    icon: FaMedium,
+    icon: RiMediumLine,
+  },
+  {
+    keywords: ["npm", "npmjs.org"],
+    icon: RiNpmjsLine,
   },
   {
     keywords: ["github", "github.com", "gist.github.com"],
-    icon: FaGithub,
+    icon: RiGithubLine,
   },
   {
     keywords: ["react"],

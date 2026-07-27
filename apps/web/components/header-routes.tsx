@@ -43,7 +43,7 @@ export const HeaderRoutes = () => {
         </Link>
       ))}
 
-      <Separator orientation="vertical" className="mx-1 h-4" />
+      <Separator orientation="vertical" className="mx-1 my-auto h-3" />
 
       <ToggleTheme />
     </div>

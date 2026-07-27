@@ -6,10 +6,10 @@ export const SOCIALS = [
     url: "https://thelastofinusa.medium.com/your-ai-is-only-as-good-as-the-context-you-give-it-0a60d8dc898d",
   },
   {
-    platform: "𝕏",
-    name: "Holiday",
+    platform: "npm",
+    name: "PackMD",
     username: "@thelastofinusa",
-    url: "https://x.com/thelastofinusa",
+    url: "https://www.npmjs.com/package/packmd",
   },
   {
     platform: "GitHub",
