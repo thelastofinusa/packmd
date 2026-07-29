@@ -18,6 +18,7 @@ import {
 import Link from "next/link"
 import { resolveIcon } from "@/lib/icons"
 import { useRouter } from "next/navigation"
+import { VscMarkdown } from "react-icons/vsc"
 
 export const SavedURLs = () => {
   const router = useRouter()
@@ -38,7 +39,8 @@ export const SavedURLs = () => {
       <div className="flex flex-col gap-4">
         {!isLoaded ? (
           <React.Fragment>
-            <div className="flex justify-end">
+            <div className="flex items-center justify-between gap-2 sm:justify-end">
+              <Skeleton className="h-7 w-30" />
               <Skeleton className="h-7 w-20" />
             </div>
 
@@ -60,15 +62,15 @@ export const SavedURLs = () => {
           </React.Fragment>
         ) : items.length === 0 ? (
           <React.Fragment>
-            <div className="flex justify-end">
+            <div className="flex items-center justify-between gap-2 sm:justify-end">
               <Button
                 variant="outline"
                 size="sm"
                 data-ignore-click
                 onClick={() => router.push("/")}
               >
-                <DocAdd className="size-3" />
-                New Markdown
+                <VscMarkdown />
+                <span>New Markdown</span>
               </Button>
             </div>
 
@@ -87,7 +89,13 @@ export const SavedURLs = () => {
           </React.Fragment>
         ) : (
           <React.Fragment>
-            <div className="flex justify-end">
+            <div className="flex items-center justify-between gap-2 sm:justify-end">
+              <Link href="/">
+                <Button variant="outline" size="sm">
+                  <VscMarkdown />
+                  <span>New Markdown</span>
+                </Button>
+              </Link>
               <Button
                 variant="destructive"
                 size="sm"
@@ -111,7 +119,9 @@ export const SavedURLs = () => {
                   <Frame key={item.id} variant="inverse" className="rounded-xl">
                     <div className="group flex items-center gap-3 rounded-lg border bg-card px-4 py-3">
                       {/* Icon Container */}
-                      <Icon className="size-6 text-foreground/70 transition-colors group-hover:text-foreground" />
+                      <div className="flex size-8 items-center justify-center">
+                        <Icon className="size-6 text-foreground/70 transition-colors group-hover:text-foreground" />
+                      </div>
 
                       {/* Content */}
                       <div className="flex min-w-0 flex-1 flex-col gap-0.5">
@@ -146,7 +156,7 @@ export const SavedURLs = () => {
                         }}
                         data-ignore-click
                         aria-label="Delete history item"
-                        className="-mr-2"
+                        className="-mr-1.5"
                       >
                         <Trash5 className="size-4" />
                       </Button>

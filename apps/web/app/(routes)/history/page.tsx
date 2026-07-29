@@ -2,6 +2,31 @@ import React from "react"
 import { Separator } from "@packmd/ui/components/separator"
 import { SavedURLs } from "./-components/saved"
 import { HeroComp } from "@/components/hero"
+import { Metadata } from "next"
+
+export const metadata: Metadata = {
+  title: "History",
+  description:
+    "View your recently generated PackMD URLs. Reopen past codebase and webpage digests, or manage your local generation history.",
+  robots: {
+    index: true,
+    follow: true,
+  },
+  alternates: {
+    canonical: "/history",
+  },
+  openGraph: {
+    title: "History",
+    description:
+      "View your recently generated PackMD URLs. Reopen past codebase and webpage digests, or manage your local generation history.",
+    url: "/history",
+  },
+  twitter: {
+    title: "History",
+    description:
+      "View your recently generated PackMD URLs. Reopen past codebase and webpage digests, or manage your local generation history.",
+  },
+}
 
 export default function HistoryPage() {
   return (

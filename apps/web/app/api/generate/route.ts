@@ -79,8 +79,8 @@ export async function POST(req: NextRequest) {
           ) {
             send(
               "error",
-              error.message ||
-                "This repository is too large for a direct serverless generation. Please try providing a GitHub Personal Access Token (PAT) or use a specific subdirectory/branch URL instead."
+              // Force the custom fallback message instead of passing through "terminated"
+              "This repository is too large for a direct serverless generation. Please try providing a GitHub Personal Access Token (PAT) or use a specific subdirectory/branch URL instead."
             )
           } else {
             send("error", error.message || "Generation failed")

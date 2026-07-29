@@ -1,9 +1,8 @@
 export const siteConfig = {
   name: "PackMD",
-  slogan: "LLM-ready code in one click",
-  title: "PackMD — Turn Git Repos & Web Pages into LLM-Ready Markdown",
+  slogan: "Generate AI-Ready Markdown",
   description:
-    "PackMD converts any GitHub repository or web page into clean, structured Markdown digests optimized for ChatGPT, Claude, and local LLMs.",
+    "PackMD converts GitHub repos, local directories, and live web pages into clean, token-efficient Markdown digests optimized for ChatGPT, Claude, and other LLMs.",
   url:
     process.env.NODE_ENV === "development"
       ? "http://localhost:3000"
@@ -21,6 +20,7 @@ export const siteConfig = {
     "PackMD",
     "GitHub to Markdown",
     "Web to Markdown",
+    "Local Directory to Markdown",
     "LLM Context Generator",
     "Codebase Ingestion",
     "Claude Prompting",

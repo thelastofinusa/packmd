@@ -29,7 +29,7 @@ const JSON_LD = {
 export const metadata: Metadata = {
   title: {
     default: `${siteConfig.name} - ${siteConfig.slogan}`,
-    template: `%s | ${siteConfig.name}`,
+    template: `%s - ${siteConfig.name}`,
   },
   description: siteConfig.description,
   keywords: [...siteConfig.keywords],

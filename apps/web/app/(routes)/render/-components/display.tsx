@@ -12,7 +12,7 @@ import {
   Wallpaper,
 } from "reicon-react"
 import { Markdown, MarkdownSkeleton } from "./markdown"
-import { useSearchParams, useRouter } from "next/navigation" // ← added useRouter
+import { useSearchParams, useRouter } from "next/navigation"
 import { useHistory } from "@/hooks/use-history"
 import { useRender } from "@/components/providers/render.provider"
 import { useIsMounted } from "@/hooks/use-is-mounted"
@@ -24,10 +24,7 @@ import {
   hasRepoStructure,
   sanitizeNoise,
   type SectionFlags,
-  sectionsKey,
 } from "@/lib/markdown-filter"
-import { extractTitle } from "@/lib/utils"
-import { siteConfig } from "@/config/site.config"
 
 export const activeTabs = [
   { key: "markdown", label: "Markdown", icon: Code4 },
@@ -96,7 +93,6 @@ export const Display: React.FC<{ id?: string }> = (props) => {
       const savedMarkdown = getMarkdown(id as string)
       if (cancelled) return
       if (savedMarkdown === undefined) {
-        // router.push("/history")
         setMarkdown(defaultMarkdown())
         return
       }

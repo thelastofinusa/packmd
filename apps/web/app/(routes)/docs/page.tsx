@@ -15,11 +15,12 @@ import { CodeBlock } from "@packmd/ui/components/code-block"
 import { ApiProp, ApiReference } from "@packmd/ui/components/api-reference"
 import { siteConfig } from "@/config/site.config"
 import { Metadata } from "next"
+import { TOTAL_DAYS } from "@/hooks/use-history"
 
 export const metadata: Metadata = {
   title: "Documentation",
   description:
-    "Learn how to use PackMD's CLI and web app. Explore the core engine, API reference, processing pipeline, and step-by-step guides.",
+    "PackMD converts GitHub repos, local folders, and webpages into clean, LLM-ready Markdown — cutting the tokens an AI needs to understand your project. Learn the CLI, API, and processing pipeline.",
   robots: {
     index: true,
     follow: true,
@@ -30,13 +31,13 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Documentation",
     description:
-      "Learn how to use PackMD's CLI and web app. Explore the core engine, API reference, processing pipeline, and step-by-step guides.",
+      "PackMD converts GitHub repos, local folders, and webpages into clean, LLM-ready Markdown — cutting the tokens an AI needs to understand your project. Learn the CLI, API, and processing pipeline.",
     url: "/docs",
   },
   twitter: {
     title: "Documentation",
     description:
-      "Learn how to use PackMD's CLI and web app. Explore the core engine, API reference, processing pipeline, and step-by-step guides.",
+      "PackMD converts GitHub repos, local folders, and webpages into clean, LLM-ready Markdown — cutting the tokens an AI needs to understand your project. Learn the CLI, API, and processing pipeline.",
   },
 }
 
@@ -108,20 +109,38 @@ packmd . --no-gitignore`
 
 const sections = [
   {
+    id: "what-is-packmd",
+    title: "What is PackMD?",
+    content: (
+      <>
+        <p className="text-sm leading-relaxed font-extralight text-muted-foreground sm:text-base">
+          LLMs process Markdown far better than raw source code or HTML. Instead
+          of forcing an AI to crawl file-by-file or parse messy DOMs—burning
+          tokens on boilerplate and navigation—PackMD does the heavy lifting
+          upfront.
+        </p>
+        <p className="mt-3 text-sm leading-relaxed font-extralight text-muted-foreground sm:text-base">
+          It aggregates your entire GitHub repo, local folder, or webpage into
+          one clean, structured digest optimized specifically for AI
+          consumption.
+        </p>
+      </>
+    ),
+  },
+  {
     id: "overview",
     title: "Overview & Engine",
     content: (
       <>
         <p className="text-sm leading-relaxed font-extralight text-muted-foreground sm:text-base">
-          Behind the scenes, PackMD combines high‑performance filesystem
-          traversal with modern web scraping APIs. It strips noise, parses
-          syntax, and formats everything into a unified context window.
+          Under the hood, PackMD uses high‑performance filesystem traversal and
+          modern web scraping APIs to construct the perfect context window.
         </p>
         <div className="mt-2 grid grid-cols-1 gap-3 pt-2 md:grid-cols-2">
           <Frame variant="inverse" className="rounded-xl">
             <div className="h-full space-y-2 rounded-lg border bg-card p-4">
               <h3 className="flex items-center gap-2 text-base font-medium">
-                <BoltLightning className="size-4" />
+                <BoltLightning className="size-3.5" />
                 <span>Repositories & Local</span>
               </h3>
               <p className="text-sm leading-normal text-muted-foreground">
@@ -133,7 +152,7 @@ const sections = [
           <Frame variant="inverse" className="rounded-xl">
             <div className="h-full space-y-2 rounded-lg border bg-card p-4">
               <h3 className="flex items-center gap-2 text-base font-medium">
-                <Earth className="size-4" />
+                <Earth className="size-3.5" />
                 <span>Web Pages</span>
               </h3>
               <p className="text-sm leading-normal text-muted-foreground">
@@ -294,7 +313,7 @@ const sections = [
               content: () => (
                 <p className="text-sm text-muted-foreground">
                   No. Digest history lives only in your browser's IndexedDB and
-                  expires automatically after 7 days.
+                  expires automatically after {TOTAL_DAYS} days.
                 </p>
               ),
             },
@@ -334,8 +353,8 @@ export default function DocsPage() {
       <div className="py-8 md:pb-24">
         <HeroComp
           comment="Documentation"
-          title="How PackMD Works"
-          description="PackMD converts codebases, local directories, and live web pages into clean, token‑efficient Markdown for LLMs."
+          title="Generate AI-Ready Markdown"
+          description="Pack codebases, local directories, and live web pages into clean, token-efficient context windows."
         />
 
         <Separator orientation="horizontal" className="my-8" />
