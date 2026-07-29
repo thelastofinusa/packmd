@@ -1,6 +1,6 @@
 {
     "name": "@packmd/core",
-    "version": "1.0.1",
+    "version": "1.0.6",
     "description": "Core parsing and markdown generation logic for PackMD",
     "type": "module",
     "main": "./dist/index.cjs",
@@ -64,6 +64,7 @@
         "access": "public"
     },
     "dependencies": {
+        "minimatch": "^10.2.6",
         "zod": "^4.4.3"
     }
 }

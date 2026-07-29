@@ -1,6 +1,7 @@
 "use client"
 import { useCallback, useEffect, useMemo, useState } from "react"
 import { get, set, del } from "idb-keyval"
+import { DEFAULT_SECTIONS, type SectionFlags } from "@/lib/markdown-filter"
 
 const STORAGE_KEY = "packmd-url-history"
 const EXPIRATION_TIME = 30 * 24 * 60 * 60 * 1000 // 2,592,000,000 milliseconds
@@ -10,6 +11,8 @@ export type HistoryItem = {
   id: string
   url: string
   markdown: string
+  rawMarkdown: string
+  sections: SectionFlags
   createdAt: number
   expiresAt: number
 }
@@ -69,6 +72,8 @@ export function useHistory() {
         id,
         url,
         markdown,
+        rawMarkdown: markdown,
+        sections: DEFAULT_SECTIONS,
         createdAt: currentTime,
         expiresAt: currentTime + EXPIRATION_TIME,
       }
@@ -82,11 +87,21 @@ export function useHistory() {
   )
 
   const update = useCallback(
-    async (id: string, markdown: string) => {
+    async (
+      id: string,
+      markdown: string,
+      rawMarkdown: string,
+      sections: SectionFlags
+    ) => {
       const targetItem = items.find((item) => item.id === id)
       if (!targetItem) return
 
-      const updatedItem: HistoryItem = { ...targetItem, markdown }
+      const updatedItem: HistoryItem = {
+        ...targetItem,
+        markdown,
+        rawMarkdown,
+        sections,
+      }
       const newItems = items.map((item) =>
         item.id === id ? updatedItem : item
       )
@@ -110,6 +125,18 @@ export function useHistory() {
       console.error("Failed to clear history from IndexedDB", err)
     }
   }, [])
+
+  const getRawMarkdown = useCallback(
+    (id: string): string | undefined =>
+      items.find((i) => i.id === id)?.rawMarkdown,
+    [items]
+  )
+
+  const getSections = useCallback(
+    (id: string): SectionFlags | undefined =>
+      items.find((i) => i.id === id)?.sections,
+    [items]
+  )
 
   const getMarkdown = useCallback(
     (id: string): string | undefined => {
@@ -141,6 +168,8 @@ export function useHistory() {
     update,
     remove,
     clear,
+    getRawMarkdown,
+    getSections,
     getMarkdown,
     getTimeLeft,
   }

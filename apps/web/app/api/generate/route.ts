@@ -60,10 +60,10 @@ export async function POST(req: NextRequest) {
             })
             digest = result.markdown
           } else {
-            const { title, content } = await scrapeWebPage(input, {
+            const result = await scrapeWebPage(input, {
               jinaApiKey: process.env.JINA_API_KEY,
             })
-            digest = `## ${title || input}\n\n${content || ""}`
+            digest = result.markdown
           }
 
           send("done", JSON.stringify({ digest, url: input }))

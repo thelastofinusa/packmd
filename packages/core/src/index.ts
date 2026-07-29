@@ -3,25 +3,27 @@ export {
   DEFAULT_IGNORES,
   defaultParserOptions,
   defaultGeneratorOptions,
-  defaultConfig,
-} from "./config/defaults"
+} from "./utils/defaults"
 
-// Export type definitions
+// Export type definitions and schemas
 export * from "./types"
-export * from "./utils/schema"
-export * from "./fetchers/github"
-export * from "./fetchers/scraper"
+export * from "./utils/zod-schema"
 
-// Export the parser logic (Updated to match your parser file)
-export { buildFileTree } from "./parser"
+// Export ingest sources
+export * from "./ingest-sources/github"
+export * from "./ingest-sources/scraper"
 
-// Export the markdown generation logic
-export { generateMarkdown } from "./generator/markdown"
-export { buildDigestHeader } from "./generator/header"
+// Export the Markdown engine
+export { generateMarkdown } from "./engine/generator"
+export type { GeneratorPayload } from "./engine/generator"
 
-// Export utilities (useful if the CLI/Web wants to pre-filter files before passing them)
+// Export utilities
 export {
   compileIgnorePatterns,
   isIgnored,
   filterRawFiles,
+  matchesAny,
 } from "./utils/filter"
+export { getMarkdownStats } from "./utils/stats"
+export { buildFileTree } from "./utils/tree-builder"
+export { appendWatermark } from "./watermark"

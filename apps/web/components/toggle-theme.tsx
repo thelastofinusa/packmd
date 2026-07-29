@@ -16,7 +16,7 @@ export const ToggleTheme = () => {
 
   if (!mounted) {
     return (
-      <Button variant="ghost" size="icon-xs" aria-label="Toggle Theme">
+      <Button variant="ghost" size="icon-sm" aria-label="Toggle Theme">
         <Sun className="size-3.5" />
       </Button>
     )
@@ -27,7 +27,7 @@ export const ToggleTheme = () => {
   return (
     <Button
       variant="ghost"
-      size="icon-xs"
+      size="icon-sm"
       aria-label="Toggle Theme"
       data-ignore-click
       onClick={() => {

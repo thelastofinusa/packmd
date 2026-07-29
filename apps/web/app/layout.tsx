@@ -1,9 +1,9 @@
 import "@packmd/ui/globals.css"
-import { Providers } from "./-providers"
 import { fontVariable } from "@/fonts"
 import { Metadata } from "next"
 import { siteConfig } from "@/config/site.config"
 import { Analytics } from "@vercel/analytics/next"
+import { GlobalProvider } from "@/components/providers/global.provider"
 
 const JSON_LD = {
   "@context": "https://schema.org",
@@ -97,8 +97,8 @@ export default function RootLayout(props: LayoutProps<"/">) {
         />
       </head>
       <body className={fontVariable("font-sans antialiased")}>
-        <Providers>{props.children}</Providers>
         <Analytics />
+        <GlobalProvider>{props.children}</GlobalProvider>
       </body>
     </html>
   )

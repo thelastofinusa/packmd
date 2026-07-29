@@ -1,10 +1,10 @@
 import React from "react"
-import { Content } from "./components/content"
+import { Display, DisplaySkeleton } from "./-components/display"
 
-export default function Render() {
+export default async function RenderPage() {
   return (
-    <React.Suspense fallback={null}>
-      <Content />
+    <React.Suspense fallback={<DisplaySkeleton />}>
+      <Display />
     </React.Suspense>
   )
 }

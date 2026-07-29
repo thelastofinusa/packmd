@@ -8,6 +8,8 @@ import { name, version } from "../../package.json"
 import { checkForUpdate, printUpdateNotice } from "../utils/version-check"
 import { handleGitHub, handleLocalDir, handleWebpage } from "../handlers"
 import { promptGithubOptions } from "../prompts/github"
+import { findGitignoreFile } from "../utils/gitignore"
+import ignore from "ignore"
 
 export async function runAction(target: string, options: any) {
   const asciiText = `
@@ -46,6 +48,8 @@ export async function runAction(target: string, options: any) {
       spinner.start("Scanning local directory. Please wait..")
       digest = await handleLocalDir(target, finalOptions, spinner)
     }
+
+    spinner.stop()
 
     // Output Handling
     let outputPath = finalOptions.copy ? null : finalOptions.output || "pack.md"
@@ -96,46 +100,76 @@ export async function runAction(target: string, options: any) {
 
       // Write the file
       await fs.writeFile(finalPath, digest, { encoding: "utf-8", flag: "w" })
-      spinner.succeed("Markdown generated successfully!")
 
       // --- 🔒 .gitignore handling ---
-      const gitignorePath = path.join(process.cwd(), ".gitignore")
-      let gitignoreContent = ""
+      const outputAbsolutePath = path.resolve(process.cwd(), finalPath)
+      const gitignoreInfo = await findGitignoreFile(process.cwd())
 
-      try {
-        // Attempt to read .gitignore if it exists
-        gitignoreContent = await fs.readFile(gitignorePath, "utf-8")
-      } catch {
-        // File doesn't exist yet; fs.appendFile will auto-create it later if confirmed
-      }
+      if (gitignoreInfo) {
+        const ig = ignore().add(gitignoreInfo.content)
+        const gitignoreDir = path.dirname(gitignoreInfo.path)
+        const relativeToGitignore = path.relative(
+          gitignoreDir,
+          outputAbsolutePath
+        )
 
-      const isIgnored = gitignoreContent
-        .split("\n")
-        .map((line) => line.trim())
-        .includes(finalPath)
+        // Check if the file is already ignored (using glob matching)
+        if (!ig.ignores(relativeToGitignore)) {
+          const { addToGitignore } = await inquirer.prompt([
+            {
+              type: "confirm",
+              name: "addToGitignore",
+              message: `Would you like to add ${color.cyan(finalPath)} to ${color.dim(path.relative(process.cwd(), gitignoreInfo.path) || ".gitignore")}?`,
+              default: true,
+            },
+          ])
 
-      if (!isIgnored) {
-        const { addToGitignore } = await inquirer.prompt([
+          if (addToGitignore) {
+            // Ensure the file ends with a newline before appending
+            const content = gitignoreInfo.content
+            const prefix = content.endsWith("\n") || content === "" ? "" : "\n"
+            await fs.appendFile(
+              gitignoreInfo.path,
+              `${prefix}${relativeToGitignore}\n`,
+              "utf-8"
+            )
+            console.log(
+              color.green("✔ ") +
+                color.cyan(finalPath) +
+                color.white(" is now safely hidden in ") +
+                color.dim(
+                  path.relative(process.cwd(), gitignoreInfo.path) ||
+                    ".gitignore"
+                ) +
+                color.white(" 🔒")
+            )
+          }
+        } else {
+          // Already ignored – no prompt needed
+          spinner.info(
+            color.dim(
+              `${color.bold(finalPath)} is already ignored by .gitignore.`
+            )
+          )
+        }
+      } else {
+        // No .gitignore found – offer to create one in the current directory
+        const { createGitignore } = await inquirer.prompt([
           {
             type: "confirm",
-            name: "addToGitignore",
-            message: `Would you like to add ${color.cyan(finalPath)} to your .gitignore?`,
+            name: "createGitignore",
+            message: `No .gitignore found. Would you like to create one and add ${color.cyan(finalPath)}?`,
             default: true,
           },
         ])
 
-        if (addToGitignore) {
-          const prefix =
-            gitignoreContent.endsWith("\n") || gitignoreContent === ""
-              ? ""
-              : "\n"
-
-          // Creates .gitignore if missing, or appends to existing
-          await fs.appendFile(gitignorePath, `${prefix}${finalPath}\n`, "utf-8")
+        if (createGitignore) {
+          const gitignorePath = path.join(process.cwd(), ".gitignore")
+          await fs.writeFile(gitignorePath, `${finalPath}\n`, "utf-8")
           console.log(
             color.green("✔ ") +
               color.cyan(finalPath) +
-              color.white(" is now safely hidden in .gitignore 🔒")
+              color.white(" added to newly created .gitignore 🔒")
           )
         }
       }

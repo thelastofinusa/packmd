@@ -1,5 +1,10 @@
 import path from "node:path"
-import { DEFAULT_IGNORES, buildDigestHeader } from "@packmd/core"
+import {
+  DEFAULT_IGNORES,
+  RawFile,
+  buildFileTree,
+  generateMarkdown,
+} from "@packmd/core"
 import { walkLocalDir } from "../utils/fs"
 import { loadGitignore } from "../utils/gitignore"
 import type { Ora } from "ora"
@@ -18,7 +23,8 @@ export async function handleLocalDir(
   const gitignore =
     options.gitignore === false ? null : await loadGitignore(absolutePath)
 
-  const files = await walkLocalDir(
+  // walkLocalDir returns { path, content }[]
+  const walked = await walkLocalDir(
     absolutePath,
     absolutePath,
     excludeGlobs,
@@ -28,25 +34,24 @@ export async function handleLocalDir(
     gitignore
   )
 
-  spinner.text = `Processing ${files.length} local files..`
+  spinner.text = `Processing ${walked.length} local files..`
 
-  const totalChars = files.reduce((sum, f) => sum + f.content.length, 0)
-  const estTokens = Math.round(totalChars / 4)
+  // Convert to RawFile[] (size = content length, approximate)
+  const files: RawFile[] = walked.map((f) => ({
+    path: f.path,
+    content: f.content,
+    size: Buffer.byteLength(f.content, "utf-8"), // or f.content.length
+  }))
 
-  const header = buildDigestHeader({
-    title: `Local Digest — \`${path.basename(absolutePath)}\``,
-    meta: {
-      Path: `\`${absolutePath}\``,
-      Date: new Date().toISOString().slice(0, 10),
-      Files: files.length,
-      "Est. tokens": `~${estTokens.toLocaleString()}`,
-    },
+  // Build tree – pass empty ignore list to avoid double‑filtering (already done in walk)
+  const tree = buildFileTree(files, {
+    ignore: [],
+    maxFileSize: maxFileSizeKB * 1024,
   })
 
-  const markdownParts = [header]
-  for (const file of files) {
-    markdownParts.push(`## File: ${file.path}\n\`\`\`\n${file.content}\n\`\`\``)
-  }
+  const title = `Local - ${path.basename(absolutePath)}`
+  const sourceUrl = `file://${absolutePath}`
 
-  return markdownParts.join("\n\n")
+  const markdown = generateMarkdown({ title, sourceUrl, files, tree })
+  return markdown
 }

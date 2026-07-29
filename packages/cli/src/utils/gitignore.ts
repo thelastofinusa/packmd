@@ -36,3 +36,24 @@ export async function loadGitignore(startDir: string): Promise<Ignore | null> {
 
   return found ? ig : null
 }
+
+// Existing loadGitignore returns Ignore instance; we'll keep that.
+// Add a new function to get the file path and content.
+export async function findGitignoreFile(
+  startDir: string
+): Promise<{ path: string; content: string } | null> {
+  let dir = startDir
+  while (true) {
+    const gitignorePath = path.join(dir, ".gitignore")
+    try {
+      const content = await fs.readFile(gitignorePath, "utf-8")
+      return { path: gitignorePath, content }
+    } catch {
+      // no .gitignore at this level
+    }
+    const parent = path.dirname(dir)
+    if (parent === dir) break // reached filesystem root
+    dir = parent
+  }
+  return null
+}

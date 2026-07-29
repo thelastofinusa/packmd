@@ -3,19 +3,16 @@ import {
   FaFacebook,
   FaInstagram,
   FaLinkedin,
+  FaMedium,
   FaXTwitter,
 } from "react-icons/fa6"
 import { BsWikipedia } from "react-icons/bs"
 import { TbBrandNextjs } from "react-icons/tb"
-import {
-  RiLink,
-  RiMediumLine,
-  RiNpmjsLine,
-  RiReactjsFill,
-  RiVercelFill,
-} from "react-icons/ri"
-import { Drop } from "reicon-react"
-import { VscGithubAlt } from "react-icons/vsc"
+import { RiReactjsFill, RiVercelFill } from "react-icons/ri"
+import { Drop, Paperclip2Newicons } from "reicon-react"
+import { CgNpm } from "react-icons/cg"
+import { IoLogoGithub } from "react-icons/io5"
+import { FiChrome } from "react-icons/fi"
 
 type IconMatcher = {
   keywords: string[]
@@ -25,15 +22,19 @@ type IconMatcher = {
 const DEFAULT_ICONS: IconMatcher[] = [
   {
     keywords: ["medium", "medium.com"],
-    icon: RiMediumLine,
+    icon: FaMedium,
+  },
+  {
+    keywords: ["localhost"],
+    icon: FiChrome,
   },
   {
     keywords: ["npm", "npmjs.org"],
-    icon: RiNpmjsLine,
+    icon: CgNpm,
   },
   {
     keywords: ["github", "github.com", "gist.github.com"],
-    icon: VscGithubAlt,
+    icon: IoLogoGithub,
   },
   {
     keywords: ["react"],
@@ -80,5 +81,5 @@ export function resolveIcon(value: string): IconType {
     keywords.some((keyword) => input.includes(keyword.toLowerCase()))
   )
 
-  return match?.icon ?? RiLink
+  return match?.icon ?? Paperclip2Newicons
 }

@@ -2,7 +2,7 @@
 
 import { cn } from "../lib/utils"
 import { useCopyToClipboard } from "../hooks/use-copy-to-clipboard"
-import { Copy3 } from "reicon-react"
+import { Notes2 } from "reicon-react"
 
 export function CopyButton({
   text,
@@ -28,15 +28,14 @@ export function CopyButton({
         className
       )}
     >
-      <span className="grid size-[15px]">
-        <Copy3
-          aria-hidden
-          weight={state === "done" ? "Filled" : "Outline"}
-          className={cn(
-            "col-start-1 row-start-1 size-[15px] transition-[opacity,filter] duration-200 ease-out motion-reduce:transition-none"
-          )}
-        />
-      </span>
+      <Notes2
+        aria-hidden
+        weight={state === "done" ? "Filled" : "Outline"}
+        className={cn(
+          "size-3.5 transition-[opacity,filter] duration-200 ease-out motion-reduce:transition-none"
+        )}
+      />
+
       {label ? (
         <span>{state === "done" ? successLabel || "Copied" : label}</span>
       ) : null}
