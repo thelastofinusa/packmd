@@ -24,15 +24,15 @@ export const defaultMarkdown = () => {
 
 ## PackMD Monorepo
 
-**PackMD** converts any GitHub repository, local directory, or web page into a clean, token‑efficient Markdown digest – ready to paste into ChatGPT, Claude, or any LLM.
+**Instant AI context.** PackMD converts GitHub repos, local directories, and live web pages into clean, token-efficient Markdown digests optimized for ChatGPT, Claude, and other LLMs.
 
 ### Features
 
-- **One‑click generation** – Paste a URL and get Markdown in seconds.
-- **LLM‑optimised** – Strips noise, honours \`.gitignore\`, and formats content for token efficiency.
-- **Web App** – Interactive UI with live preview, history, and editing.
-- **CLI** – Run \`packmd\` from your terminal for scripting and automation.
-- **Shared Core** – Single source of truth for parsing, filtering, and Markdown generation.
+- **One‑click generation** – Paste a URL or point to a local folder and get Markdown in seconds.
+- **LLM‑optimized** – Strips noise, honors \`.gitignore\`, and formats content for maximum token efficiency.
+- **Web App** – Interactive UI with live preview, history, and section-toggling capabilities.
+- **CLI** – Run \`packmd\` directly from your terminal for seamless scripting and automation.
+- **Shared Core** – A single source of truth for parsing, filtering, and Markdown generation across both environments.
 
 ### Web App – Key Pages
 
@@ -48,9 +48,9 @@ Stores all generated digests locally in your browser’s IndexedDB with a 7‑da
 
 ![History Page](https://packmd.vercel.app/assets/history.png)
 
-**Render (\`/render/=...\`)**
+**Render (\`/render/[id]\`)**
 
-View, edit, and customise the generated Markdown before copying or downloading. The page offers:
+View, edit, and customize the generated Markdown before copying or downloading. The page offers:
 
 - **Split view** – raw Markdown editor on the left, live preview on the right (collapsible on mobile).
 - **Section toggles** – show/hide title, source URL, images, and links.
@@ -76,19 +76,20 @@ npx packmd <target> [options]
 
 \`\`\`bash
 # Generate digest from a GitHub repo
-packmd https://github.com/vercel/next.js -o next.md
+packmd [https://github.com/vercel/next.js](https://github.com/vercel/next.js) -o next.md
 
 # Scrape a webpage (uses Jina Reader API)
-packmd https://react.dev --jina-api-key YOUR_KEY
+packmd [https://react.dev](https://react.dev) --jina-api-key YOUR_KEY
 
 # Digest the current directory
 packmd .
 
 # Use advanced options
 packmd facebook/react --max-files 300 --exclude "*.test.js" --copy
+
 \`\`\`
 
-For all options, see the [CLI documentation](<./apps/web/app/(routes)/(landing)/docs/page.tsx>) or run \`packmd --help\`.
+For all options, see the [CLI documentation](https://www.google.com/search?q=https://packmd.vercel.app/docs) or run \`packmd --help\`.
 
 ### Development Setup
 
@@ -128,6 +129,5 @@ bun run build
 
 ### License
 
-MIT © [Holiday](https://github.com/thelastofinusa)
-`
+MIT © [Holiday](https://github.com/thelastofinusa)`
 }
