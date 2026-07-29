@@ -13,7 +13,7 @@ import { MAX_PREVIEW_LENGTH, ActiveTab } from "./display"
 import { Skeleton } from "@packmd/ui/components/skeleton"
 import { Button } from "@packmd/ui/components/button"
 import { getMarkdownStats } from "@packmd/core"
-import { Cpu3, TextInput } from "reicon-react"
+import { ChevronUp, Cpu3, TextInput } from "reicon-react"
 
 type PreviewProps = {
   fullProcessedMarkdown: string
@@ -31,6 +31,22 @@ type PreviewProps = {
  * every render — that previously caused it to remount every paragraph.
  */
 const markdownComponents = {
+  event: ({ ...props }: React.HTMLAttributes<HTMLDivElement>) => (
+    <div {...props} />
+  ),
+  phase: ({ ...props }: React.HTMLAttributes<HTMLDivElement>) => (
+    <div {...props} />
+  ),
+  fixcard: ({ ...props }: React.HTMLAttributes<HTMLDivElement>) => (
+    <div {...props} />
+  ),
+  fixcardgrid: ({ ...props }: React.HTMLAttributes<HTMLDivElement>) => (
+    <div {...props} />
+  ),
+  card: ({ ...props }: React.HTMLAttributes<HTMLDivElement>) => (
+    <div {...props} />
+  ),
+
   h1: ({ ...props }: React.HTMLAttributes<HTMLHeadingElement>) => (
     <h1
       className="mb-2 border-b border-border pb-2 text-3xl font-bold tracking-tight text-foreground not-first:mt-6"
@@ -184,6 +200,9 @@ const PreviewComponent: React.FC<PreviewProps> = ({
   visibleLength,
   setVisibleLength,
 }) => {
+  const [showScrollTop, setShowScrollTop] = React.useState(false)
+  const scrollContainerRef = React.useRef<HTMLDivElement>(null)
+
   // Compute token/char stats ONCE per processed markdown so we don't
   // pay the O(n) scan twice for the header counters.
   const stats = React.useMemo(
@@ -202,6 +221,14 @@ const PreviewComponent: React.FC<PreviewProps> = ({
     })
   }, [setVisibleLength])
 
+  const handleScroll = React.useCallback((e: React.UIEvent<HTMLDivElement>) => {
+    setShowScrollTop(e.currentTarget.scrollTop > 500)
+  }, [])
+
+  const scrollToTop = React.useCallback(() => {
+    scrollContainerRef.current?.scrollTo({ top: 0, behavior: "smooth" })
+  }, [])
+
   return (
     <Frame
       variant="inverse"
@@ -210,7 +237,7 @@ const PreviewComponent: React.FC<PreviewProps> = ({
         activeTab === "preview" && "block"
       )}
     >
-      <div className="flex h-full flex-col overflow-hidden border shadow-sm transition-colors sm:rounded-lg">
+      <div className="relative flex h-full flex-col overflow-hidden border shadow-sm transition-colors sm:rounded-lg">
         <div className="flex items-center justify-between border-b bg-card px-3 py-2 text-xs font-medium">
           <div className="flex items-center gap-1">
             <span>Preview</span>
@@ -236,6 +263,8 @@ const PreviewComponent: React.FC<PreviewProps> = ({
         </div>
 
         <div
+          ref={scrollContainerRef}
+          onScroll={handleScroll}
           className={cn(
             "flex-1 overflow-x-hidden overflow-y-auto p-4 transition-opacity duration-300 md:p-6",
             isPending ? "opacity-50" : "opacity-100"
@@ -263,6 +292,20 @@ const PreviewComponent: React.FC<PreviewProps> = ({
             </div>
           )}
         </div>
+
+        <Button
+          type="button"
+          size="icon"
+          onClick={scrollToTop}
+          className={cn(
+            "absolute right-4 bottom-4 z-50 rounded-full border shadow-md transition-all duration-300",
+            showScrollTop
+              ? "translate-y-0 opacity-100"
+              : "pointer-events-none translate-y-4 opacity-0"
+          )}
+        >
+          <ChevronUp className="size-3.5" weight="Filled" />
+        </Button>
       </div>
     </Frame>
   )

@@ -384,7 +384,7 @@ export const URLInput = () => {
                           className="ml-auto rounded-full"
                         >
                           <Drop size="3.5" />
-                          <span className="sr-only">Send</span>
+                          <span className="sr-only">Generate</span>
                         </InputGroupButton>
                       </InputGroupAddon>
                     </InputGroup>

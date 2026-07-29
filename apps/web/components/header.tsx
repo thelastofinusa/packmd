@@ -53,8 +53,8 @@ export const Header = () => {
               onClick={() => router.push("/")}
               size={isRenderPage && isMobile ? "icon-sm" : "sm"}
               className={cn(
-                "transition-transform",
-                !isRenderPage && "h-auto! bg-transparent! px-0!"
+                "-ml-2 transition-transform",
+                !isRenderPage && "ml-0 h-auto! bg-transparent! px-0!"
               )}
             >
               {!isRenderPage ? (

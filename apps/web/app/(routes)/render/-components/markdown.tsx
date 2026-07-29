@@ -9,11 +9,12 @@ import {
 } from "@packmd/ui/components/dropdown-menu"
 import { Separator } from "@packmd/ui/components/separator"
 import React from "react"
-import { Note2, Align3Left, Trash5 } from "reicon-react"
+import { Note2, AlignVSpacing, Trash5, ChevronUp } from "reicon-react"
 import { sectionItems as items, ActiveTab, SectionKey } from "./display"
 import { Frame } from "@packmd/ui/components/reui/frame"
 import { cn } from "@packmd/ui/lib/utils"
 import { Skeleton } from "@packmd/ui/components/skeleton"
+import { Button } from "@packmd/ui/components/button" // <- Added Button import
 
 // CodeMirror Imports
 import CodeMirror from "@uiw/react-codemirror"
@@ -22,6 +23,7 @@ import { languages } from "@codemirror/language-data"
 import { EditorView } from "@codemirror/view"
 import { tags as t } from "@lezer/highlight"
 import { HighlightStyle, syntaxHighlighting } from "@codemirror/language"
+import { useIsMobile } from "@packmd/ui/hooks/use-is-mobile"
 
 // 1. A transparent theme that inherits Tailwind classes. Defined at module
 // scope so React.memo can short-circuit re-renders.
@@ -34,11 +36,11 @@ const tailwindTheme = EditorView.theme({
   },
   ".cm-content": {
     fontFamily: "inherit",
-    padding: "19.2px", // Added padding here (equivalent to p-4)
+    padding: "19.2px",
   },
   "@media (min-width: 768px)": {
     ".cm-content": {
-      padding: "16px", // Added responsive padding here (equivalent to md:p-6)
+      padding: "16px",
     },
   },
   "&.cm-focused": {
@@ -86,13 +88,15 @@ const MARKDOWN_EXTENSIONS = [
   syntaxHighlighting(customSyntaxHighlighting),
 ]
 
-const BASIC_SETUP = {
-  lineNumbers: true,
-  highlightActiveLineGutter: false,
-  highlightActiveLine: true,
-  foldGutter: true,
-  syntaxHighlighting: true,
-} as const
+const BASIC_SETUP = (isMobile?: boolean) => {
+  return {
+    lineNumbers: isMobile ? false : true,
+    highlightActiveLineGutter: false,
+    highlightActiveLine: true,
+    foldGutter: isMobile ? false : true,
+    syntaxHighlighting: true,
+  }
+}
 
 type SectionItem = (typeof items)[number]
 
@@ -117,6 +121,9 @@ const MarkdownComponent: React.FC<MarkdownProps> = ({
   displayedMarkdown,
   hasStructure,
 }) => {
+  const [showScrollTop, setShowScrollTop] = React.useState(false)
+  const containerRef = React.useRef<HTMLDivElement>(null)
+
   const toggleSection = React.useCallback(
     (key: SectionKey) => (checked: boolean) => {
       setSections((prev) => ({ ...prev, [key]: checked }))
@@ -135,6 +142,22 @@ const MarkdownComponent: React.FC<MarkdownProps> = ({
   const handleClear = React.useCallback(() => {
     setMarkdown("")
   }, [setMarkdown])
+
+  // Intercept the non-bubbling scroll event from the CodeMirror scroller node
+  const handleScrollCapture = React.useCallback(
+    (e: React.UIEvent<HTMLDivElement>) => {
+      const target = e.target as HTMLElement
+      if (target?.classList?.contains("cm-scroller")) {
+        setShowScrollTop(target.scrollTop > 500)
+      }
+    },
+    []
+  )
+
+  const scrollToTop = React.useCallback(() => {
+    const scroller = containerRef.current?.querySelector(".cm-scroller")
+    scroller?.scrollTo({ top: 0, behavior: "smooth" })
+  }, [])
 
   const sectionNodes = React.useMemo(
     () =>
@@ -164,7 +187,7 @@ const MarkdownComponent: React.FC<MarkdownProps> = ({
         activeTab === "markdown" && "block"
       )}
     >
-      <div className="flex h-full flex-col overflow-hidden border shadow-sm transition-colors sm:rounded-lg">
+      <div className="relative flex h-full flex-col overflow-hidden border shadow-sm transition-colors sm:rounded-lg">
         <div className="flex items-center justify-between border-b bg-card px-3 py-2 text-xs font-medium">
           <div className="flex items-center gap-2">Markdown</div>
           <div className="flex items-center gap-3">
@@ -189,7 +212,7 @@ const MarkdownComponent: React.FC<MarkdownProps> = ({
               <DropdownMenuTrigger
                 render={
                   <button className="group flex items-center gap-1.5 transition-colors hover:text-foreground">
-                    <Align3Left className="size-3 opacity-70 group-hover:opacity-100" />
+                    <AlignVSpacing className="size-3 opacity-70 group-hover:opacity-100" />
                     <span>Sections</span>
                   </button>
                 }
@@ -206,13 +229,31 @@ const MarkdownComponent: React.FC<MarkdownProps> = ({
           </div>
         </div>
 
-        <div className="flex-1 overflow-hidden bg-background font-mono transition-opacity duration-300">
+        <div
+          ref={containerRef}
+          onScrollCapture={handleScrollCapture}
+          className="flex-1 overflow-hidden bg-background font-mono transition-opacity duration-300"
+        >
           <CodeMirrorEditor
             value={displayedMarkdown || ""}
             onChange={setMarkdown}
             upstreamValue={renderMarkdown}
           />
         </div>
+
+        <Button
+          type="button"
+          size="icon"
+          onClick={scrollToTop}
+          className={cn(
+            "absolute right-4 bottom-4 z-50 rounded-full border shadow-md transition-all duration-300",
+            showScrollTop
+              ? "translate-y-0 opacity-100"
+              : "pointer-events-none translate-y-4 opacity-0"
+          )}
+        >
+          <ChevronUp className="size-3.5" weight="Filled" />
+        </Button>
       </div>
     </Frame>
   )
@@ -238,6 +279,7 @@ const CodeMirrorEditor = React.memo(
     onChange: React.Dispatch<React.SetStateAction<string>>
     upstreamValue: string
   }) => {
+    const isMobile = useIsMobile()
     const [buffer, setBuffer] = React.useState(value)
     const lastUpstreamRef = React.useRef(value)
 
@@ -266,7 +308,7 @@ const CodeMirrorEditor = React.memo(
         className="h-full"
         onChange={handleChange}
         extensions={MARKDOWN_EXTENSIONS}
-        basicSetup={BASIC_SETUP}
+        basicSetup={BASIC_SETUP(isMobile)}
       />
     )
   }
