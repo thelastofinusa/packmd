@@ -1,6 +1,6 @@
 export const siteConfig = {
   name: "PackMD",
-  slogan: "Generate AI-Ready Markdown",
+  slogan: "Instant AI context.",
   description:
     "PackMD converts GitHub repos, local directories, and live web pages into clean, token-efficient Markdown digests optimized for ChatGPT, Claude, and other LLMs.",
   url:

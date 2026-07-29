@@ -2,7 +2,7 @@
 
 ## packmd
 
-**PackMD** is a command‑line tool that converts any GitHub repository, local directory, or web page into a clean, token‑efficient Markdown digest – ready to paste into ChatGPT, Claude, or any LLM.
+**Instant AI context.** PackMD is a command‑line tool that converts GitHub repos, local directories, and live web pages into clean, token-efficient Markdown digests optimized for ChatGPT, Claude, and other LLMs.
 
 ### Installation
 
@@ -24,26 +24,14 @@ packmd --help
 npx packmd <target> [options]
 ```
 
-**From source (monorepo)**
-
-```bash
-git clone https://github.com/thelastofinusa/packmd.git
-cd packmd
-bun install
-cd packages/cli
-bun run build
-# run locally
-node dist/index.js <target> [options]
-```
-
 ### Quick Start
 
 ```bash
 # Generate a digest from a public GitHub repo
-packmd https://github.com/vercel/next.js -o next.md
+packmd [https://github.com/vercel/next.js](https://github.com/vercel/next.js) -o next.md
 
 # Scrape a documentation website (requires Jina API key for higher limits)
-packmd https://react.dev --jina-api-key YOUR_KEY --copy
+packmd [https://react.dev](https://react.dev) --jina-api-key YOUR_KEY --copy
 
 # Digest the current directory (respects .gitignore)
 packmd .
@@ -99,10 +87,10 @@ packmd vercel/next.js -m 300 -e "examples/**" -o next-limited.md
 
 ```bash
 # Simple scrape
-packmd https://docs.nestjs.com --copy
+packmd [https://docs.nestjs.com](https://docs.nestjs.com) --copy
 
 # With Jina API key (higher rate limit)
-packmd https://tailwindcss.com/docs --jina-api-key jina_xxxxx -o tailwind.md
+packmd [https://tailwindcss.com/docs](https://tailwindcss.com/docs) --jina-api-key jina_xxxxx -o tailwind.md
 ```
 
 **Local directory**
@@ -121,7 +109,7 @@ packmd ./src --no-gitignore -i "*.ts" "*.tsx"
 **Combine options**
 
 ```bash
-packmd https://github.com/expressjs/express -o express.md -m 100 -s 50 -e "test/**" "*.spec.js"
+packmd [https://github.com/expressjs/express](https://github.com/expressjs/express) -o express.md -m 100 -s 50 -e "test/**" "*.spec.js"
 ```
 
 ### How It Works
