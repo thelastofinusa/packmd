@@ -49,24 +49,27 @@ const markdownComponents = {
 
   h1: ({ ...props }: React.HTMLAttributes<HTMLHeadingElement>) => (
     <h1
-      className="mb-2 border-b border-border pb-2 text-3xl font-bold tracking-tight text-foreground not-first:mt-6"
+      className="mb-2 border-b border-border pb-2 text-2xl font-bold tracking-tight text-foreground not-first:mt-6 md:text-3xl"
       {...props}
     />
   ),
   h2: ({ ...props }: React.HTMLAttributes<HTMLHeadingElement>) => (
     <h2
-      className="mb-2 border-b border-border pb-1 text-2xl font-semibold tracking-tight text-foreground not-first:mt-6"
+      className="mb-2 border-b border-border pb-1 text-xl font-semibold tracking-tight text-foreground not-first:mt-6 md:text-2xl"
       {...props}
     />
   ),
   h3: ({ ...props }: React.HTMLAttributes<HTMLHeadingElement>) => (
     <h3
-      className="mb-3 text-xl font-semibold tracking-tight text-foreground not-first:mt-6"
+      className="mb-3 text-base font-semibold tracking-tight text-foreground not-first:mt-6 md:text-xl"
       {...props}
     />
   ),
   p: ({ ...props }: React.HTMLAttributes<HTMLParagraphElement>) => (
-    <div className="leading-6 text-foreground" {...props} />
+    <div
+      className="text-sm leading-6 text-foreground md:text-base"
+      {...props}
+    />
   ),
   a: ({ ...props }: React.AnchorHTMLAttributes<HTMLAnchorElement>) => (
     <a
@@ -93,7 +96,7 @@ const markdownComponents = {
     />
   ),
   li: ({ ...props }: React.LiHTMLAttributes<HTMLLIElement>) => (
-    <li className="text-foreground" {...props} />
+    <li className="text-sm text-foreground md:text-base" {...props} />
   ),
   blockquote: ({
     ...props
