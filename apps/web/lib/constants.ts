@@ -6,6 +6,12 @@ export const SOCIALS = [
     url: "https://thelastofinusa.medium.com/your-ai-is-only-as-good-as-the-context-you-give-it-0a60d8dc898d",
   },
   {
+    platform: "Product Hunt",
+    name: "PackMD",
+    username: "@thelastofinusa",
+    url: "https://www.producthunt.com/products/git2txt?launch=packmd",
+  },
+  {
     platform: "npm",
     name: "PackMD",
     username: "@thelastofinusa",

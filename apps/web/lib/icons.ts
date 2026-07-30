@@ -4,6 +4,7 @@ import {
   FaInstagram,
   FaLinkedin,
   FaMedium,
+  FaProductHunt,
   FaXTwitter,
 } from "react-icons/fa6"
 import { BsWikipedia } from "react-icons/bs"
@@ -23,6 +24,10 @@ const DEFAULT_ICONS: IconMatcher[] = [
   {
     keywords: ["medium", "medium.com"],
     icon: FaMedium,
+  },
+  {
+    keywords: ["producthunt", "www.producthunt.com", "producthunt.com"],
+    icon: FaProductHunt,
   },
   {
     keywords: ["localhost"],
