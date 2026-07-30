@@ -6,7 +6,7 @@ import { usePathname, useRouter } from "next/navigation"
 import { useIsMobile } from "@packmd/ui/hooks/use-is-mobile"
 import { useTiks } from "@rexa-developer/tiks/react"
 import { useRender } from "./providers/render.provider"
-import { Download2, Drop } from "reicon-react"
+import { Download2, Drop, X } from "reicon-react"
 import { Separator } from "@packmd/ui/components/separator"
 import { CopyButton } from "@packmd/ui/components/copy-button"
 import Link from "next/link"
@@ -33,6 +33,27 @@ export const Header = () => {
   const isMobile = useIsMobile()
   const { pop } = useTiks()
   const { markdown, handleDownload } = useRender()
+  const [showBanner, setShowBanner] = React.useState(false)
+
+  React.useEffect(() => {
+    // Check local storage on mount to see if the user previously dismissed the banner
+    const isDismissed = localStorage.getItem(
+      `${siteConfig.name.toLowerCase()}:banner-dismissed`
+    )
+    if (isDismissed === "true") {
+      setShowBanner(false)
+    } else {
+      setShowBanner(true)
+    }
+  }, [])
+
+  const dismissBanner = () => {
+    setShowBanner(false)
+    localStorage.setItem(
+      `${siteConfig.name.toLowerCase()}:banner-dismissed`,
+      "true"
+    )
+  }
 
   const isRenderPage = pathname.startsWith("/render")
 
@@ -45,6 +66,44 @@ export const Header = () => {
         }
       )}
     >
+      {showBanner && (
+        <div className="relative flex h-auto min-h-9 w-full items-center justify-center bg-primary px-8 py-1.5 text-center text-primary-foreground shadow-xs">
+          <div className="flex items-center gap-2 text-[13px] font-medium sm:text-sm">
+            <span className="hidden items-center rounded-md bg-card/15 px-1.5 py-0.5 text-[10px] font-bold tracking-wider text-primary-foreground/90 uppercase sm:inline-flex">
+              Update
+            </span>
+            <span>
+              <a
+                href="https://www.npmjs.com/package/git2txt"
+                target="_blank"
+                rel="noreferrer"
+                className="underline underline-offset-2 transition-colors hover:text-primary-foreground/80"
+              >
+                <strong>Git2txt</strong>
+              </a>{" "}
+              is now officially{" "}
+              <a
+                href="https://www.npmjs.com/package/packmd"
+                target="_blank"
+                rel="noreferrer"
+                className="underline underline-offset-2 transition-colors hover:text-primary-foreground/80"
+              >
+                <strong>{siteConfig.name}</strong>
+              </a>
+              . <br className="sm:hidden" /> Same great tool, entirely new
+              experience.
+            </span>
+          </div>
+
+          <button
+            onClick={dismissBanner}
+            aria-label="Dismiss banner"
+            className="absolute right-3 flex size-6 items-center justify-center rounded-sm border-0 transition-colors outline-none hover:bg-black/10 focus-visible:bg-black/10"
+          >
+            <X className="size-3 text-white" />
+          </button>
+        </div>
+      )}
       <MaxContainer size={isRenderPage ? "screen" : "lg"} className="h-16">
         <nav className="flex size-full items-center justify-between">
           <div className="flex items-center">

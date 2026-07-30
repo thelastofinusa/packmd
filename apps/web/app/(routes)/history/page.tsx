@@ -31,14 +31,14 @@ export const metadata: Metadata = {
 export default function HistoryPage() {
   return (
     <section className="h-full overflow-x-clip">
-      <div className="py-8 md:pb-24">
+      <div className="pt-8 pb-12 md:pb-24">
         <HeroComp
           comment="URL History"
           title="Recent Generations"
           description="View recently generated URLs, reopen them at any time, or remove
           entries before they expire automatically."
         />
-        <Separator orientation="horizontal" className="my-8" />
+        <Separator orientation="horizontal" className="my-12" />
         <SavedURLs />
       </div>
     </section>

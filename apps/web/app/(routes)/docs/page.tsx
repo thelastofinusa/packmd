@@ -350,14 +350,14 @@ const sections = [
 export default function DocsPage() {
   return (
     <section className="h-full overflow-x-clip">
-      <div className="py-8 md:pb-24">
+      <div className="pt-8 pb-12 md:pb-24">
         <HeroComp
           comment="Documentation"
           title="Generate AI-Ready Markdown"
           description="Pack codebases, local directories, and live web pages into clean, token-efficient context windows."
         />
 
-        <Separator orientation="horizontal" className="my-8" />
+        <Separator orientation="horizontal" className="my-12" />
 
         {/* ----- Loop through sections ----- */}
         {sections.map((section) => (
