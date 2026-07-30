@@ -9,7 +9,7 @@ export const SOCIALS = [
     platform: "Product Hunt",
     name: "PackMD",
     username: "@thelastofinusa",
-    url: "https://www.producthunt.com/products/git2txt?launch=packmd",
+    url: "https://www.producthunt.com/products/packmd",
   },
   {
     platform: "npm",
