@@ -14,7 +14,7 @@ export const HeroComp: React.FC<{
             {"//"} {props.comment}
           </span>
         )}
-        <h1 className="mt-2 mb-3 text-2xl font-semibold sm:mb-4 md:text-3xl">
+        <h1 className="my-2 text-2xl font-semibold sm:mb-4 md:text-3xl">
           {props.title}
         </h1>
         {props.description && (

@@ -35,7 +35,7 @@ export const Footer = () => {
             Built with curiosity and too much coffee.
           </p>
 
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2">
             {SOCIALS.map((social) => {
               const Icon = resolveIcon(social.url)
               const isGithub = social.platform.toLowerCase().includes("github")
@@ -54,7 +54,7 @@ export const Footer = () => {
                   >
                     <Tooltip>
                       <TooltipTrigger>
-                        <Icon className="size-4 text-foreground hover:text-primary" />
+                        <Icon className="size-3.5 text-foreground hover:text-primary" />
                       </TooltipTrigger>
                       <TooltipContent side="top" sideOffset={10}>
                         <p className="text-center font-normal">

@@ -21,8 +21,8 @@ export function CodeBlock({
           </span>
           <CopyButton text={source} />
         </div>
-        <div className="p-4">
-          <code className="font-mono text-[13px] break-all whitespace-pre-wrap text-foreground/90">
+        <div className="overflow-x-auto p-4">
+          <code className="font-mono text-[13px] whitespace-pre text-foreground/90">
             {source}
           </code>
         </div>
@@ -39,7 +39,7 @@ export function CodeBlock({
         <CopyButton text={source} />
       </div>
       <div
-        className="docs-code max-h-[480px] overflow-y-auto text-[13px] leading-6"
+        className="docs-code max-h-100 overflow-x-auto overflow-y-auto text-[13px] leading-6"
         dangerouslySetInnerHTML={{ __html: html }}
       />
     </div>
