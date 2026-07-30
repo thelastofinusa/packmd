@@ -302,7 +302,7 @@ export const URLInput = () => {
                       "has-[[data-slot=input-group-control]:focus-visible]:[--glow-opacity:0.1]"
                     )}
                   >
-                    <InputGroup className="relative rounded-lg bg-card">
+                    <InputGroup className="relative rounded-lg">
                       <span className="absolute top-3 left-4">
                         <Icon
                           className={cn(

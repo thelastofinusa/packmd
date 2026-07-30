@@ -120,7 +120,7 @@ export const SavedURLs = () => {
                     <div className="group flex items-center gap-3 rounded-lg border bg-card px-4 py-3">
                       {/* Icon Container */}
                       <div className="flex size-8 items-center justify-center">
-                        <Icon className="size-6 text-foreground/70 transition-colors group-hover:text-foreground" />
+                        <Icon className="size-7 text-foreground/70 transition-colors group-hover:text-foreground" />
                       </div>
 
                       {/* Content */}
@@ -139,8 +139,7 @@ export const SavedURLs = () => {
                             <span className="relative inline-flex size-1.5 rounded-full bg-green-500"></span>
                           </span>
                           <span className="truncate font-medium tracking-tight">
-                            {left.days}d {left.hours}h {left.minutes}m{" "}
-                            {left.seconds}s
+                            {left.days}d {left.hours}h {left.minutes}m
                           </span>
                           <span className="ml-0.5 opacity-75">left</span>
                         </div>
