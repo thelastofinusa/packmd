@@ -26,7 +26,18 @@ export const SOCIALS = [
 ]
 
 export const defaultMarkdown = () => {
-  return `![PackMD Opengraph Image](https://packmd.vercel.app/og.png)
+  return `<p align="center">
+  <strong>🎥 Watch the demo on YouTube (click the image)</strong>
+</p>
+
+<p align="center">
+  <a target="_blank" href="https://www.youtube.com/watch?v=CULED3apEdI">
+    <img
+      src="https://packmd.vercel.app/og.png"
+      alt="Watch the PackMD demo on YouTube"
+    />
+  </a>
+</p>
 
 ## PackMD Monorepo
 
