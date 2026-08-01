@@ -63,15 +63,12 @@ export const SavedURLs = () => {
         ) : items.length === 0 ? (
           <React.Fragment>
             <div className="flex items-center justify-between gap-2 sm:justify-end">
-              <Button
-                variant="outline"
-                size="sm"
-                data-ignore-click
-                onClick={() => router.push("/")}
-              >
-                <VscMarkdown />
-                <span>New Markdown</span>
-              </Button>
+              <Link href="/">
+                <Button variant="outline" size="sm">
+                  <VscMarkdown />
+                  <span>New Markdown</span>
+                </Button>
+              </Link>
             </div>
 
             <Empty>
